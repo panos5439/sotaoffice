@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ενότητα 12: Νοοτροπία Ασφάλειας &amp; Επίλογος</title>
+
+  <!-- Icons (μόνο για τίτλους / κουμπιά) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer"/>
+
+  <style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#a855f7;
+      --primary-soft:#c4b5fd;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #a855f733 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e33 0, #020617 65%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    .lang-en{ display:none; }
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 10px rgba(168,85,247,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#a855f7,#22c55e);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#f9fafb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#a855f7,#22c55e);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 50%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#a855f720 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e25 0,transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin-top:0; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(196,181,253,.8);
+      background:linear-gradient(90deg,rgba(168,85,247,.25),rgba(15,23,42,.95));
+      font-size:16px;
+      color:#fef9c3;
+      box-shadow:0 0 22px rgba(168,85,247,.7);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#c4b5fd; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(168,85,247,.4); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(168,85,247,.8); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.85));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:black;
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    /* TABLE ΜΥΘΟΙ – ΑΛΗΘΕΙΕΣ */
+    .myth-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:18px;
+      margin-top:6px;
+    }
+    .myth-table th,
+    .myth-table td{
+      padding:6px 8px;
+      border-bottom:1px solid #1e293b;
+      vertical-align:top;
+    }
+    .myth-table th{
+      text-align:left;
+      color:#e5e7eb;
+    }
+
+    /* QUIZ */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#020617 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-option{
+      margin:6px 0;
+    }
+    .quiz-option input{
+      position:absolute;
+      left:-9999px;
+    }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #1e293b;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+    .quiz-option input:checked + label{
+      border-color:#a855f7;
+      box-shadow:0 0 0 1px #7c3aed;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+    .quiz-form{
+      margin-top:8px;
+    }
+    .quiz-reset-wrap{
+      margin-top:10px;
+      text-align:left;
+    }
+    .quiz-reset-wrap .btn{
+      font-size:14px;
+      padding:5px 11px;
+      box-shadow:none;
+    }
+  </style>
+</head>
+<body>
+  <!-- CSS-toggle για γλώσσα -->
+  <input type="checkbox" id="langToggle" />
+
+  <a id="top"></a>
+
+  <header>
+    <nav class="nav" aria-label="Κύρια πλοήγηση">
+      <div class="brand">
+        <i class="fa-solid fa-brain" aria-hidden="true"></i>
+        <span class="lang-el">Ενότητα 12 · Νοοτροπία Ασφάλειας &amp; Επίλογος</span>
+        <span class="lang-en">Unit 12 · Safety Mindset &amp; Epilogue</span>
+      </div>
+
+      <div class="grow"></div>
+
+      <label for="langToggle" class="btn">
+        <i class="fa-solid fa-language" aria-hidden="true"></i>
+        <span class="lang-el">English</span>
+        <span class="lang-en">Ελληνικά</span>
+      </label>
+
+      <a href="#top" class="btn secondary" aria-label="Πάνω" title="Πάνω">
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Εισαγωγή -->
+    <section id="intro">
+      <div class="badge">
+        <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+        <span class="lang-el">🧠 ΕΝΟΤΗΤΑ 12: ΝΟΟΤΡΟΠΙΑ ΑΣΦΑΛΕΙΑΣ &amp; ΕΠΙΛΟΓΟΣ</span>
+        <span class="lang-en">🧠 UNIT 12: SAFETY MINDSET &amp; EPILOGUE</span>
+      </div>
+
+      <h1>
+        <span class="lang-el">Νοοτροπία ασφάλειας &amp; επίλογος</span>
+        <span class="lang-en">Safety mindset &amp; final wrap-up</span>
+      </h1>
+
+      <p>
+        <span class="lang-el">
+          🎯 Στόχος: Να καλλιεργήσουμε μια θετική κουλτούρα ασφάλειας, όπου κάθε εργαζόμενος
+          σκέφτεται προληπτικά, ενεργεί υπεύθυνα και συμβάλλει σε ένα ασφαλές, ήρεμο και συνεργατικό περιβάλλον.
+        </span>
+        <span class="lang-en">
+          🎯 Goal: To build a positive safety culture where every employee thinks preventively,
+          acts responsibly and contributes to a safe, calm and collaborative work environment.
+        </span>
+      </p>
+
+      <p class="pill">
+        <span class="lang-el">Η ασφάλεια είναι στάση ζωής, όχι απλή “υποχρέωση”.</span>
+        <span class="lang-en">Safety is a way of life, not just a “requirement”.</span>
+      </p>
+    </section>
+
+    <!-- 12.1 Νοοτροπία ασφάλειας -->
+    <section id="mindset">
+      <h2>
+        <span class="lang-el">12.1 Τι σημαίνει “νοοτροπία ασφάλειας”</span>
+        <span class="lang-en">12.1 What does “safety mindset” mean?</span>
+      </h2>
+
+      <p>
+        <span class="lang-el">
+          Η νοοτροπία ασφάλειας δεν είναι μια τυπική διαδικασία που “πρέπει” να ακολουθήσουμε.
+          Είναι στάση ζωής στον χώρο εργασίας.
+        </span>
+        <span class="lang-en">
+          A safety mindset is not just a formal process we “have” to follow.
+          It is a way of life in the workplace.
+        </span>
+      </p>
+
+      <ul>
+        <li>
+          <span class="lang-el">Είμαι προσεκτικός, όχι φοβισμένος.</span>
+          <span class="lang-en">I am careful, not fearful.</span>
+        </li>
+        <li>
+          <span class="lang-el">Βλέπω τον κίνδυνο πριν γίνει ατύχημα.</span>
+          <span class="lang-en">I spot hazards before they become accidents.</span>
+        </li>
+        <li>
+          <span class="lang-el">Ενεργώ υπεύθυνα για μένα και για τους άλλους.</span>
+          <span class="lang-en">I act responsibly for myself and others.</span>
+        </li>
+        <li>
+          <span class="lang-el">Μιλάω όταν βλέπω κάτι επικίνδυνο — δεν σιωπώ.</span>
+          <span class="lang-en">I speak up when I see something dangerous — I do not stay silent.</span>
+        </li>
+        <li>
+          <span class="lang-el">Αντιμετωπίζω την ασφάλεια ως ομαδική υπόθεση.</span>
+          <span class="lang-en">I treat safety as a team effort.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 12.2 Τρία κλειδιά -->
+    <section id="keys">
+      <h2>
+        <span class="lang-el">12.2 Τρία “κλειδιά” για ασφαλή συμπεριφορά</span>
+        <span class="lang-en">12.2 Three “keys” to safe behaviour</span>
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3>
+            <span class="lang-el">1️⃣ Επαγρύπνηση</span>
+            <span class="lang-en">1️⃣ Vigilance</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Παρατηρώ συνεχώς τον χώρο εργασίας μου.</span>
+              <span class="lang-en">I constantly observe my working area.</span>
+            </li>
+            <li>
+              <span class="lang-el">Δεν θεωρώ τίποτα “αυτονόητο”.</span>
+              <span class="lang-en">I do not take anything for granted.</span>
+            </li>
+            <li>
+              <span class="lang-el">Ελέγχω εξοπλισμό, πρίζες, καλώδια, καρέκλες.</span>
+              <span class="lang-en">I check equipment, sockets, cables and chairs.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">2️⃣ Ευθύνη</span>
+            <span class="lang-en">2️⃣ Responsibility</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">
+                Η ασφάλεια δεν είναι μόνο δουλειά του Τεχνικού Ασφάλειας ή του εργοδότη.
+              </span>
+              <span class="lang-en">
+                Safety is not just the job of the Safety Officer or the employer.
+              </span>
+            </li>
+            <li>
+              <span class="lang-el">Κάθε πράξη ή αμέλεια επηρεάζει και τους συναδέλφους μου.</span>
+              <span class="lang-en">Every action or omission affects my colleagues too.</span>
+            </li>
+            <li>
+              <span class="lang-el">Δίνω εγώ το παράδειγμα με τη συμπεριφορά μου.</span>
+              <span class="lang-en">I lead by example through my behaviour.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">3️⃣ Επικοινωνία</span>
+            <span class="lang-en">3️⃣ Communication</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Αναφέρω κάθε επικίνδυνη κατάσταση ή “παραλίγο ατύχημα”.</span>
+              <span class="lang-en">I report every unsafe condition or “near miss”.</span>
+            </li>
+            <li>
+              <span class="lang-el">Μοιράζομαι εμπειρίες και παρατηρήσεις με την ομάδα.</span>
+              <span class="lang-en">I share experiences and observations with the team.</span>
+            </li>
+            <li>
+              <span class="lang-el">Η σωστή ενημέρωση αποτρέπει επόμενα περιστατικά.</span>
+              <span class="lang-en">Good communication prevents future incidents.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12.3 Μύθοι & Αλήθειες -->
+    <section id="myths">
+      <h2>
+        <span class="lang-el">12.3 Μύθοι &amp; Αλήθειες για την ασφάλεια</span>
+        <span class="lang-en">12.3 Myths &amp; truths about safety</span>
+      </h2>
+
+      <table class="myth-table">
+        <thead>
+        <tr>
+          <th>
+            <span class="lang-el">Μύθος</span>
+            <span class="lang-en">Myth</span>
+          </th>
+          <th>
+            <span class="lang-el">Αλήθεια</span>
+            <span class="lang-en">Truth</span>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <span class="lang-el">«Σε γραφείο δεν παθαίνεις τίποτα»</span>
+            <span class="lang-en">“Nothing bad happens in an office”</span>
+          </td>
+          <td>
+            <span class="lang-el">Πολλά ατυχήματα προέρχονται από πτώσεις και λάθος κινήσεις.</span>
+            <span class="lang-en">Many accidents come from falls and wrong movements.</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="lang-el">«Αν δεν είναι σοβαρό, δεν χρειάζεται να το αναφέρω»</span>
+            <span class="lang-en">“If it’s not serious, I don’t need to report it”</span>
+          </td>
+          <td>
+            <span class="lang-el">Κάθε περιστατικό είναι ευκαιρία για πρόληψη.</span>
+            <span class="lang-en">Every incident is a chance to improve prevention.</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="lang-el">«Η ασφάλεια καθυστερεί τη δουλειά»</span>
+            <span class="lang-en">“Safety slows work down”</span>
+          </td>
+          <td>
+            <span class="lang-el">Η ασφάλεια μειώνει λάθη, βλάβες και καθυστερήσεις.</span>
+            <span class="lang-en">Safety reduces errors, damage and delays.</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="lang-el">«Αν δεν έχει τύχει ποτέ ατύχημα, είμαστε ΟΚ»</span>
+            <span class="lang-en">“If we’ve never had an accident, we’re fine”</span>
+          </td>
+          <td>
+            <span class="lang-el">Η πρόληψη υπάρχει ώστε να <em>μην</em> συμβεί ποτέ ατύχημα.</span>
+            <span class="lang-en">Prevention exists so that accidents never happen.</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 12.4 Συνεργασία -->
+    <section id="cooperation">
+      <h2>
+        <span class="lang-el">12.4 Ο ρόλος της συνεργασίας</span>
+        <span class="lang-en">12.4 The role of cooperation</span>
+      </h2>
+
+      <p>
+        <span class="lang-el">
+          Ένα ασφαλές γραφείο είναι αποτέλεσμα ομαδικής προσπάθειας.
+        </span>
+        <span class="lang-en">
+          A safe office is the result of teamwork.
+        </span>
+      </p>
+
+      <ul>
+        <li>
+          <span class="lang-el">Ενημερώνουμε συναδέλφους για πιθανούς κινδύνους.</span>
+          <span class="lang-en">We inform colleagues about possible hazards.</span>
+        </li>
+        <li>
+          <span class="lang-el">Συμμετέχουμε ενεργά σε εκπαιδεύσεις και ασκήσεις.</span>
+          <span class="lang-en">We actively take part in training and drills.</span>
+        </li>
+        <li>
+          <span class="lang-el">Σεβόμαστε τους κανόνες και τους υπενθυμίζουμε ευγενικά στους άλλους.</span>
+          <span class="lang-en">We respect the rules and gently remind others of them.</span>
+        </li>
+        <li>
+          <span class="lang-el">Επαινούμε θετικές συμπεριφορές ασφάλειας — δεν τις θεωρούμε δεδομένες.</span>
+          <span class="lang-en">We praise positive safety behaviour — we don’t take it for granted.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 12.5 Ψυχική υγεία -->
+    <section id="mental-health">
+      <h2>
+        <span class="lang-el">12.5 Ψυχική υγεία &amp; εργασιακή ευεξία</span>
+        <span class="lang-en">12.5 Mental health &amp; wellbeing</span>
+      </h2>
+
+      <p>
+        <span class="lang-el">
+          Η Υγεία &amp; Ασφάλεια δεν αφορά μόνο σωματικά ατυχήματα, αλλά και την ψυχική ισορροπία του εργαζομένου.
+        </span>
+        <span class="lang-en">
+          Occupational Health &amp; Safety is not only about physical accidents, but also about mental balance.
+        </span>
+      </p>
+
+      <ul>
+        <li>
+          <span class="lang-el">Ισορροπία εργασίας–ζωής.</span>
+          <span class="lang-en">A healthy work–life balance.</span>
+        </li>
+        <li>
+          <span class="lang-el">Σεβασμός και καλή συνεργασία μεταξύ συναδέλφων.</span>
+          <span class="lang-en">Respect and good cooperation between colleagues.</span>
+        </li>
+        <li>
+          <span class="lang-el">Διαχείριση άγχους και πίεσης.</span>
+          <span class="lang-en">Managing stress and pressure.</span>
+        </li>
+        <li>
+          <span class="lang-el">
+            Το να ζητάμε βοήθεια όταν τη χρειαζόμαστε δείχνει δύναμη, όχι αδυναμία.
+          </span>
+          <span class="lang-en">
+            Asking for help when we need it is a sign of strength, not weakness.
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 12.6 Μήνυμα & Επίλογος -->
+    <section id="epilogue">
+      <h2>
+        <span class="lang-el">12.6 Το μήνυμα της εκπαίδευσης &amp; Επίλογος</span>
+        <span class="lang-en">12.6 Training message &amp; Epilogue</span>
+      </h2>
+
+      <div class="card">
+        <p>
+          <span class="lang-el">
+            Η ασφάλεια δεν είναι απλώς “κανόνες” — είναι σεβασμός στον εαυτό μας, στους συναδέλφους
+            και στις οικογένειές μας.
+          </span>
+          <span class="lang-en">
+            Safety is not just a set of “rules” — it is respect for ourselves, our colleagues
+            and our families.
+          </span>
+        </p>
+        <p>
+          <span class="lang-el">
+            🟢 «Ό,τι κι αν κάνεις, κάν’ το με ασφάλεια. Η οικογένειά σου σε περιμένει να επιστρέψεις.»
+          </span>
+          <span class="lang-en">
+            🟢 “Whatever you do, do it safely. Your family is waiting for you to come home.”
+          </span>
+        </p>
+      </div>
+
+      <h3>
+        <span class="lang-el">🏁 Επίλογος</span>
+        <span class="lang-en">🏁 Epilogue</span>
+      </h3>
+
+      <p>
+        <span class="lang-el">
+          Η Υγεία &amp; Ασφάλεια στην Εργασία είναι υπόθεση όλων μας.
+          Με μικρές, καθημερινές πράξεις — όπως η τάξη στο γραφείο, η σωστή στάση μπροστά στον υπολογιστή,
+          η προσοχή στα καλώδια ή η ψύχραιμη συμπεριφορά σε μια φωτιά —
+          δημιουργούμε ένα περιβάλλον όπου ο καθένας επιστρέφει στο σπίτι του ασφαλής και υγιής.
+        </span>
+        <span class="lang-en">
+          Occupational Health &amp; Safety concerns all of us.
+          Through small everyday actions — such as keeping our desk tidy, maintaining good posture at the computer,
+          paying attention to cables or staying calm in an emergency —
+          we create a workplace where everyone returns home safe and healthy.
+        </span>
+      </p>
+
+      <p class="pill">
+        <span class="lang-el">🔸 Ασφάλεια = Επαγγελματισμός + Ευθύνη + Σεβασμός.</span>
+        <span class="lang-en">🔸 Safety = Professionalism + Responsibility + Respect.</span>
+      </p>
+    </section>
+
+    <!-- MINI QUIZ -->
+    <section id="quiz">
+      <h2>
+        <span class="lang-el">Mini Quiz — Νοοτροπία ασφάλειας</span>
+        <span class="lang-en">Mini Quiz — Safety mindset</span>
+      </h2>
+
+      <p class="quiz-note">
+        <span class="lang-el">
+          Επίλεξε απάντηση σε κάθε ερώτηση. Το ✓ και ✗ εμφανίζονται άμεσα.
+          Πάτησε «Επανεκκίνηση Quiz» για να καθαρίσεις τις επιλογές.
+        </span>
+        <span class="lang-en">
+          Choose an answer for each question. ✓ and ✗ appear instantly.
+          Press “Restart Quiz” to clear your answers.
+        </span>
+      </p>
+
+      <form class="quiz-form">
+        <!-- Q1 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">1. Τι είναι η “νοοτροπία ασφάλειας”;</span>
+            <span class="lang-en">1. What is a “safety mindset”?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q1a" name="q1">
+              <label for="q1a" data-correct="false">
+                <span class="lang-el">Μια τυπική υποχρέωση που κάνουμε για να “μην έχουμε πρόβλημα”.</span>
+                <span class="lang-en">A formal obligation we follow just “to avoid trouble”.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q1b" name="q1">
+              <label for="q1b" data-correct="true">
+                <span class="lang-el">Μια στάση ζωής και τρόπος σκέψης στον χώρο εργασίας.</span>
+                <span class="lang-en">A way of thinking and living in the workplace.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">2. Ποιο από τα παρακάτω ΔΕΝ ανήκει στα “τρία κλειδιά”;</span>
+            <span class="lang-en">2. Which of the following is NOT one of the “three keys”?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q2a" name="q2">
+              <label for="q2a" data-correct="true">
+                <span class="lang-el">Η αδιαφορία για τους κανόνες.</span>
+                <span class="lang-en">Ignoring the rules.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q2b" name="q2">
+              <label for="q2b" data-correct="false">
+                <span class="lang-el">Η επαγρύπνηση, η ευθύνη και η επικοινωνία.</span>
+                <span class="lang-en">Vigilance, responsibility and communication.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">3. Τι πρέπει να κάνεις αν δεις μια επικίνδυνη κατάσταση;</span>
+            <span class="lang-en">3. What should you do if you see a dangerous situation?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q3a" name="q3">
+              <label for="q3a" data-correct="false">
+                <span class="lang-el">Να το αγνοήσεις, αν “δεν φαίνεται πολύ σοβαρό”.</span>
+                <span class="lang-en">Ignore it if “it doesn’t look very serious”.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q3b" name="q3">
+              <label for="q3b" data-correct="true">
+                <span class="lang-el">Να το αναφέρεις και να ενημερώσεις τους υπεύθυνους ή την ομάδα.</span>
+                <span class="lang-en">Report it and inform supervisors or the team.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">4. Ποια πρόταση περιγράφει καλύτερα την έννοια της ΥΑΕ;</span>
+            <span class="lang-en">4. Which statement best describes OHS?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q4a" name="q4">
+              <label for="q4a" data-correct="false">
+                <span class="lang-el">Αφορά μόνο ατυχήματα με μηχανήματα και βαριά εργασία.</span>
+                <span class="lang-en">It only concerns accidents with machines and heavy work.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q4b" name="q4">
+              <label for="q4b" data-correct="true">
+                <span class="lang-el">
+                  Περιλαμβάνει σωματική και ψυχική υγεία, ισορροπία εργασίας–ζωής και σεβασμό.
+                </span>
+                <span class="lang-en">
+                  It includes physical and mental health, work–life balance and respect.
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz-reset-wrap">
+          <button type="reset" class="btn secondary">
+            <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+            <span class="lang-el">Επανεκκίνηση Quiz</span>
+            <span class="lang-en">Restart Quiz</span>
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    © <span>2025</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+    <span class="lang-en">Occupational Health &amp; Safety</span>
+  </footer>
+</body>
+</html>

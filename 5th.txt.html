@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ενότητα 5: Εργασία με Υπολογιστή</title>
+
+  <!-- Icons από βιβλιοθήκη -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer"/>
+
+  <style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --border:#1f2937;
+      --primary:#38bdf8;
+      --primary-soft:#0f766e;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.6);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #38bdf820 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e20 0, #020617 55%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #111827;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 8px rgba(56,189,248,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#38bdf8,#22c55e);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#e5e7eb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#38bdf8,#0284c7);
+      color:#fff;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(37,99,235,.5);
+      transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#22c55e,#16a34a);
+      border-color:#22c55e;
+      box-shadow:0 10px 20px rgba(22,163,74,.5);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+    .btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #0f172a 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at top,#38bdf822 0,transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(56,189,248,.6);
+      background:linear-gradient(90deg,rgba(56,189,248,.18),rgba(45,212,191,.18));
+      font-size:16px;
+      color:#e0f2fe;
+      box-shadow:0 0 20px rgba(56,189,248,.45);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{
+      color:#38bdf8;
+    }
+
+    @keyframes pulseBadge{
+      0%,100%{ transform:scale(1); box-shadow:0 0 18px rgba(56,189,248,.35); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(56,189,248,.7); }
+    }
+
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(45,212,191,.6);
+      background:linear-gradient(90deg,rgba(34,197,94,.18),rgba(56,189,248,.18));
+      color:#bbf7d0;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:14px;
+      background:radial-gradient(circle at top left,#022c39 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    /* QUIZ BASE */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#022c39 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-options label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:5px 0;
+      cursor:pointer;
+      color:var(--muted);
+    }
+    .quiz-options input[type="radio"],
+    .quiz-options input[type="checkbox"]{
+      transform:scale(1.1);
+    }
+    .quiz-select-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:4px 0;
+      color:var(--muted);
+    }
+    .quiz-select-row span{
+      flex:1;
+    }
+    .quiz-select-row select{
+      padding:4px 6px;
+      font-size:16px;
+      background:#020617;
+      color:var(--text);
+      border-radius:8px;
+      border:1px solid #374151;
+    }
+
+    .quiz-feedback{
+      margin-top:6px;
+      min-height:22px;
+      font-size:18px;
+    }
+    .ok{ color:#4ade80; }
+    .no{ color:#f97373; }
+
+    .quiz-summary{
+      margin-top:10px;
+      font-weight:bold;
+      color:#e5e7eb;
+    }
+
+    /* ANIMATION SECTIONS – FALLBACK SAFE */
+    .reveal{
+      opacity:1;
+      transform:none;
+      transition:opacity .6s ease, transform .6s ease;
+    }
+    .js-enabled .reveal{
+      opacity:0;
+      transform:translateY(16px) scale(.98);
+    }
+    .js-enabled .reveal.visible{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding-bottom:16px;
+    }
+
+    /* ===== HERO + ΠΑΙΧΝΙΔΙ ΟΘΟΝΗΣ ===== */
+    .hero{
+      display:flex;
+      gap:20px;
+      align-items:stretch;
+      flex-wrap:wrap;
+    }
+    .hero-text{
+      flex:1 1 260px;
+      min-width:0;
+    }
+    .hero-game-wrapper{
+      flex:0 0 320px;
+      display:flex;
+      justify-content:flex-end;
+      align-items:flex-start;
+      padding-top:10px;
+    }
+
+    .ergogame-card{
+      width:100%;
+      max-width:320px;
+      border-radius:16px;
+      padding:12px 12px 14px;
+      background:radial-gradient(circle at top,#0f172a,#020617 70%);
+      border:1px solid #0369a1;
+      box-shadow:0 16px 35px rgba(15,23,42,.9);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .ergogame-title{
+      font-size:15px;
+      font-weight:bold;
+      color:#e0f2fe;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .ergogame-scene{
+      position:relative;
+      height:140px;
+      margin-top:6px;
+      border-radius:14px;
+      background:radial-gradient(circle at top,#020617,#020617 60%);
+      border:1px solid #1f2937;
+      overflow:hidden;
+      transition:border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    .ergogame-scene.ok{
+      border-color:#22c55e;
+      box-shadow:0 0 22px rgba(34,197,94,.7);
+      background:radial-gradient(circle at top,#022c22,#020617 70%);
+    }
+
+    .ergogame-monitor{
+      position:absolute;
+      width:90px;
+      height:52px;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      border-radius:10px;
+      background:radial-gradient(circle at top,#0ea5e9,#020617 80%);
+      box-shadow:0 0 14px rgba(56,189,248,.8);
+    }
+    .ergogame-monitor::before{
+      content:"ΟΘΟΝΗ";
+      position:absolute;
+      inset:6px;
+      border-radius:7px;
+      background:radial-gradient(circle at top,#e0f2fe,#1e293b 70%);
+      opacity:.85;
+      font-size:11px;
+      color:#0f172a;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      letter-spacing:1px;
+    }
+    .ergogame-monitor::after{
+      content:"";
+      position:absolute;
+      width:22px;
+      height:10px;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:-9px;
+      border-radius:999px;
+      background:#020617;
+      box-shadow:0 6px 8px rgba(0,0,0,.9);
+    }
+
+    .ergogame-eyeline{
+      position:absolute;
+      left:10px;
+      right:10px;
+      height:0;
+      border-top:2px dashed rgba(248,250,252,.85);
+      pointer-events:none;
+      transition:top .12s ease;
+    }
+    .ergogame-eyeline-label{
+      position:absolute;
+      right:12px;
+      top:-6px;
+      transform:translateY(-100%);
+      font-size:11px;
+      background:rgba(15,23,42,.9);
+      padding:2px 6px;
+      border-radius:999px;
+      border:1px solid #1f2937;
+      color:#e5e7eb;
+      white-space:nowrap;
+    }
+
+    .ergogame-legend{
+      font-size:12px;
+      color:#9ca3af;
+      margin-top:4px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .ergogame-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#22c55e;
+      box-shadow:0 0 6px rgba(34,197,94,.9);
+    }
+
+    .ergogame-controls{
+      margin-top:6px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .ergogame-controls-label{
+      font-size:14px;
+      color:#cbd5f5;
+    }
+    .ergogame-arrows{
+      display:flex;
+      gap:8px;
+      justify-content:space-between;
+    }
+    .ergogame-arrows .btn{
+      flex:1;
+      justify-content:center;
+      padding-inline:8px;
+      font-size:14px;
+    }
+
+    .ergogame-status{
+      font-size:14px;
+      min-height:22px;
+      margin-top:4px;
+    }
+
+    @media (max-width: 768px){
+      .hero{
+        flex-direction:column;
+      }
+      .hero-game-wrapper{
+        justify-content:flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .js-enabled .reveal{ opacity:1; transform:none; transition:none; }
+      .badge{ animation:none; }
+    }
+  </style>
+</head>
+<body>
+  <a id="top"></a>
+
+  <header>
+    <nav class="nav" aria-label="Κύρια πλοήγηση">
+      <div class="brand">
+        <i class="fa-solid fa-display" aria-hidden="true"></i>
+        <span data-i18n
+              data-el="Ενότητα 5 · Εργασία με Υπολογιστή"
+              data-en="Unit 5 · Working with a Computer">
+          Ενότητα 5 · Εργασία με Υπολογιστή
+        </span>
+      </div>
+
+      
+
+      <div class="grow"></div>
+
+      <button class="btn" id="langBtn" type="button">
+        <i class="fa-solid fa-language" aria-hidden="true"></i>
+        <span data-i18n data-el="English" data-en="Ελληνικά">English</span>
+      </button>
+
+      <button class="btn secondary" id="toTopBtn" type="button"
+              aria-label="Πάνω" title="Πάνω">
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Εισαγωγή + Παιχνίδι -->
+    <section id="intro" class="reveal">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="badge">
+            <i class="fa-solid fa-computer" aria-hidden="true"></i>
+            <span data-i18n
+                  data-el="ΕΝΟΤΗΤΑ 5: ΕΡΓΑΣΙΑ ΜΕ ΥΠΟΛΟΓΙΣΤΗ (ΟΘΟΝΕΣ ΟΠΤΙΚΗΣ ΑΠΕΙΚΟΝΙΣΗΣ)"
+                  data-en="UNIT 5: WORKING WITH COMPUTERS (VISUAL DISPLAY UNITS)">
+              ΕΝΟΤΗΤΑ 5: ΕΡΓΑΣΙΑ ΜΕ ΥΠΟΛΟΓΙΣΤΗ (ΟΘΟΝΕΣ ΟΠΤΙΚΗΣ ΑΠΕΙΚΟΝΙΣΗΣ)
+            </span>
+          </div>
+
+          <h1 data-i18n
+              data-el="Εργονομία μπροστά στην οθόνη"
+              data-en="Ergonomics in front of the screen">
+            Εργονομία μπροστά στην οθόνη
+          </h1>
+
+          <p data-i18n
+             data-el="🎯 Στόχος: Να μάθουμε πώς να ρυθμίζουμε σωστά τον χώρο εργασίας μας και πώς να εργαζόμαστε μπροστά σε υπολογιστή χωρίς να καταπονούμε το σώμα μας."
+             data-en="🎯 Goal: To learn how to correctly set up our workstation and work in front of a computer without straining our body.">
+            🎯 Στόχος: Να μάθουμε πώς να ρυθμίζουμε σωστά τον χώρο εργασίας μας και πώς να εργαζόμαστε μπροστά σε υπολογιστή χωρίς να καταπονούμε το σώμα μας.
+          </p>
+
+          <p class="pill" data-i18n
+             data-el="Η εργονομία δεν είναι πολυτέλεια – είναι πρόληψη."
+             data-en="Ergonomics is not a luxury – it’s prevention.">
+            Η εργονομία δεν είναι πολυτέλεια – είναι πρόληψη.
+          </p>
+        </div>
+
+        <!-- Παιχνίδι: φέρ’ τη γραμμή ματιών στο σωστό ύψος -->
+        <div class="hero-game-wrapper">
+          <div class="ergogame-card">
+            <div class="ergogame-title">
+              <i class="fa-solid fa-gamepad-modern" aria-hidden="true"></i>
+              <span data-i18n
+                    data-el="Mini παιχνίδι: Ύψος ματιών & οθόνης"
+                    data-en="Mini game: Eye level & screen">
+                Mini παιχνίδι: Ύψος ματιών & οθόνης
+              </span>
+            </div>
+
+            <div class="ergogame-scene" id="ergScene">
+              <div class="ergogame-monitor"></div>
+              <div class="ergogame-eyeline" id="ergEyeline">
+                <div class="ergogame-eyeline-label"
+                     data-i18n
+                     data-el="Γραμμή ύψους ματιών"
+                     data-en="Eye level line">
+                  Γραμμή ύψους ματιών
+                </div>
+              </div>
+            </div>
+
+            <div class="ergogame-legend">
+              <span class="ergogame-dot"></span>
+              <span data-i18n
+                    data-el="Πράσινη περιοχή = σωστή σχέση οθόνης–ματιών"
+                    data-en="Green area = correct screen–eye alignment">
+                Πράσινη περιοχή = σωστή σχέση οθόνης–ματιών
+              </span>
+            </div>
+
+            <div class="ergogame-controls">
+              <div class="ergogame-controls-label"
+                   data-i18n
+                   data-el="Με τα βελάκια μετακίνησε τη γραμμή μέχρι να «ευθυγραμμιστεί» με το πάνω μέρος της οθόνης."
+                   data-en="Use the arrows to move the line until it aligns with the top of the screen.">
+                Με τα βελάκια μετακίνησε τη γραμμή μέχρι να «ευθυγραμμιστεί» με το πάνω μέρος της οθόνης.
+              </div>
+              <div class="ergogame-arrows">
+                <button type="button" class="btn secondary" data-dir="up">
+                  <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+                  <span data-i18n data-el="Πάνω" data-en="Up">Πάνω</span>
+                </button>
+                <button type="button" class="btn secondary" data-dir="down">
+                  <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                  <span data-i18n data-el="Κάτω" data-en="Down">Κάτω</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="ergogame-status" id="ergStatus"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.1 Κίνδυνοι -->
+    <section id="risks" class="reveal">
+      <h2 data-i18n
+          data-el="5.1 Κίνδυνοι από τη μακροχρόνια χρήση υπολογιστή"
+          data-en="5.1 Risks from prolonged computer use">
+        5.1 Κίνδυνοι από τη μακροχρόνια χρήση υπολογιστή
+      </h2>
+
+      <p data-i18n
+         data-el="Η πολύωρη εργασία σε Η/Υ μπορεί να προκαλέσει:"
+         data-en="Long hours of computer work can lead to:">
+        Η πολύωρη εργασία σε Η/Υ μπορεί να προκαλέσει:
+      </p>
+
+      <ul>
+        <li data-i18n
+            data-el="Μυοσκελετικά προβλήματα (πόνοι σε αυχένα, ώμους, μέση, χέρια)."
+            data-en="Musculoskeletal problems (neck, shoulder, back, arm pain).">
+          Μυοσκελετικά προβλήματα (πόνοι σε αυχένα, ώμους, μέση, χέρια).
+        </li>
+        <li data-i18n
+            data-el="Τενοντίτιδες ή σύνδρομο καρπιαίου σωλήνα."
+            data-en="Tendinitis or carpal tunnel syndrome.">
+          Τενοντίτιδες ή σύνδρομο καρπιαίου σωλήνα.
+        </li>
+        <li data-i18n
+            data-el="Κόπωση ματιών, θολή όραση, πονοκεφάλους."
+            data-en="Eye strain, blurred vision, headaches.">
+          Κόπωση ματιών, θολή όραση, πονοκεφάλους.
+        </li>
+        <li data-i18n
+            data-el="Ψυχική κόπωση, νευρικότητα και άγχος."
+            data-en="Mental fatigue, irritability and stress.">
+          Ψυχική κόπωση, νευρικότητα και άγχος.
+        </li>
+        <li data-i18n
+            data-el="Μείωση συγκέντρωσης και αποδοτικότητας."
+            data-en="Reduced concentration and productivity.">
+          Μείωση συγκέντρωσης και αποδοτικότητας.
+        </li>
+      </ul>
+
+      <p class="pill" data-i18n
+         data-el="Όλα αυτά όμως προλαμβάνονται εύκολα με σωστή εργονομία."
+         data-en="All of these can be prevented with proper ergonomics.">
+        Όλα αυτά όμως προλαμβάνονται εύκολα με σωστή εργονομία.
+      </p>
+    </section>
+
+    <!-- 5.2 Σταθμός εργασίας -->
+    <section id="workstation" class="reveal">
+      <h2 data-i18n
+          data-el="5.2 Οργάνωση του σταθμού εργασίας"
+          data-en="5.2 Organising the workstation">
+        5.2 Οργάνωση του σταθμού εργασίας
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3 data-i18n
+              data-el="✅ Θέση οθόνης"
+              data-en="✅ Screen position">
+            ✅ Θέση οθόνης
+          </h3>
+          <ul>
+            <li data-i18n
+                data-el="Η οθόνη πρέπει να είναι στο ύψος των ματιών."
+                data-en="The top of the screen should be at eye level.">
+              Η οθόνη πρέπει να είναι στο ύψος των ματιών.
+            </li>
+            <li data-i18n
+                data-el="Αν είναι χαμηλά → πόνος στον αυχένα."
+                data-en="If it is too low → neck pain.">
+              Αν είναι χαμηλά → πόνος στον αυχένα.
+            </li>
+            <li data-i18n
+                data-el="Αν είναι ψηλά → καταπόνηση στους ώμους."
+                data-en="If it is too high → shoulder strain.">
+              Αν είναι ψηλά → καταπόνηση στους ώμους.
+            </li>
+            <li data-i18n
+                data-el="Απόσταση ματιών–οθόνης: περίπου 50–70 cm (όσο ένα μήκος χεριού)."
+                data-en="Eye-to-screen distance: about 50–70 cm (roughly an arm’s length).">
+              Απόσταση ματιών–οθόνης: περίπου 50–70 cm (όσο ένα μήκος χεριού).
+            </li>
+            <li data-i18n
+                data-el="Αποφεύγουμε αντανακλάσεις φωτός στην οθόνη."
+                data-en="Avoid light reflections on the screen.">
+              Αποφεύγουμε αντανακλάσεις φωτός στην οθόνη.
+            </li>
+            <li data-i18n
+                data-el="Ιδανικά, το φυσικό φως έρχεται πλάγια – όχι από μπροστά ή πίσω."
+                data-en="Ideally, natural light comes from the side – not from in front or behind.">
+              Ιδανικά, το φυσικό φως έρχεται πλάγια – όχι από μπροστά ή πίσω.
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 data-i18n
+              data-el="✅ Θέση καρέκλας & σώματος"
+              data-en="✅ Chair & body position">
+            ✅ Θέση καρέκλας & σώματος
+          </h3>
+          <ul>
+            <li data-i18n
+                data-el="Η καρέκλα να έχει στήριξη μέσης (οσφυϊκό μαξιλαράκι)."
+                data-en="The chair should support the lower back (lumbar support).">
+              Η καρέκλα να έχει στήριξη μέσης (οσφυϊκό μαξιλαράκι).
+            </li>
+            <li data-i18n
+                data-el="Τα πόδια πατούν ολόκληρα στο πάτωμα ή σε υποπόδιο."
+                data-en="Feet flat on the floor or on a footrest.">
+              Τα πόδια πατούν ολόκληρα στο πάτωμα ή σε υποπόδιο.
+            </li>
+            <li data-i18n
+                data-el="Οι μηροί παράλληλοι με το πάτωμα, τα γόνατα ελαφρώς λυγισμένα."
+                data-en="Thighs parallel to the floor, knees slightly bent.">
+              Οι μηροί παράλληλοι με το πάτωμα, τα γόνατα ελαφρώς λυγισμένα.
+            </li>
+            <li data-i18n
+                data-el="Ώμοι χαλαροί, αγκώνες κοντά στο σώμα."
+                data-en="Shoulders relaxed, elbows close to the body.">
+              Ώμοι χαλαροί, αγκώνες κοντά στο σώμα.
+            </li>
+            <li data-i18n
+                data-el="Ο καρπός στην ευθεία με το αντιβράχιο."
+                data-en="Wrist aligned with the forearm.">
+              Ο καρπός στην ευθεία με το αντιβράχιο.
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 data-i18n
+              data-el="✅ Πληκτρολόγιο & ποντίκι"
+              data-en="✅ Keyboard & mouse">
+            ✅ Πληκτρολόγιο & ποντίκι
+          </h3>
+          <ul>
+            <li data-i18n
+                data-el="Τοποθετούνται στο ίδιο επίπεδο και κοντά στο σώμα."
+                data-en="Placed at the same level, close to the body.">
+              Τοποθετούνται στο ίδιο επίπεδο και κοντά στο σώμα.
+            </li>
+            <li data-i18n
+                data-el="Το ποντίκι δεν πρέπει να είναι μακριά ή πολύ δεξιά."
+                data-en="The mouse should not be too far or too far to the side.">
+              Το ποντίκι δεν πρέπει να είναι μακριά ή πολύ δεξιά.
+            </li>
+            <li data-i18n
+                data-el="Βοηθά στήριγμα καρπού ή εργονομικό mouse pad."
+                data-en="A wrist rest or ergonomic mouse pad can help.">
+              Βοηθά στήριγμα καρπού ή εργονομικό mouse pad.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.3 Διαλείμματα -->
+    <section id="breaks" class="reveal">
+      <h2 data-i18n
+          data-el="5.3 Χρόνος εργασίας – διαλείμματα"
+          data-en="5.3 Working time – breaks">
+        5.3 Χρόνος εργασίας – διαλείμματα
+      </h2>
+
+      <p data-i18n
+         data-el="Η συνεχής εργασία μπροστά σε οθόνη κουράζει σώμα και μάτια."
+         data-en="Continuous work in front of a screen tires the body and the eyes.">
+        Η συνεχής εργασία μπροστά σε οθόνη κουράζει σώμα και μάτια.
+      </p>
+
+      <div class="card">
+        <h3 data-i18n
+            data-el="🕑 Κανόνας 20-20-20"
+            data-en="🕑 20-20-20 rule">
+          🕑 Κανόνας 20-20-20
+        </h3>
+        <p data-i18n
+           data-el="Κάθε 20 λεπτά, κοιτάζουμε 20 δευτερόλεπτα κάτι που βρίσκεται σε απόσταση 6 μέτρων (20 feet). Αυτό ξεκουράζει τα μάτια."
+           data-en="Every 20 minutes, look at something 6 metres (20 feet) away for 20 seconds. This relaxes the eyes.">
+          Κάθε 20 λεπτά, κοιτάζουμε 20 δευτερόλεπτα κάτι που βρίσκεται σε απόσταση 6 μέτρων (20 feet). Αυτό ξεκουράζει τα μάτια.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n
+            data-el="🧘‍♀️ Μικρές παύσεις"
+            data-en="🧘‍♀️ Short breaks">
+          🧘‍♀️ Μικρές παύσεις
+        </h3>
+        <ul>
+          <li data-i18n
+              data-el="Κάθε 1 ώρα, σηκωνόμαστε για 2–3 λεπτά."
+              data-en="Every hour, stand up for 2–3 minutes.">
+            Κάθε 1 ώρα, σηκωνόμαστε για 2–3 λεπτά.
+          </li>
+          <li data-i18n
+              data-el="Κάνουμε μερικές διατάσεις αυχένα και ώμων."
+              data-en="Do a few neck and shoulder stretches.">
+            Κάνουμε μερικές διατάσεις αυχένα και ώμων.
+          </li>
+          <li data-i18n
+              data-el="Εκτείνουμε τα χέρια, τεντωνόμαστε ή περπατάμε λίγο."
+              data-en="Stretch your arms, stretch your body or walk a little.">
+            Εκτείνουμε τα χέρια, τεντωνόμαστε ή περπατάμε λίγο.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5.4 Περιβάλλον -->
+    <section id="environment" class="reveal">
+      <h2 data-i18n
+          data-el="5.4 Ο φωτισμός και το περιβάλλον"
+          data-en="5.4 Lighting and environment">
+        5.4 Ο φωτισμός και το περιβάλλον
+      </h2>
+
+      <ul>
+        <li data-i18n
+            data-el="Ο χώρος πρέπει να είναι καλά φωτισμένος αλλά όχι εκτυφλωτικός."
+            data-en="The room should be well lit but not glaring.">
+          Ο χώρος πρέπει να είναι καλά φωτισμένος αλλά όχι εκτυφλωτικός.
+        </li>
+        <li data-i18n
+            data-el="Προτιμάται φυσικός φωτισμός, χωρίς έντονες σκιές."
+            data-en="Natural lighting is preferred, without harsh shadows.">
+          Προτιμάται φυσικός φωτισμός, χωρίς έντονες σκιές.
+        </li>
+        <li data-i18n
+            data-el="Αερίζουμε τακτικά το γραφείο."
+            data-en="Ventilate the office regularly.">
+          Αερίζουμε τακτικά το γραφείο.
+        </li>
+        <li data-i18n
+            data-el="Η θερμοκρασία να κυμαίνεται περίπου 20–24°C."
+            data-en="Temperature should be around 20–24°C.">
+          Η θερμοκρασία να κυμαίνεται περίπου 20–24°C.
+        </li>
+      </ul>
+
+      <h2 data-i18n
+          data-el="5.5 Πρακτικές συμβουλές"
+          data-en="5.5 Practical tips">
+        5.5 Πρακτικές συμβουλές
+      </h2>
+
+      <ul>
+        <li data-i18n
+            data-el="Ρυθμίζω σωστά τη φωτεινότητα της οθόνης (όχι πολύ έντονη)."
+            data-en="Set screen brightness correctly (not too bright).">
+          Ρυθμίζω σωστά τη φωτεινότητα της οθόνης (όχι πολύ έντονη).
+        </li>
+        <li data-i18n
+            data-el="Καθαρίζω την οθόνη τακτικά με κατάλληλο πανί."
+            data-en="Clean the screen regularly with an appropriate cloth.">
+          Καθαρίζω την οθόνη τακτικά με κατάλληλο πανί.
+        </li>
+        <li data-i18n
+            data-el="Δεν εργάζομαι σε «στραβή» ή λυγισμένη στάση."
+            data-en="Avoid working in twisted or hunched postures.">
+          Δεν εργάζομαι σε «στραβή» ή λυγισμένη στάση.
+        </li>
+        <li data-i18n
+            data-el="Χρησιμοποιώ ακουστικό/ακουστικά αντί να κρατώ το κινητό ανάμεσα σε ώμο και κεφάλι."
+            data-en="Use a headset instead of holding the phone between shoulder and head.">
+          Χρησιμοποιώ ακουστικό/ακουστικά αντί να κρατώ το κινητό ανάμεσα σε ώμο και κεφάλι.
+        </li>
+        <li data-i18n
+            data-el="Εναλλάσσω καθιστή και όρθια στάση όπου είναι εφικτό."
+            data-en="Alternate between sitting and standing where possible.">
+          Εναλλάσσω καθιστή και όρθια στάση όπου είναι εφικτό.
+        </li>
+      </ul>
+
+      <div class="card">
+        <h3 data-i18n
+            data-el="Παράδειγμα"
+            data-en="Example">
+          Παράδειγμα
+        </h3>
+        <p data-i18n
+           data-el="Η Ελένη δούλευε 8 ώρες τη μέρα σκυμμένη μπροστά στην οθόνη. Μετά από μερικούς μήνες, είχε συνεχείς πονοκεφάλους και πόνο στη μέση. Με μικρές αλλαγές (ανύψωση οθόνης, στήριξη μέσης και διαλείμματα κάθε ώρα) τα συμπτώματα εξαφανίστηκαν."
+           data-en="Eleni worked 8 hours a day hunched over the screen. After a few months, she had constant headaches and low back pain. With small changes (raising the screen, supporting her lower back and taking hourly breaks) the symptoms disappeared.">
+          Η Ελένη δούλευε 8 ώρες τη μέρα σκυμμένη μπροστά στην οθόνη. Μετά από μερικούς μήνες, είχε συνεχείς πονοκεφάλους και πόνο στη μέση. Με μικρές αλλαγές (ανύψωση οθόνης, στήριξη μέσης και διαλείμματα κάθε ώρα) τα συμπτώματα εξαφανίστηκαν.
+        </p>
+      </div>
+
+      <p class="card">
+        <strong data-i18n
+                data-el="🟢 «Η εργονομία δεν είναι πολυτέλεια – είναι πρόληψη. Το σώμα μας είναι το πιο πολύτιμο “εργαλείο” στη δουλειά.»"
+                data-en="🟢 “Ergonomics is not a luxury – it is prevention. Our body is the most valuable ‘tool’ at work.”">
+          🟢 «Η εργονομία δεν είναι πολυτέλεια – είναι πρόληψη. Το σώμα μας είναι το πιο πολύτιμο “εργαλείο” στη δουλειά.»
+        </strong>
+      </p>
+    </section>
+
+    <!-- MINI QUIZ 4 ΕΡΩΤΗΣΕΙΣ -->
+    <section id="quiz" class="reveal">
+      <h2 data-i18n
+          data-el="Mini Quiz — Εργονομία & Οθόνη"
+          data-en="Mini Quiz — Ergonomics & Screen">
+        Mini Quiz — Εργονομία & Οθόνη
+      </h2>
+
+      <p data-i18n
+         data-el="Απάντησε στις 4 μικρές ερωτήσεις για να ελέγξεις πόσο σωστά δουλεύεις μπροστά στον υπολογιστή."
+         data-en="Answer the 4 short questions to check how ergonomically you work at the computer.">
+        Απάντησε στις 4 μικρές ερωτήσεις για να ελέγξεις πόσο σωστά δουλεύεις μπροστά στον υπολογιστή.
+      </p>
+
+      <!-- Q1: Multiple choice -->
+      <div class="quiz-question" data-question-id="q1">
+        <h3 data-i18n
+            data-el="1. Ποια είναι η σωστή απόσταση ματιών–οθόνης;"
+            data-en="1. What is the correct eye-to-screen distance?">
+          1. Ποια είναι η σωστή απόσταση ματιών–οθόνης;
+        </h3>
+        <div class="quiz-options">
+          <label>
+            <input type="radio" name="q1" value="a">
+            <span data-i18n
+                  data-el="Περίπου 20 cm"
+                  data-en="About 20 cm">
+              Περίπου 20 cm
+            </span>
+          </label>
+          <label>
+            <input type="radio" name="q1" value="b">
+            <span data-i18n
+                  data-el="Περίπου 50–70 cm (ένα μήκος χεριού)"
+                  data-en="About 50–70 cm (an arm’s length)">
+              Περίπου 50–70 cm (ένα μήκος χεριού)
+            </span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback-q1"></div>
+        <button class="btn secondary" type="button" data-check="q1">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Q2: Σωστό / Λάθος -->
+      <div class="quiz-question" data-question-id="q2">
+        <h3 data-i18n
+            data-el="2. Η κορυφή της οθόνης πρέπει να είναι πολύ πιο πάνω από το ύψος των ματιών για να «κάθομαι ίσια»."
+            data-en="2. The top of the screen should be far above eye level to make me ‘sit upright’.">
+          2. Η κορυφή της οθόνης πρέπει να είναι πολύ πιο πάνω από το ύψος των ματιών για να «κάθομαι ίσια».
+        </h3>
+        <div class="quiz-options">
+          <label>
+            <input type="radio" name="q2" value="true">
+            <span data-i18n data-el="Σωστό" data-en="True">Σωστό</span>
+          </label>
+          <label>
+            <input type="radio" name="q2" value="false">
+            <span data-i18n data-el="Λάθος" data-en="False">Λάθος</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback-q2"></div>
+        <button class="btn secondary" type="button" data-check="q2">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Q3: Αντιστοίχιση (dropdown) -->
+      <div class="quiz-question" data-question-id="q3">
+        <h3 data-i18n
+            data-el="3. Αντιστοίχισε το σύμπτωμα με την πιθανή αιτία."
+            data-en="3. Match the symptom with the likely cause.">
+          3. Αντιστοίχισε το σύμπτωμα με την πιθανή αιτία.
+        </h3>
+        <div class="quiz-options">
+          <div class="quiz-select-row">
+            <span data-i18n
+                  data-el="Πόνος στον αυχένα →"
+                  data-en="Neck pain →">
+              Πόνος στον αυχένα →
+            </span>
+            <select data-match="neck">
+              <option value="" data-i18n data-el="Επίλεξε" data-en="Choose">Επίλεξε</option>
+              <option value="lowScreen" data-i18n data-el="Οθόνη πολύ χαμηλά" data-en="Screen too low">Οθόνη πολύ χαμηλά</option>
+              <option value="bright" data-i18n data-el="Πολύ φωτεινή οθόνη" data-en="Very bright screen">Πολύ φωτεινή οθόνη</option>
+            </select>
+          </div>
+          <div class="quiz-select-row">
+            <span data-i18n
+                  data-el="Κούραση ματιών →"
+                  data-en="Eye strain →">
+              Κούραση ματιών →
+            </span>
+            <select data-match="eyes">
+              <option value="" data-i18n data-el="Επίλεξε" data-en="Choose">Επίλεξε</option>
+              <option value="noBreaks" data-i18n data-el="Χωρίς διαλείμματα & λάθος φωτεινότητα" data-en="No breaks & wrong brightness">Χωρίς διαλείμματα & λάθος φωτεινότητα</option>
+              <option value="farMouse" data-i18n data-el="Ποντίκι πολύ μακριά" data-en="Mouse too far away">Ποντίκι πολύ μακριά</option>
+            </select>
+          </div>
+          <div class="quiz-select-row">
+            <span data-i18n
+                  data-el="Πόνος στον καρπό →"
+                  data-en="Wrist pain →">
+              Πόνος στον καρπό →
+            </span>
+            <select data-match="wrist">
+              <option value="" data-i18n data-el="Επίλεξε" data-en="Choose">Επίλεξε</option>
+              <option value="badWrist" data-i18n data-el="Καρπός λυγισμένος ή χωρίς στήριξη" data-en="Bent wrist or no support">Καρπός λυγισμένος ή χωρίς στήριξη</option>
+              <option value="coldRoom" data-i18n data-el="Πολύ κρύος χώρος" data-en="Very cold room">Πολύ κρύος χώρος</option>
+            </select>
+          </div>
+        </div>
+        <div class="quiz-feedback" id="feedback-q3"></div>
+        <button class="btn secondary" type="button" data-check="q3">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Q4: Πολλαπλή επιλογή -->
+      <div class="quiz-question" data-question-id="q4">
+        <h3 data-i18n
+            data-el="4. Ποιες από τις παρακάτω είναι ΚΑΛΕΣ συνήθειες;"
+            data-en="4. Which of the following are GOOD habits?">
+          4. Ποιες από τις παρακάτω είναι ΚΑΛΕΣ συνήθειες;
+        </h3>
+        <div class="quiz-options">
+          <label>
+            <input type="checkbox" name="q4" value="breaks">
+            <span data-i18n data-el="Κάνω μικρά διαλείμματα και διατάσεις κάθε ώρα" data-en="Take short breaks and stretch every hour">Κάνω μικρά διαλείμματα και διατάσεις κάθε ώρα</span>
+          </label>
+          <label>
+            <input type="checkbox" name="q4" value="headset">
+            <span data-i18n data-el="Χρησιμοποιώ ακουστικό αντί να κρατώ το τηλέφωνο στον ώμο" data-en="Use a headset instead of holding the phone on my shoulder">Χρησιμοποιώ ακουστικό αντί να κρατώ το τηλέφωνο στον ώμο</span>
+          </label>
+          <label>
+            <input type="checkbox" name="q4" value="hunch">
+            <span data-i18n data-el="Εργάζομαι σκυμμένος για να «βλέπω καλύτερα»" data-en="Work hunched over to ‘see better’">Εργάζομαι σκυμμένος για να «βλέπω καλύτερα»</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback-q4"></div>
+        <button class="btn secondary" type="button" data-check="q4">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Συνολικό σκορ + reset -->
+      <div class="quiz-summary" id="quizTotal"></div>
+      <button class="btn" type="button" id="resetQuizBtn">
+        <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+        <span data-i18n data-el="Επανεκκίνηση Quiz" data-en="Restart Quiz">Επανεκκίνηση Quiz</span>
+      </button>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span>
+    ·
+    <span data-i18n data-el="Υγεία &amp; Ασφάλεια Εργασίας" data-en="Occupational Health &amp; Safety">
+      Υγεία &amp; Ασφάλεια Εργασίας
+    </span>
+  </footer>
+
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.documentElement.classList.add("js-enabled");
+
+  // ---------- ΒΟΗΘΗΤΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ ----------
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) { return Array.from((root || document).querySelectorAll(sel)); }
+
+  const LANG_EL = "el";
+  const LANG_EN = "en";
+  let currentLang = LANG_EL;
+
+  const scores = { q1: null, q2: null, q3: null, q4: null };
+
+  const texts = {
+    el: {
+      correct: "Σωστό!",
+      incorrect: "Όχι ακριβώς. Δοκίμασε ξανά.",
+      missing: "Επίλεξε μια απάντηση.",
+      matchingMissing: "Συμπλήρωσε όλες τις αντιστοιχίσεις.",
+      total: (score, total) => `Συνολικό σκορ: ${score} / ${total}`
+    },
+    en: {
+      correct: "Correct!",
+      incorrect: "Not quite. Try again.",
+      missing: "Please choose an option.",
+      matchingMissing: "Please complete all matches.",
+      total: (score, total) => `Total score: ${score} / ${total}`
+    }
+  };
+
+  const gameTexts = {
+    el: {
+      tooHigh: "Η γραμμή είναι πολύ ψηλά σε σχέση με την οθόνη – δεν είναι φυσική στάση.",
+      tooLow: "Η γραμμή είναι πολύ χαμηλά – θα σκύβεις και θα κουράζεσαι.",
+      ok: "Τέλεια! Η γραμμή ύψους ματιών είναι περίπου στο σωστό επίπεδο σε σχέση με την οθόνη."
+    },
+    en: {
+      tooHigh: "The eye line is too high compared to the screen – not a natural posture.",
+      tooLow: "The eye line is too low – you’ll hunch and get tired.",
+      ok: "Perfect! The eye level line is roughly at the correct position relative to the screen."
+    }
+  };
+
+  const correctAnswers = {
+    q1: "b",
+    q2: "false",
+    q3: {
+      neck: "lowScreen",
+      eyes: "noBreaks",
+      wrist: "badWrist"
+    },
+    q4: {
+      mustHave: ["breaks", "headset"],
+      mustNotHave: ["hunch"]
+    }
+  };
+
+  // ---------- ΗΜΕΡΟΜΗΝΙΑ FOOTER ----------
+  const yearEl = $("#year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // ---------- ΠΑΙΧΝΙΔΙ: ΓΡΑΜΜΗ ΜΑΤΙΩΝ ----------
+  let lineY = 95; // αρχική θέση (λίγο χαμηλά)
+
+  function updateGameStatus() {
+    const eyeline = $("#ergEyeline");
+    const scene = $("#ergScene");
+    const statusBox = $("#ergStatus");
+    if (!eyeline || !scene || !statusBox) return;
+
+    const MIN_Y = 30;
+    const MAX_Y = 110;
+    const TARGET_MIN = 50;
+    const TARGET_MAX = 55;
+
+    if (lineY < MIN_Y) lineY = MIN_Y;
+    if (lineY > MAX_Y) lineY = MAX_Y;
+
+    eyeline.style.top = lineY + "px";
+
+    const lang = currentLang;
+    let msg = "";
+    let ok = false;
+
+    if (lineY >= TARGET_MIN && lineY <= TARGET_MAX) {
+      msg = '<span class="ok">' + gameTexts[lang].ok + "</span>";
+      ok = true;
+    } else if (lineY < TARGET_MIN) {
+      msg = '<span class="no">' + gameTexts[lang].tooHigh + "</span>";
+    } else {
+      msg = '<span class="no">' + gameTexts[lang].tooLow + "</span>";
+    }
+
+    statusBox.innerHTML = msg;
+    if (ok) {
+      scene.classList.add("ok");
+    } else {
+      scene.classList.remove("ok");
+    }
+  }
+
+  function setupGame() {
+    const upBtn = document.querySelector('.ergogame-arrows [data-dir="up"]');
+    const downBtn = document.querySelector('.ergogame-arrows [data-dir="down"]');
+
+    if (upBtn) {
+      upBtn.addEventListener("click", function () {
+        lineY -= 6;
+        updateGameStatus();
+      });
+    }
+    if (downBtn) {
+      downBtn.addEventListener("click", function () {
+        lineY += 6;
+        updateGameStatus();
+      });
+    }
+
+    updateGameStatus();
+  }
+
+  // ---------- ΓΛΩΣΣΑ ----------
+  function applyLanguage() {
+    const lang = currentLang;
+    document.documentElement.lang = (lang === LANG_EN ? "en" : "el");
+
+    $all("[data-i18n]").forEach(function (el) {
+      const txt = el.getAttribute(lang === LANG_EN ? "data-en" : "data-el");
+      if (txt != null) el.textContent = txt;
+    });
+
+    updateTotalScore();
+    updateGameStatus();
+  }
+
+  function setupLanguageButton() {
+    const btn = $("#langBtn");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      currentLang = (currentLang === LANG_EL ? LANG_EN : LANG_EL);
+      applyLanguage();
+    });
+  }
+
+  // ---------- SCROLL ΠΑΝΩ ----------
+  function setupScrollTop() {
+    const btn = $("#toTopBtn");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  // ---------- QUIZ ----------
+  function updateTotalScore() {
+    const lang = currentLang;
+    const values = Object.values(scores);
+    const correctCount = values.filter(function (v) { return v === true; }).length;
+    const total = Object.keys(scores).length;
+    const label = texts[lang].total(correctCount, total);
+    const box = $("#quizTotal");
+    if (box) box.textContent = label;
+  }
+
+  function evaluateQ1() {
+    const lang = currentLang;
+    const feedback = $("#feedback-q1");
+    const selected = document.querySelector('input[name="q1"]:checked');
+    if (!selected) {
+      if (feedback) feedback.innerHTML = '<span class="no">' + texts[lang].missing + "</span>";
+      scores.q1 = null;
+      updateTotalScore();
+      return;
+    }
+    const isCorrect = (selected.value === correctAnswers.q1);
+    if (feedback) {
+      feedback.innerHTML = isCorrect
+        ? '<span class="ok">' + texts[lang].correct + "</span>"
+        : '<span class="no">' + texts[lang].incorrect + "</span>";
+    }
+    scores.q1 = isCorrect;
+    updateTotalScore();
+  }
+
+  function evaluateQ2() {
+    const lang = currentLang;
+    const feedback = $("#feedback-q2");
+    const selected = document.querySelector('input[name="q2"]:checked');
+    if (!selected) {
+      if (feedback) feedback.innerHTML = '<span class="no">' + texts[lang].missing + "</span>";
+      scores.q2 = null;
+      updateTotalScore();
+      return;
+    }
+    const isCorrect = (selected.value === correctAnswers.q2);
+    if (feedback) {
+      feedback.innerHTML = isCorrect
+        ? '<span class="ok">' + texts[lang].correct + "</span>"
+        : '<span class="no">' + texts[lang].incorrect + "</span>";
+    }
+    scores.q2 = isCorrect;
+    updateTotalScore();
+  }
+
+  function evaluateQ3() {
+    const lang = currentLang;
+    const fb = $("#feedback-q3");
+    const expected = correctAnswers.q3;
+    const neckSel = document.querySelector('select[data-match="neck"]');
+    const eyesSel = document.querySelector('select[data-match="eyes"]');
+    const wristSel = document.querySelector('select[data-match="wrist"]');
+
+    if (!neckSel || !eyesSel || !wristSel) {
+      scores.q3 = null;
+      updateTotalScore();
+      return;
+    }
+
+    if (!neckSel.value || !eyesSel.value || !wristSel.value) {
+      if (fb) fb.innerHTML = '<span class="no">' + texts[lang].matchingMissing + "</span>";
+      scores.q3 = null;
+      updateTotalScore();
+      return;
+    }
+
+    const isCorrect =
+      neckSel.value === expected.neck &&
+      eyesSel.value === expected.eyes &&
+      wristSel.value === expected.wrist;
+
+    if (fb) {
+      fb.innerHTML = isCorrect
+        ? '<span class="ok">' + texts[lang].correct + "</span>"
+        : '<span class="no">' + texts[lang].incorrect + "</span>";
+    }
+    scores.q3 = isCorrect;
+    updateTotalScore();
+  }
+
+  function evaluateQ4() {
+    const lang = currentLang;
+    const fb = $("#feedback-q4");
+    const checked = $all('input[name="q4"]:checked').map(function (i) { return i.value; });
+
+    if (checked.length === 0) {
+      if (fb) fb.innerHTML = '<span class="no">' + texts[lang].missing + "</span>";
+      scores.q4 = null;
+      updateTotalScore();
+      return;
+    }
+
+    const cfg = correctAnswers.q4;
+    const hasAllMust = cfg.mustHave.every(function (v) { return checked.indexOf(v) !== -1; });
+    const hasForbidden = cfg.mustNotHave.some(function (v) { return checked.indexOf(v) !== -1; });
+    const isCorrect = hasAllMust && !hasForbidden;
+
+    if (fb) {
+      fb.innerHTML = isCorrect
+        ? '<span class="ok">' + texts[lang].correct + "</span>"
+        : '<span class="no">' + texts[lang].incorrect + "</span>";
+    }
+    scores.q4 = isCorrect;
+    updateTotalScore();
+  }
+
+  function resetQuiz() {
+    $all('input[type="radio"], input[type="checkbox"]').forEach(function (el) {
+      el.checked = false;
+    });
+    $all('#quiz select').forEach(function (sel) {
+      sel.value = "";
+    });
+    ["q1", "q2", "q3", "q4"].forEach(function (id) {
+      const fb = $("#feedback-" + id);
+      if (fb) fb.textContent = "";
+      scores[id] = null;
+    });
+    updateTotalScore();
+  }
+
+  function setupQuizButtons() {
+    $all("[data-check]").forEach(function (btn) {
+      const id = btn.getAttribute("data-check");
+      btn.addEventListener("click", function () {
+        if (id === "q1") evaluateQ1();
+        else if (id === "q2") evaluateQ2();
+        else if (id === "q3") evaluateQ3();
+        else if (id === "q4") evaluateQ4();
+      });
+    });
+
+    const resetBtn = $("#resetQuizBtn");
+    if (resetBtn) resetBtn.addEventListener("click", resetQuiz);
+  }
+
+  // ---------- REVEAL ANIMATION ----------
+  function setupReveal() {
+    const elements = $all(".reveal");
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      elements.forEach(function (el) { io.observe(el); });
+    } else {
+      elements.forEach(function (el) { el.classList.add("visible"); });
+    }
+  }
+
+  // ---------- ΑΡΧΙΚΟΠΟΙΗΣΗ ----------
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+  window.scrollTo(0, 0);
+
+  setupLanguageButton();
+  setupScrollTop();
+  setupQuizButtons();
+  setupReveal();
+  setupGame();
+
+  resetQuiz();
+  applyLanguage();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ενότητα 8: Χειρωνακτική Διακίνηση Φορτίων</title>
+
+  <!-- Icons μόνο για header / κουμπιά (όχι για γραφήματα τεχνικής) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer"/>
+
+  <style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020817;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#cbd5f5;
+      --border:#1e293b;
+      --primary:#22c55e;
+      --primary-soft:#4ade80;
+      --accent:#0ea5e9;
+      --shadow:0 18px 40px rgba(0,0,0,.7);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #22c55e30 0, transparent 55%),
+        radial-gradient(circle at bottom, #0ea5e930 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    .lang-en{ display:none; }
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 8px rgba(34,197,94,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#22c55e,#0ea5e9);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#e5e7eb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#22c55e,#0ea5e9);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#0f172a,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#22c55e25 0,transparent 45%),
+        radial-gradient(circle at bottom right,#0ea5e925 0,transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(34,197,94,.8);
+      background:linear-gradient(90deg,rgba(34,197,94,.25),rgba(14,165,233,.25));
+      font-size:16px;
+      color:#f9fafb;
+      box-shadow:0 0 20px rgba(34,197,94,.6);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#22c55e; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(34,197,94,.4); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(34,197,94,.8); }
+    }
+
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.8));
+      color:#bfdbfe;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .hero-text{
+      flex:1 1 auto;
+      min-width:0;
+    }
+
+    /* ===== VIDEO BLOCK ===== */
+    .video-section-wrapper{
+      display:flex;
+      justify-content:center;
+    }
+    .video-card{
+      width:100%;
+      max-width:520px;
+      border-radius:16px;
+      padding:12px 12px 14px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      border:1px solid #22c55e;
+      box-shadow:0 16px 35px rgba(15,23,42,.9);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-size:14px;
+    }
+    .video-title{
+      font-size:15px;
+      font-weight:bold;
+      color:#e0f2fe;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .video-card video{
+      width:100%;
+      border-radius:12px;
+      border:1px solid #1e293b;
+      background:#000;
+      max-height:280px;
+      object-fit:cover;
+    }
+    .video-caption{
+      font-size:13px;
+      color:#e5e7eb;
+    }
+
+    /* ===== PLACEHOLDER ΓΙΑ ΕΙΚΟΝΕΣ ΤΕΧΝΙΚΗΣ ===== */
+    .lift-image-wrapper{
+      margin-bottom:10px;
+      border-radius:12px;
+      padding:10px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      border:1px solid #1e293b;
+      text-align:center;
+    }
+    .lift-image-wrapper img{
+      max-width:100%;
+      border-radius:8px;
+      display:block;
+      margin:0 auto 6px;
+    }
+    .lift-image-caption{
+      font-size:13px;
+      color:#e5e7eb;
+    }
+
+    /* ===== QUIZ (CSS ONLY) ===== */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#020617 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-option{
+      margin:6px 0;
+    }
+    .quiz-option input{
+      position:absolute;
+      left:-9999px;
+    }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #1e293b;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+
+    .quiz-option input:checked + label{
+      border-color:#38bdf8;
+      box-shadow:0 0 0 1px #0ea5e9;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+
+    .quiz-form{
+      margin-top:8px;
+    }
+    .quiz-reset-wrap{
+      margin-top:10px;
+      text-align:left;
+    }
+    .quiz-reset-wrap .btn{
+      font-size:14px;
+      padding:5px 11px;
+      box-shadow:none;
+    }
+
+    @media (max-width:768px){
+      .hero{ flex-direction:column; }
+      .video-section-wrapper{ justify-content:flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <!-- CSS-toggle για γλώσσα -->
+  <input type="checkbox" id="langToggle" />
+
+  <a id="top"></a>
+
+  <header>
+    <nav class="nav" aria-label="Κύρια πλοήγηση">
+      <div class="brand">
+        <i class="fa-solid fa-dumbbell" aria-hidden="true"></i>
+        <span class="lang-el">Ενότητα 8 · Χειρωνακτική Διακίνηση Φορτίων</span>
+        <span class="lang-en">Unit 8 · Manual Handling of Loads</span>
+      </div>
+
+      <div class="grow"></div>
+
+      <label for="langToggle" class="btn">
+        <i class="fa-solid fa-language" aria-hidden="true"></i>
+        <span class="lang-el">English</span>
+        <span class="lang-en">Ελληνικά</span>
+      </label>
+
+      <a href="#top" class="btn secondary" aria-label="Πάνω" title="Πάνω">
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Εισαγωγή -->
+    <section id="intro">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="badge">
+            <i class="fa-solid fa-clipboard-check" aria-hidden="true"></i>
+            <span class="lang-el">🏋️‍♀️ ΕΝΟΤΗΤΑ 8: ΧΕΙΡΩΝΑΚΤΙΚΗ ΔΙΑΚΙΝΗΣΗ ΦΟΡΤΙΩΝ</span>
+            <span class="lang-en">🏋️‍♀️ UNIT 8: MANUAL HANDLING OF LOADS</span>
+          </div>
+
+          <h1>
+            <span class="lang-el">Σήκωσε έξυπνα – προστάτεψε τη μέση σου</span>
+            <span class="lang-en">Lift smart – protect your back</span>
+          </h1>
+
+          <p>
+            <span class="lang-el">
+              🎯 Στόχος: Να μάθουμε πώς να σηκώνουμε, μεταφέρουμε και τοποθετούμε αντικείμενα
+              με τρόπο που να προστατεύει τη μέση, τα χέρια και τη στάση του σώματός μας.
+            </span>
+            <span class="lang-en">
+              🎯 Goal: To learn how to lift, carry and place objects in a way that protects
+              our lower back, arms and posture.
+            </span>
+          </p>
+
+          <p class="pill">
+            <span class="lang-el">Η δύναμη είναι χρήσιμη, αλλά η σωστή στάση είναι ανεκτίμητη.</span>
+            <span class="lang-en">Strength is useful, but correct posture is priceless.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8.1 Τι είναι χειρωνακτική διακίνηση -->
+    <section id="definition">
+      <h2>
+        <span class="lang-el">8.1 Τι θεωρείται “χειρωνακτική διακίνηση”</span>
+        <span class="lang-en">8.1 What is “manual handling”</span>
+      </h2>
+
+      <p>
+        <span class="lang-el">
+          Κάθε εργασία όπου σηκώνουμε, μεταφέρουμε, τραβάμε ή σπρώχνουμε ένα αντικείμενο με τη δύναμή μας,
+          χωρίς μηχανική βοήθεια.
+        </span>
+        <span class="lang-en">
+          Any task where we lift, carry, push or pull an object using our own strength,
+          without mechanical assistance.
+        </span>
+      </p>
+
+      <p class="pill">
+        <span class="lang-el">Παραδείγματα από γραφείο:</span>
+        <span class="lang-en">Examples from the office:</span>
+      </p>
+
+      <ul>
+        <li>
+          <span class="lang-el">Σήκωμα χαρτοκιβωτίων ή φακέλων από το πάτωμα.</span>
+          <span class="lang-en">Lifting boxes or folders from the floor.</span>
+        </li>
+        <li>
+          <span class="lang-el">Μεταφορά γραφικής ύλης ή νερού.</span>
+          <span class="lang-en">Carrying office supplies or water.</span>
+        </li>
+        <li>
+          <span class="lang-el">Μετακίνηση καρεκλών, υπολογιστών ή εκτυπωτών.</span>
+          <span class="lang-en">Moving chairs, computers or printers.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 8.2 Κίνδυνοι & συνέπειες -->
+    <section id="risks">
+      <h2>
+        <span class="lang-el">8.2 Κίνδυνοι &amp; συνέπειες</span>
+        <span class="lang-en">8.2 Risks &amp; consequences</span>
+      </h2>
+
+      <p>
+        <span class="lang-el">
+          Η κακή τεχνική ή η υπερβολική προσπάθεια μπορεί να προκαλέσει:
+        </span>
+        <span class="lang-en">
+          Poor technique or excessive effort can lead to:
+        </span>
+      </p>
+
+      <ul>
+        <li>
+          <span class="lang-el">Πόνο στη μέση ή στον αυχένα.</span>
+          <span class="lang-en">Pain in the lower back or neck.</span>
+        </li>
+        <li>
+          <span class="lang-el">Τενοντίτιδα στους ώμους και στα χέρια.</span>
+          <span class="lang-en">Tendinitis in shoulders and arms.</span>
+        </li>
+        <li>
+          <span class="lang-el">Μούδιασμα ή κράμπες στα άκρα.</span>
+          <span class="lang-en">Numbness or cramps in limbs.</span>
+        </li>
+        <li>
+          <span class="lang-el">Μακροχρόνια μυοσκελετικά προβλήματα.</span>
+          <span class="lang-en">Long-term musculoskeletal problems.</span>
+        </li>
+      </ul>
+
+      <p class="pill">
+        <span class="lang-el">Οι τραυματισμοί συχνά δεν φαίνονται άμεσα – εκδηλώνονται μετά από εβδομάδες ή μήνες.</span>
+        <span class="lang-en">Injuries often do not appear immediately – they show up weeks or months later.</span>
+      </p>
+    </section>
+
+    <!-- 8.3 Πριν σηκώσετε -->
+    <section id="before-lift">
+      <h2>
+        <span class="lang-el">8.3 Πριν σηκώσετε ένα αντικείμενο, σκεφτείτε:</span>
+        <span class="lang-en">8.3 Before you lift an object, think:</span>
+      </h2>
+
+      <ul>
+        <li>
+          <span class="lang-el">Χρειάζεται να το σηκώσω μόνος μου; Αν είναι βαρύ, ζητώ βοήθεια.</span>
+          <span class="lang-en">Do I have to lift it alone? If it is heavy, ask for help.</span>
+        </li>
+        <li>
+          <span class="lang-el">Υπάρχει διαθέσιμο καρότσι ή τρόλεϊ; Αν ναι, το χρησιμοποιώ.</span>
+          <span class="lang-en">Is there a trolley available? If yes, use it.</span>
+        </li>
+        <li>
+          <span class="lang-el">Πού θα το πάω; Διασφαλίζω ελεύθερη διαδρομή.</span>
+          <span class="lang-en">Where am I taking it? Make sure the route is clear.</span>
+        </li>
+        <li>
+          <span class="lang-el">Είναι το αντικείμενο σταθερό, στεγνό, χωρίς αιχμές;</span>
+          <span class="lang-en">Is the object stable, dry and without sharp edges?</span>
+        </li>
+        <li>
+          <span class="lang-el">Πού θα το αφήσω; Προετοιμάζω τη θέση εκ των προτέρων.</span>
+          <span class="lang-en">Where will I put it down? Prepare the place in advance.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 8.4 Σωστή στάση & τεχνική ανύψωσης (ΜΟΝΟ ΚΕΙΜΕΝΟ + ΕΙΚΟΝΕΣ) -->
+    <section id="technique">
+      <h2>
+        <span class="lang-el">8.4 Σωστή στάση &amp; τεχνική ανύψωσης</span>
+        <span class="lang-en">8.4 Correct posture &amp; lifting technique</span>
+      </h2>
+
+      
+          </div>
+
+          <h3>
+            <span class="lang-el">🧍‍♂️ Πριν την ανύψωση</span>
+            <span class="lang-en">🧍‍♂️ Before lifting</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Σταθείτε κοντά στο αντικείμενο.</span>
+              <span class="lang-en">Stand close to the object.</span>
+            </li>
+            <li>
+              <span class="lang-el">Τοποθετήστε τα πόδια στο άνοιγμα των ώμων.</span>
+              <span class="lang-en">Place your feet shoulder-width apart.</span>
+            </li>
+            <li>
+              <span class="lang-el">Βεβαιωθείτε ότι έχετε σταθερό πάτημα.</span>
+              <span class="lang-en">Make sure you have a stable stance.</span>
+            </li>
+          </ul>
+
+
+          <h3>
+            <span class="lang-el">🧎‍♂️ Κατά την ανύψωση</span>
+            <span class="lang-en">🧎‍♂️ During lifting</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Λυγίστε τα γόνατα, όχι τη μέση.</span>
+              <span class="lang-en">Bend your knees, not your back.</span>
+            </li>
+            <li>
+              <span class="lang-el">Κρατήστε την πλάτη όσο γίνεται ευθεία.</span>
+              <span class="lang-en">Keep your back as straight as possible.</span>
+            </li>
+            <li>
+              <span class="lang-el">Κρατήστε το αντικείμενο κοντά στο σώμα.</span>
+              <span class="lang-en">Hold the object close to your body.</span>
+            </li>
+            <li>
+              <span class="lang-el">Αναπνεύστε κανονικά – μην κρατάτε την αναπνοή.</span>
+              <span class="lang-en">Breathe normally – don’t hold your breath.</span>
+            </li>
+            <li>
+              <span class="lang-el">Αποφύγετε απότομες ή συστρεφόμενες κινήσεις.</span>
+              <span class="lang-en">Avoid sudden or twisting movements.</span>
+            </li>
+            <li>
+              <span class="lang-el">Αν χρειάζεται να γυρίσετε, στρίψτε όλο το σώμα, όχι μόνο τη μέση.</span>
+              <span class="lang-en">If you need to turn, move your whole body, not just the waist.</span>
+            </li>
+          </ul>
+
+
+          <h3>
+            <span class="lang-el">🧍‍♀️ Κατά τη μεταφορά</span>
+            <span class="lang-en">🧍‍♀️ While carrying</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Κρατήστε το βάρος ισορροπημένο και κοντά στο σώμα.</span>
+              <span class="lang-en">Keep the weight balanced and close to the body.</span>
+            </li>
+            <li>
+              <span class="lang-el">Βλέπετε πάντα μπροστά σας – όχι κρυμμένο πίσω από το φορτίο.</span>
+              <span class="lang-en">Always see in front of you – don’t let the load block your view.</span>
+            </li>
+            <li>
+              <span class="lang-el">Αν το αντικείμενο είναι μεγάλο, ζητήστε από άλλον να σας καθοδηγεί.</span>
+              <span class="lang-en">If the object is large, ask someone to guide you.</span>
+            </li>
+          </ul>
+    
+    </section>
+
+    <!-- Βίντεο -->
+    <section id="video-demo">
+      <h2>
+        <span class="lang-el">Βίντεο επίδειξης – Σωστή τεχνική ανύψωσης</span>
+        <span class="lang-en">Demo video – Correct lifting technique</span>
+      </h2>
+      <div class="video-section-wrapper">
+        <div class="video-card">
+          <div class="video-title">
+            <i class="fa-solid fa-film" aria-hidden="true"></i>
+            <span class="lang-el">Παρατήρησε τη στάση σώματος βήμα-βήμα</span>
+            <span class="lang-en">Watch the body posture step-by-step</span>
+          </div>
+
+          <!-- Βάλε εδώ το δικό σου αρχείο βίντεο ή URL -->
+          <video controls preload="metadata">
+            <source src="unit8-lifting.mp4" type="video/mp4" />
+            <p class="lang-el">Ο περιηγητής σου δεν υποστηρίζει βίντεο.</p>
+            <p class="lang-en">Your browser does not support the video tag.</p>
+          </video>
+
+          <p class="video-caption">
+            <span class="lang-el">
+              Δες πώς ο εργαζόμενος λυγίζει τα γόνατα, κρατά την πλάτη ίσια και κρατά το φορτίο κοντά στο σώμα
+              σε όλη τη διάρκεια της κίνησης.
+            </span>
+            <span class="lang-en">
+              Notice how the worker bends the knees, keeps the back straight and holds the load close to the body
+              throughout the movement.
+            </span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8.5 Ανυψώνω με έξυπνο τρόπο -->
+    <section id="smart">
+      <h2>
+        <span class="lang-el">8.5 Ανυψώνω με “έξυπνο τρόπο”, όχι με δύναμη</span>
+        <span class="lang-en">8.5 Lift “smart”, not with brute force</span>
+      </h2>
+
+      <ul>
+        <li>
+          <span class="lang-el">Τα αντικείμενα είναι ευκολότερο να σηκωθούν αν βρίσκονται ήδη πάνω από το έδαφος.</span>
+          <span class="lang-en">Objects are easier to lift if they are already off the ground.</span>
+        </li>
+        <li>
+          <span class="lang-el">Προτιμήστε να μεταφέρετε μικρότερα φορτία περισσότερες φορές.</span>
+          <span class="lang-en">Prefer to move smaller loads more often.</span>
+        </li>
+        <li>
+          <span class="lang-el">Φοράτε παπούτσια με αντιολισθητική σόλα.</span>
+          <span class="lang-en">Wear shoes with non-slip soles.</span>
+        </li>
+        <li>
+          <span class="lang-el">Αν χρειάζεται συχνά μεταφορά, χρησιμοποιήστε εργονομικό καρότσι.</span>
+          <span class="lang-en">If frequent transport is needed, use an ergonomic trolley.</span>
+        </li>
+      </ul>
+
+      <div class="card">
+        <h3>
+          <span class="lang-el">Παράδειγμα</span>
+          <span class="lang-en">Example</span>
+        </h3>
+        <p>
+          <span class="lang-el">
+            Ο Πέτρος προσπάθησε να σηκώσει μόνος του ένα κουτί με χαρτί Α4 από το πάτωμα, σκύβοντας μόνο από τη μέση.
+            Ένιωσε “τράβηγμα” στη μέση που τον ταλαιπώρησε για εβδομάδες.
+            Την επόμενη φορά το έκανε σωστά — λύγισε τα γόνατα, κράτησε ίσια πλάτη και το σήκωσε χωρίς πρόβλημα.
+          </span>
+          <span class="lang-en">
+            Petros tried to lift a box of A4 paper from the floor by bending only from the waist.
+            He felt a “pull” in his lower back which bothered him for weeks.
+            Next time he did it properly — he bent his knees, kept his back straight and lifted without problems.
+          </span>
+        </p>
+      </div>
+
+      <p class="card">
+        <strong>
+          <span class="lang-el">🟢 «Η δύναμη είναι χρήσιμη, αλλά η σωστή στάση είναι ανεκτίμητη. Μάθε να σηκώνεις με τα πόδια, όχι με τη μέση.»</span>
+          <span class="lang-en">🟢 “Strength is useful, but correct posture is priceless. Learn to lift with your legs, not with your back.”</span>
+        </strong>
+      </p>
+    </section>
+
+    <!-- MINI QUIZ -->
+    <section id="quiz">
+      <h2>
+        <span class="lang-el">Mini Quiz — Χειρωνακτική διακίνηση φορτίων</span>
+        <span class="lang-en">Mini Quiz — Manual handling of loads</span>
+      </h2>
+
+      <p class="quiz-note">
+        <span class="lang-el">Επίλεξε απάντηση σε κάθε ερώτηση. Το ✓ και ✗ εμφανίζονται άμεσα. Πάτησε «Επανεκκίνηση Quiz» για να καθαρίσεις τις επιλογές.</span>
+        <span class="lang-en">Choose an answer for each question. ✓ and ✗ appear instantly. Press “Restart Quiz” to clear your answers.</span>
+      </p>
+
+      <form class="quiz-form">
+        <!-- Q1 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">1. Ποια εργασία θεωρείται χειρωνακτική διακίνηση;</span>
+            <span class="lang-en">1. Which task counts as manual handling?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q1a" name="q1" />
+              <label for="q1a" data-correct="false">
+                <span class="lang-el">Μόνο όταν χρησιμοποιώ ανυψωτικό μηχάνημα.</span>
+                <span class="lang-en">Only when I use a lifting machine.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q1b" name="q1" />
+              <label for="q1b" data-correct="true">
+                <span class="lang-el">Όταν σηκώνω, μεταφέρω ή σπρώχνω κάτι με τη δική μου δύναμη.</span>
+                <span class="lang-en">When I lift, carry or push something using my own strength.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">2. Ποια είναι η σωστή κίνηση κατά την ανύψωση;</span>
+            <span class="lang-en">2. What is the correct movement while lifting?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q2a" name="q2" />
+              <label for="q2a" data-correct="false">
+                <span class="lang-el">Σκύβω από τη μέση με τεντωμένα πόδια.</span>
+                <span class="lang-en">Bend from the waist with straight legs.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q2b" name="q2" />
+              <label for="q2b" data-correct="true">
+                <span class="lang-el">Λυγίζω τα γόνατα και κρατώ την πλάτη όσο γίνεται ευθεία.</span>
+                <span class="lang-en">Bend my knees and keep my back as straight as possible.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">3. Τι είναι καλό να κάνω πριν σηκώσω ένα βαρίο αντικείμενο;</span>
+            <span class="lang-en">3. What is good to do before lifting a heavy object?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q3a" name="q3" />
+              <label for="q3a" data-correct="true">
+                <span class="lang-el">Να ελέγξω τη διαδρομή και να ζητήσω βοήθεια αν χρειάζεται.</span>
+                <span class="lang-en">Check the route and ask for help if needed.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q3b" name="q3" />
+              <label for="q3b" data-correct="false">
+                <span class="lang-el">Να το σηκώσω γρήγορα πριν “προλάβει” να με κουράσει.</span>
+                <span class="lang-en">Lift it quickly before it “has time” to tire me.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">4. Ποια επιλογή είναι πιο ασφαλής;</span>
+            <span class="lang-en">4. Which option is safer?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q4a" name="q4" />
+              <label for="q4a" data-correct="true">
+                <span class="lang-el">Να μεταφέρω μικρότερα φορτία σε περισσότερες διαδρομές.</span>
+                <span class="lang-en">Carry smaller loads in more trips.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q4b" name="q4" />
+              <label for="q4b" data-correct="false">
+                <span class="lang-el">Να φορτώσω όσο περισσότερο μπορώ σε μία μόνο διαδρομή.</span>
+                <span class="lang-en">Load as much as possible in a single trip.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz-reset-wrap">
+          <button type="reset" class="btn secondary">
+            <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+            <span class="lang-el">Επανεκκίνηση Quiz</span>
+            <span class="lang-en">Restart Quiz</span>
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    © <span>2025</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+    <span class="lang-en">Occupational Health &amp; Safety</span>
+  </footer>
+</body>
+</html>

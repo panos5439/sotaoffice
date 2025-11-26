@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ενότητα 2: Υποχρεώσεις Εργοδότη & Εργαζομένου</title>
+
+  <!-- Icons από βιβλιοθήκη -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer"/>
+
+  <style>
+    :root{
+      --maxw: 1000px;
+      --bg:#0f172a;
+      --bg-2:#020617;
+      --card:#0b1220;
+      --card-soft:#020617;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --border:#1f2937;
+      --primary:#2563eb;
+      --primary-soft:#1e3a8a;
+      --accent:#f59e0b;
+      --accent-soft:#78350f;
+      --shadow:0 18px 40px rgba(0,0,0,.6);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:radial-gradient(circle at top, #1f2937 0, #020617 55%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #111827;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--accent);
+      filter:drop-shadow(0 0 8px rgba(245,158,11,.8));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#f97316,#3b82f6);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#e5e7eb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#3b82f6,#1d4ed8);
+      color:#fff;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(37,99,235,.4);
+      transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#f97316,#b45309);
+      border-color:#92400e;
+      box-shadow:0 10px 20px rgba(180,83,9,.45);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+    .btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #111827 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at top,#1f2937 0,transparent 45%);
+      opacity:.5;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(249,115,22,.5);
+      background:linear-gradient(90deg,rgba(249,115,22,.12),rgba(37,99,235,.2));
+      font-size:16px;
+      color:#fcd34d;
+      box-shadow:0 0 20px rgba(251,191,36,.4);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{
+      color:#fbbf24;
+    }
+
+    @keyframes pulseBadge{
+      0%,100%{ transform:scale(1); box-shadow:0 0 18px rgba(251,191,36,.35); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(251,191,36,.7); }
+    }
+
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(45,212,191,.6);
+      background:linear-gradient(90deg,rgba(34,197,94,.12),rgba(59,130,246,.12));
+      color:#bbf7d0;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:14px;
+      background:radial-gradient(circle at top left,#111827 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    .role-block{
+      border-left:4px solid transparent;
+      padding-left:10px;
+      margin-top:10px;
+    }
+    .role-block.employer{
+      border-color:#3b82f6;
+    }
+    .role-block.employee{
+      border-color:#22c55e;
+    }
+    .role-title{
+      font-weight:bold;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:4px;
+    }
+    .role-title i.employer{ color:#60a5fa; }
+    .role-title i.employee{ color:#4ade80; }
+
+    /* TABLE ΠΑΡΑΔΕΙΓΜΑΤΩΝ */
+    .examples-table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+      font-size:18px;
+    }
+    .examples-table th,
+    .examples-table td{
+      border:1px solid #1f2937;
+      padding:8px 10px;
+      vertical-align:top;
+    }
+    .examples-table th{
+      background:linear-gradient(90deg,#111827,#1e293b);
+      color:#e5e7eb;
+      text-align:left;
+    }
+    .examples-table tr:nth-child(even) td{
+      background:#020617;
+    }
+    .examples-table tr:nth-child(odd) td{
+      background:#020617;
+    }
+    .examples-table td:first-child{
+      font-weight:bold;
+      color:#e5e7eb;
+      width:26%;
+    }
+    .examples-table td:nth-child(2){
+      color:#60a5fa;
+    }
+    .examples-table td:nth-child(3){
+      color:#4ade80;
+    }
+
+    /* QUIZ BASE */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#111827 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-options label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:5px 0;
+      cursor:pointer;
+      color:var(--muted);
+    }
+    .quiz-options input[type="radio"],
+    .quiz-options input[type="checkbox"]{
+      transform:scale(1.1);
+    }
+    .quiz-select-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:4px 0;
+      color:var(--muted);
+    }
+    .quiz-select-row span{
+      flex:1;
+    }
+    .quiz-select-row select{
+      padding:4px 6px;
+      font-size:16px;
+      background:#020617;
+      color:var(--text);
+      border-radius:8px;
+      border:1px solid #374151;
+    }
+
+    .quiz-feedback{
+      margin-top:6px;
+      min-height:22px;
+      font-size:18px;
+    }
+    .ok{ color:#4ade80; }
+    .no{ color:#f97373; }
+
+    .quiz-summary{
+      margin-top:10px;
+      font-weight:bold;
+      color:#e5e7eb;
+    }
+
+    /* ANIMATION SECTIONS */
+    .reveal{
+      opacity:0;
+      transform:translateY(16px) scale(.98);
+      transition:opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding-bottom:16px;
+    }
+
+    /* ===== HERO + BALANCING SCALE ANIMATION ===== */
+    .hero{
+      display:flex;
+      gap:20px;
+      align-items:stretch;
+      flex-wrap:wrap;
+    }
+    .hero-text{
+      flex:1 1 260px;
+      min-width:0;
+    }
+    .hero-scale-wrapper{
+      flex:0 0 260px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding-top:10px;
+    }
+
+    .scale-scene{
+      width:230px;
+      height:200px;
+      position:relative;
+    }
+
+    .scale-base{
+      position:absolute;
+      bottom:0;
+      left:50%;
+      width:160px;
+      height:18px;
+      transform:translateX(-50%);
+      background:linear-gradient(90deg,#020617,#111827);
+      border-radius:999px;
+      box-shadow:0 8px 20px rgba(0,0,0,.7);
+    }
+    .scale-pillar{
+      position:absolute;
+      bottom:18px;
+      left:50%;
+      width:26px;
+      height:80px;
+      transform:translateX(-50%);
+      background:linear-gradient(180deg,#1f2937,#020617);
+      border-radius:999px;
+      box-shadow:0 4px 12px rgba(15,23,42,.9);
+    }
+    .scale-fulcrum{
+      position:absolute;
+      bottom:95px;
+      left:50%;
+      width:40px;
+      height:28px;
+      transform:translateX(-50%);
+      background:radial-gradient(circle at top,#facc15,#b45309);
+      border-radius:50% 50% 30% 30%;
+      box-shadow:0 0 16px rgba(250,204,21,.8);
+    }
+
+    .scale-arm{
+      position:absolute;
+      bottom:116px;
+      left:50%;
+      width:190px;
+      height:10px;
+      transform-origin:50% 50%;
+      background:linear-gradient(90deg,#1f2937,#111827,#1f2937);
+      border-radius:999px;
+      box-shadow:0 4px 14px rgba(15,23,42,.9);
+      animation:tiltScale 5.5s ease-in-out infinite;
+    }
+
+    .scale-chain{
+      position:absolute;
+      top:6px;
+      width:1px;
+      height:40px;
+      background:linear-gradient(180deg,rgba(148,163,184,.9),rgba(55,65,81,.3));
+    }
+    .scale-chain.left{
+      left:18px;
+    }
+    .scale-chain.right{
+      right:18px;
+    }
+
+    .scale-pan{
+      position:absolute;
+      top:42px;
+      width:70px;
+      height:34px;
+      border-radius:50%;
+      background:radial-gradient(circle at top,#111827,#020617);
+      box-shadow:0 6px 12px rgba(0,0,0,.8);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .scale-pan.left{
+      left:0;
+      transform-origin:50% -30px;
+      animation:panLeft 5.5s ease-in-out infinite;
+    }
+    .scale-pan.right{
+      right:0;
+      transform-origin:50% -30px;
+      animation:panRight 5.5s ease-in-out infinite;
+    }
+
+    .scale-role{
+      text-align:center;
+      font-size:14px;
+      color:#e5e7eb;
+    }
+    .scale-role i{
+      display:block;
+      margin-bottom:2px;
+      font-size:18px;
+    }
+    .scale-role--employer i{ color:#60a5fa; }
+    .scale-role--employee i{ color:#4ade80; }
+
+    @keyframes tiltScale{
+      0%{ transform:translateX(-50%) rotate(0deg); }
+      25%{ transform:translateX(-50%) rotate(-4deg); }
+      50%{ transform:translateX(-50%) rotate(0.8deg); }
+      75%{ transform:translateX(-50%) rotate(3.2deg); }
+      100%{ transform:translateX(-50%) rotate(0deg); }
+    }
+    @keyframes panLeft{
+      0%{ transform:translateY(0); }
+      25%{ transform:translateY(5px); }
+      50%{ transform:translateY(-1px); }
+      75%{ transform:translateY(-3px); }
+      100%{ transform:translateY(0); }
+    }
+    @keyframes panRight{
+      0%{ transform:translateY(0); }
+      25%{ transform:translateY(-4px); }
+      50%{ transform:translateY(2px); }
+      75%{ transform:translateY(4px); }
+      100%{ transform:translateY(0); }
+    }
+
+    @media (max-width: 768px){
+      .hero{
+        flex-direction:column;
+      }
+      .hero-scale-wrapper{
+        justify-content:flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ opacity:1; transform:none; transition:none; }
+      .badge{ animation:none; }
+      .scale-arm,
+      .scale-pan{
+        animation:none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a id="top"></a>
+
+  <header>
+    <nav class="nav" aria-label="Κύρια πλοήγηση">
+      <div class="brand">
+        <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+        <span data-i18n
+              data-el="Ενότητα 2 · Υποχρεώσεις Εργοδότη &amp; Εργαζομένου"
+              data-en="Unit 2 · Employer &amp; Employee Duties">
+          Ενότητα 2 · Υποχρεώσεις Εργοδότη &amp; Εργαζομένου
+        </span>
+      </div>
+
+      
+
+      <div class="grow"></div>
+
+      <button class="btn" id="langBtn" type="button">
+        <i class="fa-solid fa-language" aria-hidden="true"></i>
+        <span data-i18n data-el="English" data-en="Ελληνικά">English</span>
+      </button>
+
+      <button class="btn secondary" id="toTopBtn" type="button"
+              aria-label="Πάνω" title="Πάνω">
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ΕΝΟΤΗΤΑ: Εισαγωγή -->
+    <section id="intro" class="reveal">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="badge">
+            <i class="fa-solid fa-compass" aria-hidden="true"></i>
+            <span data-i18n
+                  data-el="ΕΝΟΤΗΤΑ 2: ΥΠΟΧΡΕΩΣΕΙΣ ΕΡΓΟΔΟΤΗ &amp; ΕΡΓΑΖΟΜΕΝΟΥ"
+                  data-en="UNIT 2: EMPLOYER &amp; EMPLOYEE DUTIES">
+              ΕΝΟΤΗΤΑ 2: ΥΠΟΧΡΕΩΣΕΙΣ ΕΡΓΟΔΟΤΗ &amp; ΕΡΓΑΖΟΜΕΝΟΥ
+            </span>
+          </div>
+
+          <h1 data-i18n
+              data-el="Υποχρεώσεις Εργοδότη &amp; Εργαζομένου"
+              data-en="Employer &amp; Employee Duties">
+            Υποχρεώσεις Εργοδότη &amp; Εργαζομένου
+          </h1>
+
+          <p data-i18n
+             data-el="🎯 Στόχος: Να γνωρίζουμε καθαρά ποια είναι τα καθήκοντα και οι ευθύνες του εργοδότη και του εργαζομένου σχετικά με την ασφάλεια και την υγεία στον χώρο εργασίας."
+             data-en="🎯 Goal: To clearly understand the duties and responsibilities of both employer and employee regarding safety and health in the workplace.">
+            🎯 Στόχος: Να γνωρίζουμε καθαρά ποια είναι τα καθήκοντα και οι ευθύνες του εργοδότη και του εργαζομένου σχετικά με την ασφάλεια και την υγεία στον χώρο εργασίας.
+          </p>
+
+          <div class="row">
+            <div class="card role-block employer">
+              <div class="role-title">
+                <i class="fa-solid fa-user-tie employer" aria-hidden="true"></i>
+                <span data-i18n data-el="Ο ρόλος του εργοδότη" data-en="The employer’s role">
+                  Ο ρόλος του εργοδότη
+                </span>
+              </div>
+              <p data-i18n
+                 data-el="Ο εργοδότης έχει τη γενική ευθύνη να διασφαλίζει ότι όλοι εργάζονται με ασφάλεια και χωρίς κινδύνους για την υγεία τους."
+                 data-en="The employer has the overall responsibility to ensure that everyone works safely and without risks to their health.">
+                Ο εργοδότης έχει τη γενική ευθύνη να διασφαλίζει ότι όλοι εργάζονται με ασφάλεια και χωρίς κινδύνους για την υγεία τους.
+              </p>
+            </div>
+
+            <div class="card role-block employee">
+              <div class="role-title">
+                <i class="fa-solid fa-user-hard-hat employee" aria-hidden="true"></i>
+                <span data-i18n data-el="Ο ρόλος του εργαζομένου" data-en="The employee’s role">
+                  Ο ρόλος του εργαζομένου
+                </span>
+              </div>
+              <p data-i18n
+                 data-el="Κάθε εργαζόμενος είναι συνυπεύθυνος: προστατεύει τον εαυτό του, αλλά και τους συναδέλφους του."
+                 data-en="Every employee shares responsibility: protecting themselves and their colleagues.">
+                Κάθε εργαζόμενος είναι συνυπεύθυνος: προστατεύει τον εαυτό του, αλλά και τους συναδέλφους του.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Κινούμενο animation: Ζυγαριά ρόλων -->
+        <div class="hero-scale-wrapper" aria-hidden="true">
+          <div class="scale-scene">
+            <div class="scale-base"></div>
+            <div class="scale-pillar"></div>
+            <div class="scale-fulcrum"></div>
+            <div class="scale-arm">
+              <div class="scale-chain left"></div>
+              <div class="scale-chain right"></div>
+
+              <div class="scale-pan left">
+                <div class="scale-role scale-role--employer">
+                  <i class="fa-solid fa-user-tie"></i>
+                  <span>Εργοδότης</span>
+                </div>
+              </div>
+              <div class="scale-pan right">
+                <div class="scale-role scale-role--employee">
+                  <i class="fa-solid fa-user-hard-hat"></i>
+                  <span>Εργαζόμενος</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.1 ΥΠΟΧΡΕΩΣΕΙΣ ΕΡΓΟΔΟΤΗ -->
+    <section id="employer" class="reveal">
+      <h2 data-i18n
+          data-el="2.1 Υποχρεώσεις Εργοδότη"
+          data-en="2.1 Employer Duties">
+        2.1 Υποχρεώσεις Εργοδότη
+      </h2>
+
+      <p data-i18n
+         data-el="Ο εργοδότης έχει τη γενική ευθύνη να διασφαλίζει ότι όλοι οι εργαζόμενοι εργάζονται με ασφάλεια και χωρίς κινδύνους για την υγεία τους. Συγκεκριμένα οφείλει να:"
+         data-en="The employer has the overall responsibility to ensure that all employees work safely and without risks to their health. Specifically, the employer must:">
+        Ο εργοδότης έχει τη γενική ευθύνη να διασφαλίζει ότι όλοι οι εργαζόμενοι εργάζονται με ασφάλεια και χωρίς κινδύνους για την υγεία τους. Συγκεκριμένα οφείλει να:
+      </p>
+
+      <ul>
+        <li data-i18n
+            data-el="Εκτιμά τους κινδύνους που υπάρχουν στη δουλειά (π.χ. ηλεκτρισμός, εργονομία, φωτισμός)."
+            data-en="Assess the risks present in the job (e.g. electricity, ergonomics, lighting).">
+          Εκτιμά τους κινδύνους που υπάρχουν στη δουλειά (π.χ. ηλεκτρισμός, εργονομία, φωτισμός).
+        </li>
+        <li data-i18n
+            data-el="Λαμβάνει προληπτικά μέτρα για να αποτρέψει ατυχήματα ή προβλήματα υγείας."
+            data-en="Take preventive measures to avoid accidents or health problems.">
+          Λαμβάνει προληπτικά μέτρα για να αποτρέψει ατυχήματα ή προβλήματα υγείας.
+        </li>
+        <li data-i18n
+            data-el="Παρέχει εκπαίδευση και ενημέρωση σε όλους τους εργαζόμενους για τους κινδύνους, τη σωστή χρήση εξοπλισμού και τη συμπεριφορά σε έκτακτες ανάγκες."
+            data-en="Provide training and information to all employees about risks, proper equipment use, and behaviour in emergencies.">
+          Παρέχει εκπαίδευση και ενημέρωση σε όλους τους εργαζόμενους για τους κινδύνους, τη σωστή χρήση εξοπλισμού και τη συμπεριφορά σε έκτακτες ανάγκες.
+        </li>
+        <li data-i18n
+            data-el="Παρέχει τα κατάλληλα Μέσα Ατομικής Προστασίας (ΜΑΠ), όταν χρειάζονται (π.χ. γάντια, μάσκες, γυαλιά, ωτοασπίδες, φωσφοριζέ γιλέκο)."
+            data-en="Provide suitable Personal Protective Equipment (PPE) when needed (e.g. gloves, masks, goggles, earplugs, high-visibility vest).">
+          Παρέχει τα κατάλληλα Μέσα Ατομικής Προστασίας (ΜΑΠ), όταν χρειάζονται (π.χ. γάντια, μάσκες, γυαλιά, ωτοασπίδες, φωσφοριζέ γιλέκο).
+        </li>
+        <li data-i18n
+            data-el="Φροντίζει για την καλή συντήρηση του εξοπλισμού και των εγκαταστάσεων."
+            data-en="Ensure proper maintenance of equipment and facilities.">
+          Φροντίζει για την καλή συντήρηση του εξοπλισμού και των εγκαταστάσεων.
+        </li>
+        <li data-i18n
+            data-el="Εξασφαλίζει Τεχνικό Ασφαλείας και Ιατρό Εργασίας, όταν απαιτείται."
+            data-en="Provide a Safety Engineer and Occupational Physician when required.">
+          Εξασφαλίζει Τεχνικό Ασφαλείας και Ιατρό Εργασίας, όταν απαιτείται.
+        </li>
+        <li data-i18n
+            data-el="Αναφέρει ατυχήματα και επικίνδυνα περιστατικά στις αρμόδιες αρχές."
+            data-en="Report accidents and dangerous incidents to the relevant authorities.">
+          Αναφέρει ατυχήματα και επικίνδυνα περιστατικά στις αρμόδιες αρχές.
+        </li>
+        <li data-i18n
+            data-el="Διατηρεί εγγράφως τα μέτρα και τα σχέδια ασφάλειας (π.χ. σχέδιο εκκένωσης, καταγραφή ατυχημάτων)."
+            data-en="Keep written safety measures and plans (e.g. evacuation plan, accident log).">
+          Διατηρεί εγγράφως τα μέτρα και τα σχέδια ασφάλειας (π.χ. σχέδιο εκκένωσης, καταγραφή ατυχημάτων).
+        </li>
+      </ul>
+    </section>
+
+    <!-- 2.2 ΥΠΟΧΡΕΩΣΕΙΣ ΕΡΓΑΖΟΜΕΝΟΥ -->
+    <section id="employee" class="reveal">
+      <h2 data-i18n
+          data-el="2.2 Υποχρεώσεις Εργαζομένου"
+          data-en="2.2 Employee Duties">
+        2.2 Υποχρεώσεις Εργαζομένου
+      </h2>
+
+      <p data-i18n
+         data-el="Κανένας εργαζόμενος δεν είναι «παθητικός δέκτης» κανόνων. Ο κάθε εργαζόμενος είναι συνυπεύθυνος για τη δική του ασφάλεια, αλλά και για την ασφάλεια των συναδέλφων του. Πρέπει να:"
+         data-en="No employee is a passive recipient of rules. Every employee shares responsibility for their own safety and that of their colleagues. They must:">
+        Κανένας εργαζόμενος δεν είναι «παθητικός δέκτης» κανόνων. Ο κάθε εργαζόμενος είναι συνυπεύθυνος για τη δική του ασφάλεια, αλλά και για την ασφάλεια των συναδέλφων του. Πρέπει να:
+      </p>
+
+      <div class="row">
+        <div class="card role-block employee">
+          <ul>
+            <li data-i18n
+                data-el="Ακολουθεί τους κανόνες ΥΑΕ και τις οδηγίες εργοδότη ή Τεχνικού Ασφαλείας."
+                data-en="Follow OHS rules and the instructions of the employer or Safety Engineer.">
+              Ακολουθεί τους κανόνες ΥΑΕ και τις οδηγίες εργοδότη ή Τεχνικού Ασφαλείας.
+            </li>
+            <li data-i18n
+                data-el="Χρησιμοποιεί σωστά συσκευές, εργαλεία και εξοπλισμό."
+                data-en="Use devices, tools and equipment correctly.">
+              Χρησιμοποιεί σωστά συσκευές, εργαλεία και εξοπλισμό.
+            </li>
+            <li data-i18n
+                data-el="Δεν παραβιάζει ή απενεργοποιεί μηχανισμούς ασφάλειας (π.χ. καλύμματα, διακόπτες ασφαλείας)."
+                data-en="Do not bypass or deactivate safety mechanisms (e.g. covers, safety switches).">
+              Δεν παραβιάζει ή απενεργοποιεί μηχανισμούς ασφάλειας (π.χ. καλύμματα, διακόπτες ασφαλείας).
+            </li>
+            <li data-i18n
+                data-el="Αναφέρει άμεσα οποιοδήποτε πρόβλημα ή επικίνδυνη κατάσταση (π.χ. φθαρμένο καλώδιο, διαρροή, εμπόδιο σε έξοδο κινδύνου)."
+                data-en="Immediately report any problem or hazardous situation (e.g. frayed cable, leak, blocked emergency exit).">
+              Αναφέρει άμεσα οποιοδήποτε πρόβλημα ή επικίνδυνη κατάσταση (π.χ. φθαρμένο καλώδιο, διαρροή, εμπόδιο σε έξοδο κινδύνου).
+            </li>
+          </ul>
+        </div>
+
+        <div class="card role-block employee">
+          <ul>
+            <li data-i18n
+                data-el="Φροντίζει για την καθαριότητα και την τάξη του χώρου εργασίας του."
+                data-en="Keep their workspace clean and tidy.">
+              Φροντίζει για την καθαριότητα και την τάξη του χώρου εργασίας του.
+            </li>
+            <li data-i18n
+                data-el="Χρησιμοποιεί και συντηρεί σωστά τα Μέσα Ατομικής Προστασίας που του έχουν δοθεί."
+                data-en="Use and properly maintain the PPE provided.">
+              Χρησιμοποιεί και συντηρεί σωστά τα Μέσα Ατομικής Προστασίας που του έχουν δοθεί.
+            </li>
+            <li data-i18n
+                data-el="Παρακολουθεί εκπαιδεύσεις σε θέματα ασφάλειας."
+                data-en="Attend safety trainings.">
+              Παρακολουθεί εκπαιδεύσεις σε θέματα ασφάλειας.
+            </li>
+            <li data-i18n
+                data-el="Συνεργάζεται με συναδέλφους και προϊσταμένους για τη διατήρηση ασφαλούς περιβάλλοντος."
+                data-en="Cooperate with colleagues and supervisors to maintain a safe environment.">
+              Συνεργάζεται με συναδέλφους και προϊσταμένους για τη διατήρηση ασφαλούς περιβάλλοντος.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.3 Πρακτικά παραδείγματα -->
+    <section id="examples" class="reveal">
+      <h2 data-i18n
+          data-el="2.3 Πρακτικά παραδείγματα"
+          data-en="2.3 Practical examples">
+        2.3 Πρακτικά παραδείγματα
+      </h2>
+
+      <p data-i18n
+         data-el="Διαφορετικές καταστάσεις στην εργασία απαιτούν δράση τόσο από τον εργοδότη όσο και από τον εργαζόμενο."
+         data-en="Different situations at work require action from both the employer and the employee.">
+        Διαφορετικές καταστάσεις στην εργασία απαιτούν δράση τόσο από τον εργοδότη όσο και από τον εργαζόμενο.
+      </p>
+
+      <table class="examples-table">
+        <thead>
+          <tr>
+            <th data-i18n data-el="Περίσταση" data-en="Situation">Περίσταση</th>
+            <th data-i18n data-el="Ο εργοδότης πρέπει να..." data-en="The employer must…">Ο εργοδότης πρέπει να…</th>
+            <th data-i18n data-el="Ο εργαζόμενος πρέπει να..." data-en="The employee must…">Ο εργαζόμενος πρέπει να…</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n data-el="Υπολογιστές και καρέκλες" data-en="Computers and chairs">Υπολογιστές και καρέκλες</td>
+            <td data-i18n data-el="Παρέχει εργονομικό εξοπλισμό" data-en="Provide ergonomic equipment">Παρέχει εργονομικό εξοπλισμό</td>
+            <td data-i18n data-el="Ρυθμίζει το κάθισμα σωστά" data-en="Adjust the chair correctly">Ρυθμίζει το κάθισμα σωστά</td>
+          </tr>
+          <tr>
+            <td data-i18n data-el="Ηλεκτρικός εξοπλισμός" data-en="Electrical equipment">Ηλεκτρικός εξοπλισμός</td>
+            <td data-i18n data-el="Συντηρεί και ελέγχει πρίζες και καλώδια" data-en="Maintain and inspect sockets and cables">Συντηρεί και ελέγχει πρίζες και καλώδια</td>
+            <td data-i18n data-el="Δεν υπερφορτώνει πολύπριζα" data-en="Do not overload multi-sockets">Δεν υπερφορτώνει πολύπριζα</td>
+          </tr>
+          <tr>
+            <td data-i18n data-el="Φωτιά" data-en="Fire">Φωτιά</td>
+            <td data-i18n data-el="Παρέχει πυροσβεστήρες και εκπαίδευση" data-en="Provide fire extinguishers and training">Παρέχει πυροσβεστήρες και εκπαίδευση</td>
+            <td data-i18n data-el="Γνωρίζει τη θέση τους και τις εξόδους κινδύνου" data-en="Know their location and the emergency exits">Γνωρίζει τη θέση τους και τις εξόδους κινδύνου</td>
+          </tr>
+          <tr>
+            <td data-i18n data-el="Χώρος εργασίας" data-en="Work area">Χώρος εργασίας</td>
+            <td data-i18n data-el="Οργανώνει καθαρισμό και επιθεωρήσεις" data-en="Organise cleaning and inspections">Οργανώνει καθαρισμό και επιθεωρήσεις</td>
+            <td data-i18n data-el="Διατηρεί τον χώρο τακτοποιημένο" data-en="Keep the area tidy">Διατηρεί τον χώρο τακτοποιημένο</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="card">
+        <strong data-i18n
+                data-el="🔸 Η Ασφάλεια δεν είναι υπόθεση μόνο της Διοίκησης. Είναι ευθύνη όλων – εργοδότη και εργαζομένων – να δημιουργούν και να διατηρούν ένα ασφαλές περιβάλλον."
+                data-en="🔸 Safety is not only a management issue. It is everyone’s responsibility – employer and employees – to create and maintain a safe environment.">
+          🔸 Η Ασφάλεια δεν είναι υπόθεση μόνο της Διοίκησης. Είναι ευθύνη όλων – εργοδότη και εργαζομένων – να δημιουργούν και να διατηρούν ένα ασφαλές περιβάλλον.
+        </strong>
+      </p>
+    </section>
+
+    <!-- MINI QUIZ 4 ΕΡΩΤΗΣΕΙΣ -->
+    <section id="quiz" class="reveal">
+      <h2 data-i18n
+          data-el="Mini Quiz — Δημιουργώντας κουλτούρα ευθύνης"
+          data-en="Mini Quiz — Building a culture of responsibility">
+        Mini Quiz — Δημιουργώντας κουλτούρα ευθύνης
+      </h2>
+
+      <p data-i18n
+         data-el="Απάντησε στις 4 μικρές ερωτήσεις για να δεις πόσο καλά ξεχωρίζεις τις υποχρεώσεις εργοδότη και εργαζομένου."
+         data-en="Answer the 4 short questions to see how well you distinguish between employer and employee duties.">
+        Απάντησε στις 4 μικρές ερωτήσεις για να δεις πόσο καλά ξεχωρίζεις τις υποχρεώσεις εργοδότη και εργαζομένου.
+      </p>
+
+      <!-- Q1: Multiple choice -->
+      <div class="quiz-question" data-question-id="q1">
+        <h3 data-i18n
+            data-el="1. Ποιος έχει τη γενική ευθύνη για την ασφάλεια και την υγεία στον χώρο εργασίας;"
+            data-en="1. Who has the overall responsibility for safety and health in the workplace?">
+          1. Ποιος έχει τη γενική ευθύνη για την ασφάλεια και την υγεία στον χώρο εργασίας;
+        </h3>
+        <div class="quiz-options">
+          <label>
+            <input type="radio" name="q1" value="a">
+            <span data-i18n data-el="Μόνο ο Τεχνικός Ασφαλείας" data-en="Only the Safety Engineer">Μόνο ο Τεχνικός Ασφαλείας</span>
+          </label>
+          <label>
+            <input type="radio" name="q1" value="b">
+            <span data-i18n data-el="Ο εργοδότης" data-en="The employer">Ο εργοδότης</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback-q1"></div>
+        <button class="btn secondary" type="button" data-check="q1">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Q2: Σωστό / Λάθος -->
+      <div class="quiz-question" data-question-id="q2">
+        <h3 data-i18n
+            data-el="2. Ο εργαζόμενος δεν έχει ευθύνη για την ασφάλεια των συναδέλφων του."
+            data-en="2. The employee has no responsibility for colleagues’ safety.">
+          2. Ο εργαζόμενος δεν έχει ευθύνη για την ασφάλεια των συναδέλφων του.
+        </h3>
+        <div class="quiz-options">
+          <label>
+            <input type="radio" name="q2" value="true">
+            <span data-i18n data-el="Σωστό" data-en="True">Σωστό</span>
+          </label>
+          <label>
+            <input type="radio" name="q2" value="false">
+            <span data-i18n data-el="Λάθος" data-en="False">Λάθος</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback-q2"></div>
+        <button class="btn secondary" type="button" data-check="q2">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Q3: Αντιστοίχιση (dropdown) -->
+      <div class="quiz-question" data-question-id="q3">
+        <h3 data-i18n
+            data-el="3. Αντιστοίχισε το κάθε παράδειγμα με τη σωστή ενέργεια του εργοδότη."
+            data-en="3. Match each situation with the correct employer action.">
+          3. Αντιστοίχισε το κάθε παράδειγμα με τη σωστή ενέργεια του εργοδότη.
+        </h3>
+        <div class="quiz-options">
+          <div class="quiz-select-row">
+            <span data-i18n
+                  data-el="Υπολογιστές και καρέκλες →"
+                  data-en="Computers and chairs →">
+              Υπολογιστές και καρέκλες →
+            </span>
+            <select data-match="case1">
+              <option value="" data-i18n data-el="Επίλεξε" data-en="Choose">Επίλεξε</option>
+              <option value="ergonomic" data-i18n data-el="Παρέχει εργονομικό εξοπλισμό" data-en="Provide ergonomic equipment">Παρέχει εργονομικό εξοπλισμό</option>
+              <option value="firetraining" data-i18n data-el="Διοργανώνει άσκηση πυρασφάλειας" data-en="Organise fire drill">Διοργανώνει άσκηση πυρασφάλειας</option>
+            </select>
+          </div>
+          <div class="quiz-select-row">
+            <span data-i18n
+                  data-el="Ηλεκτρικός εξοπλισμός →"
+                  data-en="Electrical equipment →">
+              Ηλεκτρικός εξοπλισμός →
+            </span>
+            <select data-match="case2">
+              <option value="" data-i18n data-el="Επίλεξε" data-en="Choose">Επίλεξε</option>
+              <option value="cleaning" data-i18n data-el="Οργανώνει καθαρισμό χώρων" data-en="Organise cleaning of areas">Οργανώνει καθαρισμό χώρων</option>
+              <option value="electrical" data-i18n data-el="Συντηρεί και ελέγχει πρίζες και καλώδια" data-en="Maintain and check sockets and cables">Συντηρεί και ελέγχει πρίζες και καλώδια</option>
+            </select>
+          </div>
+          <div class="quiz-select-row">
+            <span data-i18n
+                  data-el="Χώρος εργασίας →"
+                  data-en="Work area →">
+              Χώρος εργασίας →
+            </span>
+            <select data-match="case3">
+              <option value="" data-i18n data-el="Επίλεξε" data-en="Choose">Επίλεξε</option>
+              <option value="cleaning" data-i18n data-el="Οργανώνει καθαρισμό και επιθεωρήσεις" data-en="Organise cleaning and inspections">Οργανώνει καθαρισμό και επιθεωρήσεις</option>
+              <option value="ergonomic" data-i18n data-el="Παρέχει εργονομικά ποντίκια" data-en="Provide ergonomic mice">Παρέχει εργονομικά ποντίκια</option>
+            </select>
+          </div>
+        </div>
+        <div class="quiz-feedback" id="feedback-q3"></div>
+        <button class="btn secondary" type="button" data-check="q3">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Q4: Πολλαπλή επιλογή -->
+      <div class="quiz-question" data-question-id="q4">
+        <h3 data-i18n
+            data-el="4. Ποιες από τις παρακάτω είναι ΥΠΟΧΡΕΩΣΕΙΣ του εργαζομένου;"
+            data-en="4. Which of the following are EMPLOYEE duties?">
+          4. Ποιες από τις παρακάτω είναι ΥΠΟΧΡΕΩΣΕΙΣ του εργαζομένου;
+        </h3>
+        <div class="quiz-options">
+          <label>
+            <input type="checkbox" name="q4" value="report">
+            <span data-i18n data-el="Αναφέρει επικίνδυνες καταστάσεις" data-en="Report hazardous situations">Αναφέρει επικίνδυνες καταστάσεις</span>
+          </label>
+          <label>
+            <input type="checkbox" name="q4" value="ppe">
+            <span data-i18n data-el="Χρησιμοποιεί σωστά τα ΜΑΠ" data-en="Use PPE correctly">Χρησιμοποιεί σωστά τα ΜΑΠ</span>
+          </label>
+          <label>
+            <input type="checkbox" name="q4" value="bypass">
+            <span data-i18n data-el="Απενεργοποιεί μηχανισμούς ασφάλειας αν τον δυσκολεύουν" data-en="Deactivate safety devices if they are inconvenient">Απενεργοποιεί μηχανισμούς ασφάλειας αν τον δυσκολεύουν</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback-q4"></div>
+        <button class="btn secondary" type="button" data-check="q4">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Συνολικό σκορ + reset -->
+      <div class="quiz-summary" id="quizTotal"></div>
+      <button class="btn" type="button" id="resetQuizBtn">
+        <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+        <span data-i18n data-el="Επανεκκίνηση Quiz" data-en="Restart Quiz">Επανεκκίνηση Quiz</span>
+      </button>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span>
+    ·
+    <span data-i18n data-el="Υγεία &amp; Ασφάλεια Εργασίας" data-en="Occupational Health &amp; Safety">
+      Υγεία &amp; Ασφάλεια Εργασίας
+    </span>
+  </footer>
+
+  <script>
+    (function(){
+      const LANG_EL = "el";
+      const LANG_EN = "en";
+      const state = {
+        lang: LANG_EL,
+        scores: { q1:null, q2:null, q3:null, q4:null }
+      };
+
+      const texts = {
+        el: {
+          correct: "Σωστό!",
+          incorrect: "Όχι ακριβώς. Δοκίμασε ξανά.",
+          missing: "Επίλεξε μια απάντηση.",
+          matchingMissing: "Συμπλήρωσε όλες τις αντιστοιχίσεις.",
+          total: (score, total) => `Συνολικό σκορ: ${score} / ${total}`
+        },
+        en: {
+          correct: "Correct!",
+          incorrect: "Not quite. Try again.",
+          missing: "Please choose an option.",
+          matchingMissing: "Please complete all matches.",
+          total: (score, total) => `Total score: ${score} / ${total}`
+        }
+      };
+
+      const correctAnswers = {
+        q1: "b",
+        q2: "false",
+        q3: {
+          case1: "ergonomic",
+          case2: "electrical",
+          case3: "cleaning"
+        },
+        q4: {
+          mustHave: ["report", "ppe"],
+          mustNotHave: ["bypass"]
+        }
+      };
+
+      function $(sel, root=document){ return root.querySelector(sel); }
+      function $all(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
+
+      function applyLanguage() {
+        const lang = state.lang;
+        document.documentElement.lang = (lang === LANG_EN ? "en" : "el");
+        $all("[data-i18n]").forEach(el=>{
+          const txt = el.getAttribute(lang === LANG_EN ? "data-en" : "data-el");
+          if(txt != null) el.textContent = txt;
+        });
+        updateTotalScore();
+      }
+
+      function updateTotalScore() {
+        const lang = state.lang;
+        const values = Object.values(state.scores);
+        const correctCount = values.filter(v => v === true).length;
+        const total = Object.keys(state.scores).length;
+        const label = texts[lang].total(correctCount, total);
+        const box = $("#quizTotal");
+        if(box) box.textContent = label;
+      }
+
+      function evaluateQ1() {
+        const lang = state.lang;
+        const feedback = $("#feedback-q1");
+        const selected = document.querySelector('input[name="q1"]:checked');
+               if(!selected){
+          feedback.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q1 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect = (selected.value === correctAnswers.q1);
+        feedback.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q1 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ2() {
+        const lang = state.lang;
+        const feedback = $("#feedback-q2");
+        const selected = document.querySelector('input[name="q2"]:checked');
+        if(!selected){
+          feedback.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q2 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect = (selected.value === correctAnswers.q2);
+        feedback.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q2 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ3() {
+        const lang = state.lang;
+        const fb = $("#feedback-q3");
+        const expected = correctAnswers.q3;
+        const selects = {
+          case1: document.querySelector('select[data-match="case1"]'),
+          case2: document.querySelector('select[data-match="case2"]'),
+          case3: document.querySelector('select[data-match="case3"]')
+        };
+        if(!selects.case1 || !selects.case2 || !selects.case3){
+          state.scores.q3 = null;
+          updateTotalScore();
+          return;
+        }
+        if(!selects.case1.value || !selects.case2.value || !selects.case3.value){
+          fb.innerHTML = `<span class="no">${texts[lang].matchingMissing}</span>`;
+          state.scores.q3 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect =
+          selects.case1.value === expected.case1 &&
+          selects.case2.value === expected.case2 &&
+          selects.case3.value === expected.case3;
+
+        fb.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q3 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ4() {
+        const lang = state.lang;
+        const fb = $("#feedback-q4");
+        const checked = $all('input[name="q4"]:checked').map(i=>i.value);
+        if(checked.length === 0){
+          fb.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q4 = null;
+          updateTotalScore();
+          return;
+        }
+        const { mustHave, mustNotHave } = correctAnswers.q4;
+        const hasAllMust = mustHave.every(v=>checked.includes(v));
+        const hasForbidden = mustNotHave.some(v=>checked.includes(v));
+        const isCorrect = hasAllMust && !hasForbidden;
+        fb.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q4 = isCorrect;
+        updateTotalScore();
+      }
+
+      function resetQuiz() {
+        $all('input[type="radio"], input[type="checkbox"]').forEach(el=> el.checked = false);
+        $all('#quiz select').forEach(sel=> sel.value = "");
+        ["q1","q2","q3","q4"].forEach(id=>{
+          const fb = $("#feedback-" + id);
+          if(fb) fb.textContent = "";
+          state.scores[id] = null;
+        });
+        updateTotalScore();
+      }
+
+      function setupQuizButtons() {
+        $all("[data-check]").forEach(btn=>{
+          const id = btn.getAttribute("data-check");
+          btn.addEventListener("click", ()=>{
+            if(id === "q1") evaluateQ1();
+            if(id === "q2") evaluateQ2();
+            if(id === "q3") evaluateQ3();
+            if(id === "q4") evaluateQ4();
+          });
+        });
+        const resetBtn = $("#resetQuizBtn");
+        if(resetBtn) resetBtn.addEventListener("click", resetQuiz);
+      }
+
+      function setupLanguageButton() {
+        const btn = $("#langBtn");
+        if(!btn) return;
+        btn.addEventListener("click", ()=>{
+          state.lang = (state.lang === LANG_EL ? LANG_EN : LANG_EL);
+          applyLanguage();
+        });
+      }
+
+      function setupScrollTop() {
+        const btn = $("#toTopBtn");
+        if(!btn) return;
+        btn.addEventListener("click", ()=>{
+          window.scrollTo({ top:0, behavior:"smooth" });
+        });
+      }
+
+      function setupReveal() {
+        const elements = $all(".reveal");
+        if("IntersectionObserver" in window){
+          const io = new IntersectionObserver(entries=>{
+            entries.forEach(e=>{
+              if(e.isIntersecting){
+                e.target.classList.add("visible");
+                io.unobserve(e.target);
+              }
+            });
+          }, { threshold:0.15 });
+          elements.forEach(el=> io.observe(el));
+        }else{
+          elements.forEach(el=> el.classList.add("visible"));
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", ()=>{
+        if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+        window.scrollTo(0,0);
+        $("#year").textContent = new Date().getFullYear();
+
+        setupLanguageButton();
+        setupScrollTop();
+        setupQuizButtons();
+        setupReveal();
+
+        resetQuiz();
+        applyLanguage();
+      });
+    })();
+  </script>
+</body>
+</html>

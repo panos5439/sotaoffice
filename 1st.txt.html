@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ενότητα 1: Εισαγωγή στην ΥΑΕ</title>
+
+  <!-- Icons από βιβλιοθήκη -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer"/>
+
+  <style>
+    :root{
+      --maxw: 1000px;
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#0b1220;
+      --muted:#4b5563;
+      --border:#e5e7eb;
+      --primary:#2563eb;
+      --primary-soft:#dbeafe;
+      --accent:#16a34a;
+      --shadow:0 10px 25px rgba(15,23,42,.1);
+      --radius:16px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:var(--bg);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:#fff;
+      border-bottom:1px solid var(--border);
+      z-index:20;
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-weight:bold;
+    }
+    .brand i{ color:var(--accent); }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:var(--primary);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:var(--primary);
+      color:#fff;
+      padding:7px 11px;
+      border-radius:10px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+    }
+    .btn.secondary{
+      background:#111827;
+      border-color:#cbd5e1;
+    }
+    .btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:var(--card);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:18px;
+      margin-bottom:16px;
+      box-shadow:var(--shadow);
+    }
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--primary-soft);
+      background:#eff6ff;
+      font-size:16px;
+    }
+    ul{ padding-left:22px; }
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid #bbf7d0;
+      background:#f0fdf4;
+      color:#166534;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:12px;
+      border:1px solid var(--border);
+      padding:12px;
+      background:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    /* QUIZ BASE */
+    .quiz-question{
+      border-radius:12px;
+      border:1px solid var(--border);
+      padding:12px;
+      margin-bottom:12px;
+      background:#f9fafb;
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-options label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:5px 0;
+      cursor:pointer;
+    }
+    .quiz-options input[type="radio"],
+    .quiz-options input[type="checkbox"]{
+      transform:scale(1.1);
+    }
+    .quiz-select-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:4px 0;
+    }
+    .quiz-select-row span{
+      flex:1;
+    }
+    .quiz-select-row select{
+      padding:4px 6px;
+      font-size:16px;
+    }
+
+    .quiz-feedback{
+      margin-top:6px;
+      min-height:22px;
+      font-size:18px;
+    }
+    .ok{ color:#166534; }
+    .no{ color:#b91c1c; }
+
+    .quiz-summary{
+      margin-top:10px;
+      font-weight:bold;
+    }
+
+    /* ANIMATION */
+    .reveal{
+      opacity:0;
+      transform:translateY(10px);
+      transition:opacity .5s ease, transform .5s ease;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding-bottom:16px;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ opacity:1; transform:none; transition:none; }
+    }
+  </style>
+</head>
+<body>
+  <a id="top"></a>
+
+  <header>
+    <nav class="nav" aria-label="Κύρια πλοήγηση">
+      <div class="brand">
+        <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+        <span data-i18n data-el="Υγεία &amp; Ασφάλεια Εργασίας" data-en="Occupational Health &amp; Safety">
+          Υγεία &amp; Ασφάλεια Εργασίας
+        </span>
+      </div>
+
+      
+
+      <div class="grow"></div>
+
+      <button class="btn" id="langBtn" type="button">
+        <i class="fa-solid fa-language" aria-hidden="true"></i>
+        <span data-i18n data-el="English" data-en="Ελληνικά">English</span>
+      </button>
+
+      <button class="btn secondary" id="toTopBtn" type="button"
+              aria-label="Πάνω" title="Πάνω">
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ΕΝΟΤΗΤΑ: Εισαγωγή -->
+    <section id="intro" class="reveal">
+      <div class="badge">
+        <i class="fa-solid fa-compass" aria-hidden="true"></i>
+        <span data-i18n
+              data-el="ΕΝΟΤΗΤΑ 1: ΕΙΣΑΓΩΓΗ ΣΤΗΝ ΥΓΕΙΑ &amp; ΑΣΦΑΛΕΙΑ ΕΡΓΑΣΙΑΣ"
+              data-en="UNIT 1: INTRODUCTION TO OCCUPATIONAL HEALTH &amp; SAFETY">
+          ΕΝΟΤΗΤΑ 1: ΕΙΣΑΓΩΓΗ ΣΤΗΝ ΥΓΕΙΑ &amp; ΑΣΦΑΛΕΙΑ ΕΡΓΑΣΙΑΣ
+        </span>
+      </div>
+
+      <h1 data-i18n
+          data-el="Εισαγωγή στην ΥΑΕ"
+          data-en="Introduction to OHS">
+        Εισαγωγή στην ΥΑΕ
+      </h1>
+
+      <p data-i18n
+         data-el="🎯 Στόχος: Να κατανοήσουμε γιατί η ΥΑΕ αφορά όλους, ακόμα και όσους εργάζονται σε γραφεία."
+         data-en="🎯 Goal: Understand why OHS matters to everyone, including office workers.">
+        🎯 Στόχος: Να κατανοήσουμε γιατί η ΥΑΕ αφορά όλους, ακόμα και όσους εργάζονται σε γραφεία.
+      </p>
+
+      <div class="card">
+        <h2 data-i18n
+            data-el="Τι είναι ΥΑΕ;"
+            data-en="What is OHS?">
+          Τι είναι ΥΑΕ;
+        </h2>
+        <p data-i18n
+           data-el="Η Υγεία &amp; Ασφάλεια στην Εργασία περιλαμβάνει κανόνες, ενέργειες και συμπεριφορές που στοχεύουν στην πρόληψη ατυχημάτων, στην προστασία της υγείας και στη βελτίωση της ευημερίας των εργαζομένων."
+           data-en="Occupational Health & Safety includes rules, actions, and behaviors that aim to prevent accidents, protect health, and improve workers’ wellbeing.">
+          Η Υγεία &amp; Ασφάλεια στην Εργασία περιλαμβάνει κανόνες, ενέργειες και συμπεριφορές που στοχεύουν στην πρόληψη ατυχημάτων, στην προστασία της υγείας και στη βελτίωση της ευημερίας των εργαζομένων.
+        </p>
+      </div>
+    </section>
+
+    <!-- ΕΝΟΤΗΤΑ: Γιατί μας αφορά -->
+    <section id="why" class="reveal">
+      <h2 data-i18n
+          data-el="Γιατί μας αφορά;"
+          data-en="Why does it matter?">
+        Γιατί μας αφορά;
+      </h2>
+      <p data-i18n
+         data-el="Πολλοί θεωρούν ότι τα γραφεία είναι «ασφαλείς χώροι», όμως υπάρχουν κίνδυνοι όπως:"
+         data-en="Many people think offices are 'safe spaces', but there are hazards such as:">
+        Πολλοί θεωρούν ότι τα γραφεία είναι «ασφαλείς χώροι», όμως υπάρχουν κίνδυνοι όπως:
+      </p>
+      <ul>
+        <li data-i18n data-el="Πτώσεις από καρέκλες ή σκάλες" data-en="Falls from chairs or ladders">Πτώσεις από καρέκλες ή σκάλες</li>
+        <li data-i18n data-el="Μυοσκελετικά προβλήματα από κακή στάση" data-en="Musculoskeletal problems from poor posture">Μυοσκελετικά προβλήματα από κακή στάση</li>
+        <li data-i18n data-el="Κόπωση ματιών και πονοκέφαλοι" data-en="Eye strain and headaches">Κόπωση ματιών και πονοκέφαλοι</li>
+        <li data-i18n data-el="Ηλεκτρικοί κίνδυνοι (καλώδια, πρίζες, εξοπλισμός)" data-en="Electrical hazards (cables, sockets, equipment)">Ηλεκτρικοί κίνδυνοι (καλώδια, πρίζες, εξοπλισμός)</li>
+        <li data-i18n data-el="Άγχος και πίεση εργασίας" data-en="Stress and workload pressure">Άγχος και πίεση εργασίας</li>
+      </ul>
+
+      <p class="pill" data-i18n
+         data-el="Ατυχήματα δεν συμβαίνουν μόνο στα εργοτάξια — συμβαίνουν και στα γραφεία."
+         data-en="Accidents don’t only happen on construction sites — they also happen in offices.">
+        Ατυχήματα δεν συμβαίνουν μόνο στα εργοτάξια — συμβαίνουν και στα γραφεία.
+      </p>
+    </section>
+
+    <!-- ΕΝΟΤΗΤΑ: Οφέλη -->
+    <section id="benefits" class="reveal">
+      <h2 data-i18n
+          data-el="Τι κερδίζουμε από την πρόληψη;"
+          data-en="What do we gain from prevention?">
+        Τι κερδίζουμε από την πρόληψη;
+      </h2>
+      <div class="row">
+        <div class="pill" data-i18n data-el="Καλύτερη φυσική και ψυχική υγεία" data-en="Better physical and mental health">Καλύτερη φυσική και ψυχική υγεία</div>
+        <div class="pill" data-i18n data-el="Λιγότερες απουσίες από την εργασία" data-en="Fewer absences from work">Λιγότερες απουσίες από την εργασία</div>
+        <div class="pill" data-i18n data-el="Περισσότερη αποδοτικότητα" data-en="Higher productivity">Περισσότερη αποδοτικότητα</div>
+        <div class="pill" data-i18n data-el="Ευχάριστο και ασφαλές περιβάλλον" data-en="Pleasant and safe environment">Ευχάριστο και ασφαλές περιβάλλον</div>
+        <div class="pill" data-i18n data-el="Καλό εργασιακό κλίμα" data-en="Positive work climate">Καλό εργασιακό κλίμα</div>
+      </div>
+    </section>
+
+    <!-- ΕΝΟΤΗΤΑ: Παραδείγματα -->
+    <section id="examples" class="reveal">
+      <h2 data-i18n
+          data-el="Παραδείγματα από την καθημερινότητα"
+          data-en="Everyday examples">
+        Παραδείγματα από την καθημερινότητα
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3 data-i18n data-el="Καρέκλα χωρίς στήριξη στη μέση" data-en="Chair without lumbar support">
+            Καρέκλα χωρίς στήριξη στη μέση
+          </h3>
+          <p data-i18n
+             data-el="Οδηγεί σε πόνο στη μέση μετά από εβδομάδες."
+             data-en="Leads to lower back pain after weeks.">
+            Οδηγεί σε πόνο στη μέση μετά από εβδομάδες.
+          </p>
+        </div>
+        <div class="card">
+          <h3 data-i18n data-el="Καλώδιο στο πάτωμα" data-en="Cable on the floor">
+            Καλώδιο στο πάτωμα
+          </h3>
+          <p data-i18n
+             data-el="Αυξάνει την πιθανότητα να σκοντάψουμε."
+             data-en="Increases the chance of tripping.">
+            Αυξάνει την πιθανότητα να σκοντάψουμε.
+          </p>
+        </div>
+        <div class="card">
+          <h3 data-i18n data-el="Κακή φωτεινότητα" data-en="Poor lighting">
+            Κακή φωτεινότητα
+          </h3>
+          <p data-i18n
+             data-el="Προκαλεί κουρασμένα μάτια και περισσότερα λάθη."
+             data-en="Causes eye fatigue and more mistakes.">
+            Προκαλεί κουρασμένα μάτια και περισσότερα λάθη.
+          </p>
+        </div>
+      </div>
+
+      <p class="card">
+        <strong data-i18n
+                data-el="🟢 Η ασφάλεια ξεκινά από τη στάση μας. Ό,τι κι αν κάνουμε, το κάνουμε με προσοχή και υπευθυνότητα."
+                data-en="🟢 Safety starts with our attitude. Whatever we do, we do it carefully and responsibly.">
+          🟢 Η ασφάλεια ξεκινά από τη στάση μας. Ό,τι κι αν κάνουμε, το κάνουμε με προσοχή και υπευθυνότητα.
+        </strong>
+      </p>
+    </section>
+
+    <!-- MINI QUIZ 4 ΕΡΩΤΗΣΕΙΣ -->
+    <section id="quiz" class="reveal">
+      <h2 data-i18n
+          data-el="Mini Quiz — Έλεγχος κατανόησης"
+          data-en="Mini Quiz — Check your understanding">
+        Mini Quiz — Έλεγχος κατανόησης
+      </h2>
+
+      <p data-i18n
+         data-el="Απάντησε στις 4 μικρές ερωτήσεις. Μπορείς να επαναλάβεις όσες φορές θέλεις."
+         data-en="Answer the 4 short questions. You can repeat as many times as you like.">
+        Απάντησε στις 4 μικρές ερωτήσεις. Μπορείς να επαναλάβεις όσες φορές θέλεις.
+      </p>
+
+      <!-- Q1: Multiple choice -->
+      <div class="quiz-question" data-question-id="q1">
+        <h3 data-i18n data-el="1. Η ΥΑΕ αφορά:" data-en="1. OHS concerns:">1. Η ΥΑΕ αφορά:</h3>
+        <div class="quiz-options">
+          <label>
+            <input type="radio" name="q1" value="a">
+            <span data-i18n data-el="Μόνο εργοτάξια" data-en="Only construction sites">Μόνο εργοτάξια</span>
+          </label>
+          <label>
+            <input type="radio" name="q1" value="b">
+            <span data-i18n data-el="Όλους τους χώρους εργασίας, συμπεριλαμβανομένων των γραφείων" data-en="All workplaces, including offices">Όλους τους χώρους εργασίας, συμπεριλαμβανομένων των γραφείων</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback-q1"></div>
+        <button class="btn secondary" type="button" data-check="q1">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Q2: Σωστό / Λάθος -->
+      <div class="quiz-question" data-question-id="q2">
+        <h3 data-i18n
+            data-el="2. Η κακή στάση στο γραφείο μπορεί να προκαλέσει μυοσκελετικά προβλήματα."
+            data-en="2. Poor posture at the office can cause musculoskeletal problems.">
+          2. Η κακή στάση στο γραφείο μπορεί να προκαλέσει μυοσκελετικά προβλήματα.
+        </h3>
+        <div class="quiz-options">
+          <label>
+            <input type="radio" name="q2" value="true">
+            <span data-i18n data-el="Σωστό" data-en="True">Σωστό</span>
+          </label>
+          <label>
+            <input type="radio" name="q2" value="false">
+            <span data-i18n data-el="Λάθος" data-en="False">Λάθος</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback-q2"></div>
+        <button class="btn secondary" type="button" data-check="q2">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Q3: Αντιστοίχιση (dropdown) -->
+      <div class="quiz-question" data-question-id="q3">
+        <h3 data-i18n
+            data-el="3. Αντιστοίχισε το κάθε παράδειγμα με τον σωστό κίνδυνο."
+            data-en="3. Match each example with the correct hazard.">
+          3. Αντιστοίχισε το κάθε παράδειγμα με τον σωστό κίνδυνο.
+        </h3>
+        <div class="quiz-options">
+          <div class="quiz-select-row">
+            <span data-i18n
+                  data-el="Καλώδιο στο πάτωμα →"
+                  data-en="Cable on the floor →">
+              Καλώδιο στο πάτωμα →
+            </span>
+            <select data-match="cable">
+              <option value="" data-i18n data-el="Επίλεξε" data-en="Choose">Επίλεξε</option>
+              <option value="fall" data-i18n data-el="Κίνδυνος πτώσης" data-en="Fall hazard">Κίνδυνος πτώσης</option>
+              <option value="stress" data-i18n data-el="Άγχος" data-en="Stress">Άγχος</option>
+            </select>
+          </div>
+          <div class="quiz-select-row">
+            <span data-i18n
+                  data-el="Κακή φωτεινότητα →"
+                  data-en="Poor lighting →">
+              Κακή φωτεινότητα →
+            </span>
+            <select data-match="light">
+              <option value="" data-i18n data-el="Επίλεξε" data-en="Choose">Επίλεξε</option>
+              <option value="eye" data-i18n data-el="Κόπωση ματιών" data-en="Eye strain">Κόπωση ματιών</option>
+              <option value="electric" data-i18n data-el="Ηλεκτρικός κίνδυνος" data-en="Electrical hazard">Ηλεκτρικός κίνδυνος</option>
+            </select>
+          </div>
+          <div class="quiz-select-row">
+            <span data-i18n
+                  data-el="Καρέκλα χωρίς στήριξη →"
+                  data-en="Chair without lumbar support →">
+              Καρέκλα χωρίς στήριξη →
+            </span>
+            <select data-match="chair">
+              <option value="" data-i18n data-el="Επίλεξε" data-en="Choose">Επίλεξε</option>
+              <option value="back" data-i18n data-el="Πόνος στη μέση" data-en="Lower back pain">Πόνος στη μέση</option>
+              <option value="burn" data-i18n data-el="Κίνδυνος εγκαυμάτων" data-en="Burn hazard">Κίνδυνος εγκαυμάτων</option>
+            </select>
+          </div>
+        </div>
+        <div class="quiz-feedback" id="feedback-q3"></div>
+        <button class="btn secondary" type="button" data-check="q3">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Q4: Πολλαπλή επιλογή -->
+      <div class="quiz-question" data-question-id="q4">
+        <h3 data-i18n
+            data-el="4. Ποιες από τις παρακάτω προτάσεις είναι ΟΦΕΛΗ της πρόληψης;"
+            data-en="4. Which of the following are BENEFITS of prevention?">
+          4. Ποιες από τις παρακάτω προτάσεις είναι ΟΦΕΛΗ της πρόληψης;
+        </h3>
+        <div class="quiz-options">
+          <label>
+            <input type="checkbox" name="q4" value="benefit-health">
+            <span data-i18n data-el="Καλύτερη υγεία" data-en="Better health">Καλύτερη υγεία</span>
+          </label>
+          <label>
+            <input type="checkbox" name="q4" value="benefit-absences">
+            <span data-i18n data-el="Λιγότερες απουσίες" data-en="Fewer absences">Λιγότερες απουσίες</span>
+          </label>
+          <label>
+            <input type="checkbox" name="q4" value="harm-more-accidents">
+            <span data-i18n data-el="Περισσότερα ατυχήματα" data-en="More accidents">Περισσότερα ατυχήματα</span>
+          </label>
+        </div>
+        <div class="quiz-feedback" id="feedback-q4"></div>
+        <button class="btn secondary" type="button" data-check="q4">
+          <span data-i18n data-el="Έλεγχος" data-en="Check">Έλεγχος</span>
+        </button>
+      </div>
+
+      <!-- Συνολικό σκορ + reset -->
+      <div class="quiz-summary" id="quizTotal"></div>
+      <button class="btn" type="button" id="resetQuizBtn">
+        <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+        <span data-i18n data-el="Επανεκκίνηση Quiz" data-en="Restart Quiz">Επανεκκίνηση Quiz</span>
+      </button>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span>
+    ·
+    <span data-i18n data-el="Υγεία &amp; Ασφάλεια Εργασίας" data-en="Occupational Health &amp; Safety">
+      Υγεία &amp; Ασφάλεια Εργασίας
+    </span>
+  </footer>
+
+  <script>
+    (function(){
+      const LANG_EL = "el";
+      const LANG_EN = "en";
+      const state = {
+        lang: LANG_EL,
+        scores: { q1:null, q2:null, q3:null, q4:null }
+      };
+
+      const texts = {
+        el: {
+          correct: "Σωστό!",
+          incorrect: "Όχι ακριβώς. Δοκίμασε ξανά.",
+          missing: "Επίλεξε μια απάντηση.",
+          matchingMissing: "Συμπλήρωσε όλες τις αντιστοιχίσεις.",
+          total: (score, total) => `Συνολικό σκορ: ${score} / ${total}`
+        },
+        en: {
+          correct: "Correct!",
+          incorrect: "Not quite. Try again.",
+          missing: "Please choose an option.",
+          matchingMissing: "Please complete all matches.",
+          total: (score, total) => `Total score: ${score} / ${total}`
+        }
+      };
+
+      const correctAnswers = {
+        q1: "b",
+        q2: "true",
+        q3: {
+          cable: "fall",
+          light: "eye",
+          chair: "back"
+        },
+        q4: {
+          mustHave: ["benefit-health", "benefit-absences"],
+          mustNotHave: ["harm-more-accidents"]
+        }
+      };
+
+      function $(sel, root=document){ return root.querySelector(sel); }
+      function $all(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
+
+      function applyLanguage() {
+        const lang = state.lang;
+        document.documentElement.lang = (lang === LANG_EN ? "en" : "el");
+        $all("[data-i18n]").forEach(el=>{
+          const txt = el.getAttribute(lang === LANG_EN ? "data-en" : "data-el");
+          if(txt != null) el.textContent = txt;
+        });
+        updateTotalScore();
+      }
+
+      function updateTotalScore() {
+        const lang = state.lang;
+        const values = Object.values(state.scores);
+        const correctCount = values.filter(v => v === true).length;
+        const total = Object.keys(state.scores).length;
+        const label = texts[lang].total(correctCount, total);
+        const box = $("#quizTotal");
+        if(box) box.textContent = label;
+      }
+
+      function evaluateQ1() {
+        const lang = state.lang;
+        const feedback = $("#feedback-q1");
+        const selected = document.querySelector('input[name="q1"]:checked');
+        if(!selected){
+          feedback.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q1 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect = (selected.value === correctAnswers.q1);
+        feedback.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q1 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ2() {
+        const lang = state.lang;
+        const feedback = $("#feedback-q2");
+        const selected = document.querySelector('input[name="q2"]:checked');
+        if(!selected){
+          feedback.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q2 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect = (selected.value === correctAnswers.q2);
+        feedback.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q2 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ3() {
+        const lang = state.lang;
+        const fb = $("#feedback-q3");
+        const expected = correctAnswers.q3;
+        const selects = {
+          cable: document.querySelector('select[data-match="cable"]'),
+          light: document.querySelector('select[data-match="light"]'),
+          chair: document.querySelector('select[data-match="chair"]')
+        };
+        if(!selects.cable || !selects.light || !selects.chair){
+          state.scores.q3 = null;
+          updateTotalScore();
+          return;
+        }
+        if(!selects.cable.value || !selects.light.value || !selects.chair.value){
+          fb.innerHTML = `<span class="no">${texts[lang].matchingMissing}</span>`;
+          state.scores.q3 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect =
+          selects.cable.value === expected.cable &&
+          selects.light.value === expected.light &&
+          selects.chair.value === expected.chair;
+
+        fb.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q3 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ4() {
+        const lang = state.lang;
+        const fb = $("#feedback-q4");
+        const checked = $all('input[name="q4"]:checked').map(i=>i.value);
+        if(checked.length === 0){
+          fb.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q4 = null;
+          updateTotalScore();
+          return;
+        }
+        const { mustHave, mustNotHave } = correctAnswers.q4;
+        const hasAllMust = mustHave.every(v=>checked.includes(v));
+        const hasForbidden = mustNotHave.some(v=>checked.includes(v));
+        const isCorrect = hasAllMust && !hasForbidden;
+        fb.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q4 = isCorrect;
+        updateTotalScore();
+      }
+
+      function resetQuiz() {
+        // reset all inputs
+        $all('input[type="radio"], input[type="checkbox"]').forEach(el=> el.checked = false);
+        $all('#quiz select').forEach(sel=> sel.value = "");
+        // clear feedback
+        ["q1","q2","q3","q4"].forEach(id=>{
+          const fb = $("#feedback-" + id);
+          if(fb) fb.textContent = "";
+          state.scores[id] = null;
+        });
+        updateTotalScore();
+      }
+
+      function setupQuizButtons() {
+        $all("[data-check]").forEach(btn=>{
+          const id = btn.getAttribute("data-check");
+          btn.addEventListener("click", ()=>{
+            if(id === "q1") evaluateQ1();
+            if(id === "q2") evaluateQ2();
+            if(id === "q3") evaluateQ3();
+            if(id === "q4") evaluateQ4();
+          });
+        });
+        const resetBtn = $("#resetQuizBtn");
+        if(resetBtn) resetBtn.addEventListener("click", resetQuiz);
+      }
+
+      function setupLanguageButton() {
+        const btn = $("#langBtn");
+        if(!btn) return;
+        btn.addEventListener("click", ()=>{
+          state.lang = (state.lang === LANG_EL ? LANG_EN : LANG_EL);
+          applyLanguage();
+        });
+      }
+
+      function setupScrollTop() {
+        const btn = $("#toTopBtn");
+        if(!btn) return;
+        btn.addEventListener("click", ()=>{
+          window.scrollTo({ top:0, behavior:"smooth" });
+        });
+      }
+
+      function setupReveal() {
+        const elements = $all(".reveal");
+        if("IntersectionObserver" in window){
+          const io = new IntersectionObserver(entries=>{
+            entries.forEach(e=>{
+              if(e.isIntersecting){
+                e.target.classList.add("visible");
+                io.unobserve(e.target);
+              }
+            });
+          }, { threshold:0.15 });
+          elements.forEach(el=> io.observe(el));
+        }else{
+          elements.forEach(el=> el.classList.add("visible"));
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", ()=>{
+        // κάθε φορά που ανοίγει το popup -> από την αρχή και μηδενισμένα
+        if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+        window.scrollTo(0,0);
+        $("#year").textContent = new Date().getFullYear();
+
+        setupLanguageButton();
+        setupScrollTop();
+        setupQuizButtons();
+        setupReveal();
+
+        resetQuiz();      // μηδενισμός quiz
+        applyLanguage();  // αρχική γλώσσα: Ελληνικά
+      });
+    })();
+  </script>
+</body>
+</html>

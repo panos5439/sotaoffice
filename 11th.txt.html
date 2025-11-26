@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ενότητα 11: Ασφαλής Μετακίνηση &amp; Οδήγηση</title>
+
+  <!-- Icons (μόνο για τίτλους / κουμπιά) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer"/>
+
+  <style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#38bdf8;
+      --primary-soft:#7dd3fc;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #0ea5e955 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e55 0, #020617 65%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    .lang-en{ display:none; }
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:#38bdf8;
+      filter:drop-shadow(0 0 12px rgba(56,189,248,1));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#38bdf8,#22c55e);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#f9fafb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#38bdf8,#22c55e);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 50%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#0ea5e940 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e35 0,transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin-top:0; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(125,211,252,.8);
+      background:linear-gradient(90deg,rgba(56,189,248,.35),rgba(15,23,42,.95));
+      font-size:16px;
+      color:#fef9c3;
+      box-shadow:0 0 22px rgba(56,189,248,.9);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#e0f2fe; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(56,189,248,.5); }
+      50%{ transform:scale(1.03); box-shadow:0 0 32px rgba(56,189,248,1); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.8));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:black;
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+
+    }
+
+    /* ===== HERO ROAD ANIMATION ===== */
+    .drive-hero{
+      display:flex;
+      flex-wrap:wrap;
+      gap:20px;
+      align-items:stretch;
+    }
+    .drive-text{
+      flex:1 1 260px;
+      min-width:0;
+    }
+    .drive-visual-wrapper{
+      flex:0 0 280px;
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .road-wrap{
+      width:260px;
+      height:200px;
+      border-radius:22px;
+      background:radial-gradient(circle at top,#1e293b,#020617 70%);
+      border:1px solid #38bdf8;
+      box-shadow:0 20px 40px rgba(0,0,0,.9);
+      position:relative;
+      overflow:hidden;
+    }
+    .road{
+      position:absolute;
+      inset:18px 40px 18px 40px;
+      background:radial-gradient(circle at top,#111827,#020617 70%);
+      border-radius:18px;
+      box-shadow:0 0 0 2px #020617;
+    }
+    .road-lanes{
+      position:absolute;
+      left:50%;
+      top:0;
+      width:5px;
+      height:100%;
+      transform:translateX(-50%);
+      background:repeating-linear-gradient(
+        to bottom,
+        #fef9c3 0,
+        #fef9c3 16px,
+        transparent 16px,
+        transparent 30px
+      );
+      animation:lanesMove 1.2s linear infinite;
+      opacity:1;
+      filter:drop-shadow(0 0 6px rgba(255,255,255,.8));
+    }
+    @keyframes lanesMove{
+      0%{ background-position-y:0; }
+      100%{ background-position-y:40px; }
+    }
+
+    .car{
+      position:absolute;
+      bottom:26px;
+      left:50%;
+      transform:translateX(-50%);
+      width:74px;
+      height:40px;
+      border-radius:12px 12px 16px 16px;
+      background:linear-gradient(90deg,#e0f2fe,#38bdf8);
+      box-shadow:0 10px 22px rgba(0,0,0,1);
+      border:2px solid #f9fafb;
+    }
+    .car::before{
+      content:"";
+      position:absolute;
+      top:-14px;
+      left:7px;
+      right:7px;
+      height:20px;
+      border-radius:12px 12px 4px 4px;
+      background:linear-gradient(180deg,#e5f6ff,#0f172a);
+      box-shadow:0 0 10px rgba(148,163,184,.6) inset;
+    }
+    .wheel{
+      position:absolute;
+      bottom:-8px;
+      width:18px;
+      height:18px;
+      border-radius:999px;
+      background:#020617;
+      box-shadow:0 0 0 3px #020617;
+      border:2px solid #4b5563;
+    }
+    .wheel.left{ left:7px; }
+    .wheel.right{ right:7px; }
+
+    .speed-lines{
+      position:absolute;
+      top:32%;
+      left:-20px;
+      width:60px;
+      height:3px;
+      background:linear-gradient(90deg,transparent,#7dd3fc,#e0f2fe);
+      opacity:.9;
+      animation:speedLines 1.1s linear infinite;
+      filter:drop-shadow(0 0 6px rgba(125,211,252,1));
+    }
+    @keyframes speedLines{
+      0%{ transform:translateX(0); opacity:.4; }
+      50%{ opacity:1; }
+      100%{ transform:translateX(80px); opacity:0; }
+    }
+
+    /* ===== MINI GAME: ΕΠΙΠΕΔΟ ΠΡΟΣΟΧΗΣ ===== */
+    .drive-game{
+      margin-top:14px;
+      border-radius:16px;
+      border:1px solid #1d4ed8;
+      padding:12px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+      font-size:16px;
+    }
+    .drive-game-title{
+      font-weight:bold;
+      margin-bottom:6px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:#e0f2fe;
+    }
+
+    .drive-game input[type="radio"]{
+      position:absolute;
+      left:-9999px;
+    }
+
+    .drive-meter{
+      margin-top:8px;
+    }
+    .drive-meter-bg{
+      position:relative;
+      width:100%;
+      height:20px;
+      border-radius:999px;
+      background:#020617;
+      border:1px solid #4b5563;
+      overflow:hidden;
+      box-shadow:inset 0 0 10px rgba(0,0,0,.8);
+    }
+    .drive-meter-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#22c55e,#bbf7d0);
+      box-shadow:0 0 14px rgba(34,197,94,.8);
+      transition:width .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+    #mode_focus:checked ~ .drive-meter .drive-meter-fill{
+      width:20%;
+      background:linear-gradient(90deg,#22c55e,#bbf7d0);
+      box-shadow:0 0 14px rgba(34,197,94,.9);
+    }
+    #mode_call:checked ~ .drive-meter .drive-meter-fill{
+      width:55%;
+      background:linear-gradient(90deg,#eab308,#fbbf24);
+      box-shadow:0 0 14px rgba(234,179,8,.9);
+    }
+    #mode_text:checked ~ .drive-meter .drive-meter-fill{
+      width:100%;
+      background:linear-gradient(90deg,#ef4444,#b91c1c);
+      box-shadow:0 0 16px rgba(239,68,68,1);
+    }
+
+    .drive-meter-label{
+      margin-top:4px;
+      display:flex;
+      justify-content:space-between;
+      color:#e5e7eb;
+      font-size:14px;
+    }
+
+    .drive-options{
+      margin-top:8px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .drive-option-label{
+      display:block;
+      padding:6px 8px;
+      border-radius:999px;
+      border:1px solid #4b5563;
+      background:#020617;
+      color:#e5e7eb;
+      cursor:pointer;
+      font-size:15px;
+    }
+    .drive-option-label:hover{
+      border-color:#38bdf8;
+      color:#bae6fd;
+    }
+
+    #mode_focus:checked ~ .drive-options label[for="mode_focus"],
+    #mode_call:checked ~ .drive-options label[for="mode_call"],
+    #mode_text:checked ~ .drive-options label[for="mode_text"]{
+      background:radial-gradient(circle at top,#38bdf8,#22c55e);
+      color:#020617;
+      border-color:#7dd3fc;
+      box-shadow:0 0 10px rgba(56,189,248,.8);
+    }
+
+    .drive-status{
+      margin-top:6px;
+      min-height:28px;
+      font-size:15px;
+    }
+    .drive-status-safe,
+    .drive-status-mid,
+    .drive-status-danger{
+      display:none;
+    }
+    #mode_focus:checked ~ .drive-status .drive-status-safe{
+      display:block;
+      color:#4ade80;
+    }
+    #mode_call:checked ~ .drive-status .drive-status-mid{
+      display:block;
+      color:#facc15;
+    }
+    #mode_text:checked ~ .drive-status .drive-status-danger{
+      display:block;
+      color:#f97373;
+    }
+
+    /* QUIZ */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#020617 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-option{
+      margin:6px 0;
+    }
+    .quiz-option input{
+      position:absolute;
+      left:-9999px;
+    }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #1e293b;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+    .quiz-option input:checked + label{
+      border-color:#38bdf8;
+      box-shadow:0 0 0 1px #0ea5e9;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+    .quiz-form{
+      margin-top:8px;
+    }
+    .quiz-reset-wrap{
+      margin-top:10px;
+      text-align:left;
+    }
+    .quiz-reset-wrap .btn{
+      font-size:14px;
+      padding:5px 11px;
+      box-shadow:none;
+    }
+
+    @media (max-width:768px){
+      .drive-hero{ flex-direction:column; }
+      .drive-visual-wrapper{ justify-content:flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <!-- CSS-toggle για γλώσσα -->
+  <input type="checkbox" id="langToggle" />
+
+  <a id="top"></a>
+
+  <header>
+    <nav class="nav" aria-label="Κύρια πλοήγηση">
+      <div class="brand">
+        <i class="fa-solid fa-car-side" aria-hidden="true"></i>
+        <span class="lang-el">Ενότητα 11 · Ασφαλής Μετακίνηση &amp; Οδήγηση</span>
+        <span class="lang-en">Unit 11 · Safe Travel &amp; Driving</span>
+      </div>
+
+      <div class="grow"></div>
+
+      <label for="langToggle" class="btn">
+        <i class="fa-solid fa-language" aria-hidden="true"></i>
+        <span class="lang-el">English</span>
+        <span class="lang-en">Ελληνικά</span>
+      </label>
+
+      <a href="#top" class="btn secondary" aria-label="Πάνω" title="Πάνω">
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Εισαγωγή + animation δρόμου -->
+    <section id="intro">
+      <div class="drive-hero">
+        <div class="drive-text">
+          <div class="badge">
+            <i class="fa-solid fa-road-circle-check" aria-hidden="true"></i>
+            <span class="lang-el">🚗 ΕΝΟΤΗΤΑ 11: ΑΣΦΑΛΗΣ ΜΕΤΑΚΙΝΗΣΗ &amp; ΟΔΗΓΗΣΗ</span>
+            <span class="lang-en">🚗 UNIT 11: SAFE TRAVEL &amp; DRIVING</span>
+          </div>
+
+          <h1>
+            <span class="lang-el">Η ασφάλεια συνεχίζεται και στον δρόμο</span>
+            <span class="lang-en">Safety continues on the road</span>
+          </h1>
+
+          <p>
+            <span class="lang-el">
+              🎯 Στόχος: Να αναπτύξουμε ασφαλή νοοτροπία κατά τη μετακίνηση, να γνωρίζουμε
+              τους βασικούς κανόνες πρόληψης τροχαίων ατυχημάτων και να διατηρούμε προσήλωση
+              στην οδική ασφάλεια, είτε οδηγούμε εταιρικό όχημα είτε το δικό μας.
+            </span>
+            <span class="lang-en">
+              🎯 Goal: To develop a safe mindset when travelling, understand the basic rules
+              for preventing road accidents and stay focused on road safety, whether
+              driving a company vehicle or our own.
+            </span>
+          </p>
+
+          <p class="pill">
+            <span class="lang-el">Κάθε διαδρομή από και προς τη δουλειά είναι μέρος της ΥΑΕ.</span>
+            <span class="lang-en">Every trip to and from work is part of OHS.</span>
+          </p>
+        </div>
+
+        <div class="drive-visual-wrapper" aria-hidden="true">
+          <div class="road-wrap">
+            <div class="road">
+              <div class="road-lanes"></div>
+              <div class="car">
+                <div class="wheel left"></div>
+                <div class="wheel right"></div>
+              </div>
+            </div>
+            <div class="speed-lines"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11.1 Γιατί μας αφορά -->
+    <section id="why">
+      <h2>
+        <span class="lang-el">11.1 Γιατί μας αφορά</span>
+        <span class="lang-en">11.1 Why it matters</span>
+      </h2>
+
+      <p>
+        <span class="lang-el">
+          Ακόμη και αν δεν οδηγούμε υπηρεσιακά οχήματα, πολλοί εργαζόμενοι:
+        </span>
+        <span class="lang-en">
+          Even if we do not drive company vehicles, many employees:
+        </span>
+      </p>
+
+      <ul>
+        <li>
+          <span class="lang-el">Μετακινούνται για επαγγελματικές συναντήσεις.</span>
+          <span class="lang-en">Travel for business meetings.</span>
+        </li>
+        <li>
+          <span class="lang-el">Χρησιμοποιούν εταιρικά αυτοκίνητα ή δίκυκλα.</span>
+          <span class="lang-en">Use company cars or motorcycles.</span>
+        </li>
+        <li>
+          <span class="lang-el">Πηγαίνουν και επιστρέφουν καθημερινά από την εργασία.</span>
+          <span class="lang-en">Commute to and from work every day.</span>
+        </li>
+      </ul>
+
+      <p>
+        <span class="lang-el">
+          ➡️ Όλες αυτές οι μετακινήσεις συνδέονται με την εργασία και εμπίπτουν στις αρχές της ΥΑΕ.
+        </span>
+        <span class="lang-en">
+          ➡️ All these journeys are work-related and therefore fall under OHS principles.
+        </span>
+      </p>
+    </section>
+
+    <!-- 11.2 Βασικοί κανόνες ασφαλούς οδήγησης + mini game -->
+    <section id="rules">
+      <h2>
+        <span class="lang-el">11.2 Βασικοί κανόνες ασφαλούς οδήγησης</span>
+        <span class="lang-en">11.2 Basic safe driving rules</span>
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3>
+            <span class="lang-el">✅ Πριν ξεκινήσετε</span>
+            <span class="lang-en">✅ Before you set off</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Ελέγξτε φώτα, φρένα, λάστιχα και ζώνες.</span>
+              <span class="lang-en">Check lights, brakes, tyres and seatbelts.</span>
+            </li>
+            <li>
+              <span class="lang-el">Ρυθμίστε κάθισμα, καθρέφτες και τιμόνι πριν βάλετε μπρος.</span>
+              <span class="lang-en">Adjust seat, mirrors and steering wheel before starting the engine.</span>
+            </li>
+            <li>
+              <span class="lang-el">Μην οδηγείτε κουρασμένοι ή υπερβολικά αγχωμένοι.</span>
+              <span class="lang-en">Do not drive when tired or extremely stressed.</span>
+            </li>
+            <li>
+              <span class="lang-el">Προγραμματίστε τη διαδρομή εκ των προτέρων.</span>
+              <span class="lang-en">Plan your route in advance.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">✅ Κατά την οδήγηση</span>
+            <span class="lang-en">✅ While driving</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Φοράτε πάντα ζώνη ασφαλείας, ακόμη και για μικρές αποστάσεις.</span>
+              <span class="lang-en">Always wear a seatbelt, even for short trips.</span>
+            </li>
+            <li>
+              <span class="lang-el">Όλοι οι επιβάτες πρέπει επίσης να φορούν ζώνη.</span>
+              <span class="lang-en">All passengers must also wear seatbelts.</span>
+            </li>
+            <li>
+              <span class="lang-el">Μην υπερβαίνετε τα όρια ταχύτητας.</span>
+              <span class="lang-en">Do not exceed speed limits.</span>
+            </li>
+            <li>
+              <span class="lang-el">Προσαρμόστε την οδήγηση στις συνθήκες (βροχή, κίνηση, σκοτάδι).</span>
+              <span class="lang-en">Adapt your driving to conditions (rain, traffic, darkness).</span>
+            </li>
+            <li>
+              <span class="lang-el">Κρατήστε αποστάσεις ασφαλείας από το προπορευόμενο όχημα.</span>
+              <span class="lang-en">Keep a safe distance from the vehicle ahead.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">✅ Μετά τη διαδρομή</span>
+            <span class="lang-en">✅ After the trip</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Μην αφήνετε αντικείμενα στο ταμπλό που μπορεί να πεταχτούν σε φρενάρισμα.</span>
+              <span class="lang-en">Do not leave objects on the dashboard that could fly in sudden braking.</span>
+            </li>
+            <li>
+              <span class="lang-el">Κλείστε παράθυρα, φώτα και ασφαλίστε το όχημα.</span>
+              <span class="lang-en">Close windows, turn off lights and lock the vehicle.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- MINI GAME: Επίπεδο προσοχής -->
+      <div class="drive-game">
+        <div class="drive-game-title">
+          <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
+          <span class="lang-el">Mini παιχνίδι: Πόσο προσεκτικός οδηγός είσαι;</span>
+          <span class="lang-en">Mini game: How attentive a driver are you?</span>
+        </div>
+
+        <!-- επιλογές -->
+        <input type="radio" name="mode" id="mode_focus" checked />
+        <input type="radio" name="mode" id="mode_call" />
+        <input type="radio" name="mode" id="mode_text" />
+
+        <div class="drive-meter">
+          <div class="drive-meter-bg">
+            <div class="drive-meter-fill"></div>
+          </div>
+          <div class="drive-meter-label">
+            <span class="lang-el">Επίπεδο κινδύνου</span>
+            <span class="lang-en">Risk level</span>
+            <span>0–100%</span>
+          </div>
+        </div>
+
+        <div class="drive-options">
+          <label class="drive-option-label" for="mode_focus">
+            <span class="lang-el">
+              Σενάριο Α: Οδηγείς με ζώνη, χωρίς κινητό, πλήρης συγκέντρωση στον δρόμο.
+            </span>
+            <span class="lang-en">
+              Scenario A: You drive with seatbelt, no phone, fully focused on the road.
+            </span>
+          </label>
+
+          <label class="drive-option-label" for="mode_call">
+            <span class="lang-el">
+              Σενάριο Β: Μιλάς σε hands-free για λίγα λεπτά, με μέτρια κίνηση.
+            </span>
+            <span class="lang-en">
+              Scenario B: You talk on hands-free for a few minutes, in moderate traffic.
+            </span>
+          </label>
+
+          <label class="drive-option-label" for="mode_text">
+            <span class="lang-el">
+              Σενάριο Γ: Στέλνεις μήνυμα στο κινητό ενώ οδηγείς στον αυτοκινητόδρομο.
+            </span>
+            <span class="lang-en">
+              Scenario C: You send a text message while driving on the highway.
+            </span>
+          </label>
+        </div>
+
+        <div class="drive-status">
+          <div class="drive-status-safe">
+            <span class="lang-el">Άριστα! Έτσι μειώνεις στο ελάχιστο τον κίνδυνο ατυχήματος.</span>
+            <span class="lang-en">Excellent! This way you minimise the risk of an accident.</span>
+          </div>
+          <div class="drive-status-mid">
+            <span class="lang-el">Προσοχή. Ακόμη και με hands-free, η προσοχή μειώνεται.</span>
+            <span class="lang-en">Caution. Even with hands-free, your attention drops.</span>
+          </div>
+          <div class="drive-status-danger">
+            <span class="lang-el">ΚΙΝΔΥΝΟΣ! Η αποστολή μηνύματος είναι από τις πιο επικίνδυνες συμπεριφορές.</span>
+            <span class="lang-en">DANGER! Texting is one of the most dangerous behaviours.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11.3 Οδήγηση υπό την επήρεια ουσιών -->
+    <section id="substances">
+      <h2>
+        <span class="lang-el">11.3 Οδήγηση υπό την επήρεια ουσιών</span>
+        <span class="lang-en">11.3 Driving under the influence</span>
+      </h2>
+
+      <p>
+        <span class="lang-el">
+          Αλκοόλ, ναρκωτικά και ορισμένα φάρμακα επηρεάζουν την κρίση, τα αντανακλαστικά και τη συγκέντρωση.
+        </span>
+        <span class="lang-en">
+          Alcohol, drugs and certain medicines affect judgement, reflexes and concentration.
+        </span>
+      </p>
+
+      <ul>
+        <li>
+          <span class="lang-el">
+            Αν παίρνετε φάρμακα, διαβάστε το φύλλο οδηγιών ή ρωτήστε τον γιατρό αν επηρεάζουν την οδήγηση.
+          </span>
+          <span class="lang-en">
+            If you take medicines, read the leaflet or ask your doctor if they affect driving.
+          </span>
+        </li>
+        <li>
+          <span class="lang-el">Μην υποτιμάτε “μικρές” ποσότητες — ακόμη και ένα ποτό μειώνει την εγρήγορση.</span>
+          <span class="lang-en">Do not underestimate “small” amounts — even one drink reduces alertness.</span>
+        </li>
+      </ul>
+
+      <p class="pill">
+        <span class="lang-el">🚫 Αλκοόλ και οδήγηση δεν συμβαδίζουν — ποτέ και για κανέναν λόγο.</span>
+        <span class="lang-en">🚫 Alcohol and driving never go together — for any reason.</span>
+      </p>
+    </section>
+
+    <!-- 11.4 Χρήση κινητού -->
+    <section id="phone">
+      <h2>
+        <span class="lang-el">11.4 Χρήση κινητού τηλεφώνου</span>
+        <span class="lang-en">11.4 Mobile phone use</span>
+      </h2>
+
+      <p>
+        <span class="lang-el">
+          Η χρήση κινητού κατά την οδήγηση τετραπλασιάζει τον κίνδυνο ατυχήματος.
+        </span>
+        <span class="lang-en">
+          Using a mobile phone while driving quadruples the risk of an accident.
+        </span>
+      </p>
+
+      <ul>
+        <li>
+          <span class="lang-el">Αν πρέπει να απαντήσετε, χρησιμοποιήστε hands-free ή Bluetooth.</span>
+          <span class="lang-en">If you must answer, use hands-free or Bluetooth.</span>
+        </li>
+        <li>
+          <span class="lang-el">Ιδανικά, σταθμεύστε σε ασφαλές σημείο και μιλήστε.</span>
+          <span class="lang-en">Ideally, stop in a safe place and then make the call.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 11.5 Ασφάλεια πεζών & ποδηλατών -->
+    <section id="pedestrians">
+      <h2>
+        <span class="lang-el">11.5 Ασφάλεια πεζών και ποδηλατών</span>
+        <span class="lang-en">11.5 Safety for pedestrians and cyclists</span>
+      </h2>
+
+      <ul>
+        <li>
+          <span class="lang-el">Διασχίζετε δρόμους μόνο από διαβάσεις.</span>
+          <span class="lang-en">Cross roads only at pedestrian crossings.</span>
+        </li>
+        <li>
+          <span class="lang-el">Μην φοράτε ακουστικά με δυνατή μουσική όταν περνάτε δρόμο.</span>
+          <span class="lang-en">Do not wear loud headphones when crossing the road.</span>
+        </li>
+        <li>
+          <span class="lang-el">Προσέχετε ιδιαίτερα σε χώρους στάθμευσης (όχημα που κάνει όπισθεν).</span>
+          <span class="lang-en">Take extra care in car parks (vehicles reversing).</span>
+        </li>
+        <li>
+          <span class="lang-el">Αν κινείστε με ποδήλατο → φορέστε κράνος και ανακλαστικά.</span>
+          <span class="lang-en">If you cycle → wear a helmet and reflective gear.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Παράδειγμα & Κεντρικό μήνυμα -->
+    <section id="example">
+      <h2>
+        <span class="lang-el">Παράδειγμα &amp; Κεντρικό μήνυμα</span>
+        <span class="lang-en">Example &amp; Key message</span>
+      </h2>
+
+      <div class="card">
+        <h3>
+          <span class="lang-el">Παράδειγμα</span>
+          <span class="lang-en">Example</span>
+        </h3>
+        <p>
+          <span class="lang-el">
+            Ο Ανδρέας οδηγούσε για επαγγελματικό ραντεβού και απάντησε σε ένα μήνυμα στο κινητό του.
+            Μέσα σε δευτερόλεπτα, έχασε τον έλεγχο του οχήματος και προκάλεσε μικροατύχημα.
+            Από τότε, σταματά σε ασφαλές σημείο όποτε χρειάζεται να χρησιμοποιήσει το κινητό του.
+          </span>
+          <span class="lang-en">
+            Andreas was driving to a business meeting and replied to a message on his phone.
+            Within seconds he lost control and caused a minor accident.
+            Since then, he always stops in a safe place whenever he needs to use his phone.
+          </span>
+        </p>
+      </div>
+
+      <p class="card">
+        <strong>
+          <span class="lang-el">
+            🟢 «Η ασφάλεια δεν τελειώνει στο γραφείο — συνεχίζεται και στον δρόμο.»
+            Επιστρέφουμε πάντα σπίτι υγιείς και ασφαλείς· αυτό είναι το σημαντικότερο “ραντεβού” της ημέρας.
+          </span>
+          <span class="lang-en">
+            🟢 “Safety doesn’t end at the office — it continues on the road.”
+            Returning home healthy and safe is the most important “appointment” of the day.
+          </span>
+        </strong>
+      </p>
+    </section>
+
+    <!-- MINI QUIZ -->
+    <section id="quiz">
+      <h2>
+        <span class="lang-el">Mini Quiz — Ασφαλής Μετακίνηση &amp; Οδήγηση</span>
+        <span class="lang-en">Mini Quiz — Safe Travel &amp; Driving</span>
+      </h2>
+
+      <p class="quiz-note">
+        <span class="lang-el">
+          Επίλεξε απάντηση σε κάθε ερώτηση. Το ✓ και ✗ εμφανίζονται άμεσα.
+          Πάτησε «Επανεκκίνηση Quiz» για να καθαρίσεις τις επιλογές.
+        </span>
+        <span class="lang-en">
+          Choose an answer for each question. ✓ and ✗ appear instantly.
+          Press “Restart Quiz” to clear your answers.
+        </span>
+      </p>
+
+      <form class="quiz-form">
+        <!-- Q1 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">1. Πότε πρέπει να φοράς ζώνη ασφαλείας;</span>
+            <span class="lang-en">1. When should you wear a seatbelt?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q1a" name="q1">
+              <label for="q1a" data-correct="false">
+                <span class="lang-el">Μόνο σε μεγάλες αποστάσεις ή στον αυτοκινητόδρομο.</span>
+                <span class="lang-en">Only on long distances or motorways.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q1b" name="q1">
+              <label for="q1b" data-correct="true">
+                <span class="lang-el">Πάντα, ανεξάρτητα από την απόσταση.</span>
+                <span class="lang-en">Always, regardless of the distance.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">2. Τι είναι πιο ασφαλές όταν χτυπήσει το κινητό κατά την οδήγηση;</span>
+            <span class="lang-en">2. What is the safest option when your phone rings while driving?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q2a" name="q2">
+              <label for="q2a" data-correct="true">
+                <span class="lang-el">Να σταθμεύσεις σε ασφαλές σημείο και μετά να απαντήσεις.</span>
+                <span class="lang-en">Stop in a safe place and then answer.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q2b" name="q2">
+              <label for="q2b" data-correct="false">
+                <span class="lang-el">Να κοιτάξεις γρήγορα την οθόνη και να συνεχίσεις.</span>
+                <span class="lang-en">Quickly check the screen and keep driving.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">3. Ποια από τις παρακάτω συμπεριφορές είναι πιο επικίνδυνη;</span>
+            <span class="lang-en">3. Which of the following behaviours is the most dangerous?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q3a" name="q3">
+              <label for="q3a" data-correct="false">
+                <span class="lang-el">Να οδηγείς με ανοιχτό παράθυρο.</span>
+                <span class="lang-en">Driving with the window open.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q3b" name="q3">
+              <label for="q3b" data-correct="true">
+                <span class="lang-el">Να στέλνεις μήνυμα στο κινητό ενώ κινείσαι.</span>
+                <span class="lang-en">Sending a text message while moving.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">4. Τι πρέπει να κάνεις ως πεζός;</span>
+            <span class="lang-en">4. What should you do as a pedestrian?</span>
+          </h3>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <input type="radio" id="q4a" name="q4">
+              <label for="q4a" data-correct="true">
+                <span class="lang-el">Να χρησιμοποιείς διαβάσεις και να κοιτάς και από τις δύο πλευρές.</span>
+                <span class="lang-en">Use crossings and look both ways.</span>
+              </label>
+            </div>
+            <div class="quiz-option">
+              <input type="radio" id="q4b" name="q4">
+              <label for="q4b" data-correct="false">
+                <span class="lang-el">Να περνάς όπου βολεύει, ακόμη και ανάμεσα στα αυτοκίνητα.</span>
+                <span class="lang-en">Cross wherever is convenient, even between cars.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz-reset-wrap">
+          <button type="reset" class="btn secondary">
+            <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+            <span class="lang-el">Επανεκκίνηση Quiz</span>
+            <span class="lang-en">Restart Quiz</span>
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    © <span>2025</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+    <span class="lang-en">Occupational Health &amp; Safety</span>
+  </footer>
+</body>
+</html>
