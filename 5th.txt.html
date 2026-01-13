@@ -192,6 +192,35 @@
       box-shadow:0 10px 30px rgba(0,0,0,.7);
     }
 
+    /* ====== ΕΝΣΩΜΑΤΩΣΗ ΕΙΚΟΝΑΣ ΕΡΓΟΝΟΜΙΑΣ ====== */
+    .ergonomia-image{
+      margin:14px 0 18px;
+      text-align:center;
+    }
+    .ergonomia-image img{
+  max-width:100%;
+  height:auto;
+  border-radius:14px;
+  border:1px solid #1f2937;
+  box-shadow:0 14px 34px rgba(0,0,0,.8);
+  cursor: default;          /* <-- όχι zoom cursor */
+  pointer-events: none;     /* <-- δεν γίνεται κλικ */
+}
+
+.ergonomia-image img:hover{
+  transform:none;           /* <-- όχι animation */
+  box-shadow:0 14px 34px rgba(0,0,0,.8);
+}
+
+ 
+    }
+    .ergonomia-caption{
+      margin-top:8px;
+      font-size:16px;
+      color:var(--muted);
+      font-style:italic;
+    }
+
     /* QUIZ BASE */
     .quiz-question{
       border-radius:14px;
@@ -465,8 +494,6 @@
         </span>
       </div>
 
-      
-
       <div class="grow"></div>
 
       <button class="btn" id="langBtn" type="button">
@@ -628,6 +655,18 @@
           data-en="5.2 Organising the workstation">
         5.2 Οργάνωση του σταθμού εργασίας
       </h2>
+
+      <!-- ✅ ΕΔΩ ΕΝΣΩΜΑΤΩΘΗΚΕ Η ΕΙΚΟΝΑ (ΚΑΙ ΑΝΟΙΓΕΙ ΣΕ ΝΕΟ TAB ΜΕ ΚΛΙΚ) -->
+      <div class="ergonomia-image">
+        <a href="https://panos5439.github.io/sotaoffice/deskpos.png" target="_blank" rel="noopener">
+          <img
+            src="https://panos5439.github.io/sotaoffice/deskpos.png"
+            alt="Σωστή και λανθασμένη στάση σώματος μπροστά σε υπολογιστή">
+        </a>
+        
+             
+       
+      </div>
 
       <div class="row">
         <div class="card">
