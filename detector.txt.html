@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Πυρανίχνευση: Ανιχνευτές καπνού &amp; θερμότητας</title>
+
+  <!-- Icons (μόνο για header / κουμπιά / τίτλους) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer"/>
+
+  <style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#ef4444;
+      --primary-soft:#fca5a5;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #ef444430 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e30 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{ position:absolute; left:-9999px; }
+    .lang-en{ display:none; }
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{ display:none; }
+
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{ display:inline; }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 10px rgba(239,68,68,.9));
+    }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#ef4444,#22c55e);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#ef444425 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e25 0,transparent 45%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+    @keyframes fadeUp{ to{ opacity:1; transform:translateY(0); } }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin-top:0; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(252,165,165,.9);
+      background:linear-gradient(90deg,rgba(239,68,68,.22),rgba(34,197,94,.14));
+      font-size:16px;
+      color:#fff;
+      box-shadow:0 0 22px rgba(239,68,68,.55);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#fecaca; }
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(239,68,68,.35); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(239,68,68,.65); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.85));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+      margin-top:12px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    /* ΕΙΚΟΝΑ: responsive + center (χωρίς να χρειάζεσαι κάτι άλλο) */
+    .img-center{
+      max-width:100%;
+      height:auto;
+      display:block;
+      margin:0 auto 8px;
+      border-radius:10px;
+      border:1px solid #1e293b;
+      background:#000;
+    }
+    .img-cap{
+      font-size:13px;
+      color:#e5e7eb;
+      margin:0 0 8px;
+      text-align:center;
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- CSS-toggle για γλώσσα -->
+  <input type="checkbox" id="langToggle" />
+
+  <a id="top"></a>
+
+  <header>
+    <nav class="nav" aria-label="Κύρια πλοήγηση">
+      <div class="brand">
+        <i class="fa-solid fa-bell" aria-hidden="true"></i>
+        <span class="lang-el">Πυρανίχνευση · Ανιχνευτές καπνού/θερμότητας</span>
+        <span class="lang-en">Fire Detection · Smoke/Heat Detectors</span>
+      </div>
+
+      <div class="grow"></div>
+
+      <label for="langToggle" class="btn">
+        <i class="fa-solid fa-language" aria-hidden="true"></i>
+        <span class="lang-el">English</span>
+        <span class="lang-en">Ελληνικά</span>
+      </label>
+
+      <a href="#top" class="btn secondary" aria-label="Πάνω" title="Πάνω">
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Εισαγωγή -->
+    <section id="intro">
+      <div class="badge">
+        <i class="fa-solid fa-fire" aria-hidden="true"></i>
+        <span class="lang-el">🔥 ΠΥΡΑΝΙΧΝΕΥΣΗ: ΕΓΚΑΙΡΗ ΠΡΟΕΙΔΟΠΟΙΗΣΗ</span>
+        <span class="lang-en">🔥 FIRE DETECTION: EARLY WARNING</span>
+      </div>
+
+      <h1>
+        <span class="lang-el">Ανιχνευτές καπνού &amp; θερμότητας</span>
+        <span class="lang-en">Smoke &amp; heat detectors</span>
+      </h1>
+
+      <p>
+        <span class="lang-el">
+          🎯 Στόχος: Να κατανοήσουμε τι είναι η πυρανίχνευση, πώς λειτουργούν οι ανιχνευτές και τι κάνουμε
+          όταν ενεργοποιηθεί ο συναγερμός, ώστε να ξεκινήσει άμεσα και με ασφάλεια η εκκένωση.
+        </span>
+        <span class="lang-en">
+          🎯 Goal: To understand fire detection, how detectors work, and what shows the correct response
+          when the alarm activates, so evacuation starts quickly and safely.
+        </span>
+      </p>
+
+      <p class="pill">
+        <span class="lang-el">Κανόνας: Ακούω συναγερμό → απομακρύνομαι → ακολουθώ έξοδο κινδύνου.</span>
+        <span class="lang-en">Rule: Hear alarm → move away → follow emergency exit route.</span>
+      </p>
+    </section>
+
+    <!-- Τι είναι -->
+    <section id="what">
+      <h2>
+        <span class="lang-el">1) Τι είναι η πυρανίχνευση</span>
+        <span class="lang-en">1) What fire detection is</span>
+      </h2>
+
+      <p>
+        <span class="lang-el">
+          Η πυρανίχνευση είναι ένα σύστημα που εντοπίζει έγκαιρα σημάδια φωτιάς (καπνό ή θερμότητα)
+          και μπορεί να ενεργοποιήσει τον συναγερμό, ώστε να ειδοποιηθούν άμεσα οι άνθρωποι στον χώρο.
+        </span>
+        <span class="lang-en">
+          Fire detection is a system that identifies early signs of fire (smoke or heat)
+          and can trigger the alarm, warning people in the building as soon as possible.
+        </span>
+      </p>
+    </section>
+
+    <!-- Πώς λειτουργεί + εικόνα -->
+    <section id="how">
+      <h2>
+        <span class="lang-el">2) Πώς λειτουργεί</span>
+        <span class="lang-en">2) How it works</span>
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3>
+            <span class="lang-el">📸 Παράδειγμα ανιχνευτή καπνού</span>
+            <span class="lang-en">📸 Smoke detector example</span>
+          </h3>
+
+          <!-- Εικόνα από Wikimedia (σταθερό link) -->
+          <img
+            class="img-center"
+            src="https://commons.wikimedia.org/wiki/Special:FilePath/Smoke%20detector.JPG"
+            alt="Ανιχνευτής καπνού / Smoke detector"
+            loading="lazy"
+          />
+          <p class="img-cap">
+            <span class="lang-el">Ενδεικτική φωτογραφία ανιχνευτή καπνού (τοποθέτηση στην οροφή).</span>
+            <span class="lang-en">Illustrative photo of a ceiling-mounted smoke detector.</span>
+          </p>
+
+          <p>
+            <span class="lang-el">
+              Οι ανιχνευτές τοποθετούνται συνήθως στην οροφή και συνδέονται με τον πίνακα πυρανίχνευσης
+              (fire alarm control panel).
+            </span>
+            <span class="lang-en">
+              Detectors are typically installed on the ceiling and connected to the fire alarm control panel.
+            </span>
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Ανιχνευτής καπνού</span>
+            <span class="lang-en">Smoke detector</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Ανιχνεύει σωματίδια καπνού στον αέρα.</span>
+              <span class="lang-en">Detects smoke particles in the air.</span>
+            </li>
+            <li>
+              <span class="lang-el">Ενεργοποιείται νωρίς σε καπνό (π.χ. σε διαδρόμους/γραφεία, ανάλογα με τη μελέτη).</span>
+              <span class="lang-en">Activates early when smoke appears (e.g., corridors/offices, depending on the design).</span>
+            </li>
+            <li>
+              <span class="lang-el">Στέλνει σήμα στον πίνακα → ενεργοποιούνται σειρήνες/φάροι όπου υπάρχουν.</span>
+              <span class="lang-en">Sends a signal to the panel → sirens/beacons activate where installed.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Ανιχνευτής θερμότητας</span>
+            <span class="lang-en">Heat detector</span>
+          </h3>
+          <ul>
+            <li>
+              <span class="lang-el">Ενεργοποιείται από υψηλή θερμοκρασία ή απότομη αύξηση θερμοκρασίας.</span>
+              <span class="lang-en">Activates at a high temperature or rapid temperature rise.</span>
+            </li>
+            <li>
+              <span class="lang-el">Χρησιμοποιείται συχνά σε χώρους όπου μπορεί να υπάρχει ατμός/σκόνη (ανάλογα με τη μελέτη).</span>
+              <span class="lang-en">Often used where steam/dust may exist (depending on the design).</span>
+            </li>
+            <li>
+              <span class="lang-el">Λειτουργεί συμπληρωματικά με την πυρανίχνευση καπνού για καλύτερη κάλυψη.</span>
+              <span class="lang-en">Works alongside smoke detection for better coverage.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Συμπληρωματικά: κομβία συναγερμού</span>
+            <span class="lang-en">Also: manual call points</span>
+          </h3>
+          <p>
+            <span class="lang-el">
+              Η πυρανίχνευση είναι “αυτόματη” ειδοποίηση. Τα κομβία συναγερμού είναι “χειροκίνητη” ειδοποίηση
+              όταν κάποιος δει φωτιά/καπνό.
+            </span>
+            <span class="lang-en">
+              Fire detection is the “automatic” warning. Manual call points provide a “manual” warning
+              when someone sees fire/smoke.
+            </span>
+          </p>
+          <p class="pill">
+            <span class="lang-el">Αν δεις φωτιά: ενεργοποίησε συναγερμό (αν υπάρχει) και εκκένωσε.</span>
+            <span class="lang-en">If you see fire: activate the alarm (if available) and evacuate.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Τι κάνω όταν χτυπήσει -->
+    <section id="what-to-do">
+      <h2>
+        <span class="lang-el">3) Τι κάνω όταν ενεργοποιηθεί ο συναγερμός</span>
+        <span class="lang-en">3) What to do when the alarm activates</span>
+      </h2>
+
+      <ul>
+        <li>
+          <span class="lang-el">Παραμένω ψύχραιμος/η και σταματώ άμεσα ό,τι κάνω.</span>
+          <span class="lang-en">Stay calm and stop what you’re doing.</span>
+        </li>
+        <li>
+          <span class="lang-el">Ακολουθώ την πλησιέστερη έξοδο κινδύνου και τις πράσινες πινακίδες.</span>
+          <span class="lang-en">Follow the nearest emergency exit and green safety signs.</span>
+        </li>
+        <li>
+          <span class="lang-el">Δεν χρησιμοποιώ ασανσέρ. Χρησιμοποιώ σκάλες.</span>
+          <span class="lang-en">Do not use elevators. Use stairs.</span>
+        </li>
+        <li>
+          <span class="lang-el">Πηγαίνω στο σημείο συγκέντρωσης και περιμένω οδηγίες.</span>
+          <span class="lang-en">Go to the assembly point and wait for instructions.</span>
+        </li>
+      </ul>
+
+      <p class="card">
+        <strong>
+          <span class="lang-el">⚠️ Μην καλύπτεις, βάφεις ή μετακινείς ανιχνευτές. Αν δεις βλάβη/φθορά, ενημέρωσε άμεσα.</span>
+          <span class="lang-en">⚠️ Do not cover, paint or move detectors. If you notice damage, report it immediately.</span>
+        </strong>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    © <span>2026</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+    <span class="lang-en">Occupational Health &amp; Safety</span>
+  </footer>
+</body>
+</html>

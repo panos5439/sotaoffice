@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Σεισμός: Τι κάνουμε & Εκκένωση γραφείων</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer"/>
+
+  <style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#f59e0b;
+      --primary-soft:#fde68a;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #f59e0b30 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e30 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== LANGUAGE (CSS ONLY) ===== */
+    #langToggle{ position:absolute; left:-9999px; }
+    .lang-en{ display:none; }
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{ display:none; }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{ display:inline; }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 10px rgba(245,158,11,.9));
+    }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#f59e0b,#22c55e);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      text-decoration:none;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 55%, #020617 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+    section:nth-of-type(8){ animation-delay:.48s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#f59e0b25 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e25 0,transparent 45%);
+      opacity:.65;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+    @keyframes fadeUp{ to{ opacity:1; transform:translateY(0);} }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin-top:0; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(253,224,71,.85);
+      background:linear-gradient(90deg,rgba(245,158,11,.25),rgba(34,197,94,.18));
+      font-size:16px;
+      color:#fff;
+      box-shadow:0 0 22px rgba(245,158,11,.55);
+      animation:pulseBadge 3s ease-in-out infinite;
+      margin-bottom:8px;
+    }
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(245,158,11,.35); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(245,158,11,.65); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.85));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+      margin-top:12px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 70%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    .callout{
+      border:1px solid #334155;
+      border-radius:14px;
+      padding:12px 14px;
+      background:linear-gradient(90deg,rgba(245,158,11,.10),rgba(34,197,94,.08));
+      margin-top:12px;
+    }
+
+    /* ===== MINI QUIZ (CSS ONLY) ===== */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#020617 0,#020617 70%);
+    }
+    .quiz-question h3{ margin:0 0 8px; font-size:22px; }
+    .quiz-option{ margin:6px 0; }
+    .quiz-option input{ position:absolute; left:-9999px; }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #1e293b;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+    .quiz-option input:checked + label{
+      border-color:#38bdf8;
+      box-shadow:0 0 0 1px #0ea5e9;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+    .quiz-reset-wrap{ margin-top:10px; text-align:left; }
+    .quiz-reset-wrap .btn{ font-size:14px; padding:5px 11px; box-shadow:none; }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="checkbox" id="langToggle" />
+  <a id="top"></a>
+
+  <header>
+    <nav class="nav" aria-label="Κύρια πλοήγηση">
+      <div class="brand">
+        <i class="fa-solid fa-house-crack" aria-hidden="true"></i>
+        <span class="lang-el">Σεισμός · Οδηγίες & Εκκένωση γραφείων</span>
+        <span class="lang-en">Earthquake · Actions & Office Evacuation</span>
+      </div>
+
+      <div class="grow"></div>
+
+      <label for="langToggle" class="btn">
+        <i class="fa-solid fa-language" aria-hidden="true"></i>
+        <span class="lang-el">English</span>
+        <span class="lang-en">Ελληνικά</span>
+      </label>
+
+      <a href="#top" class="btn secondary" aria-label="Πάνω" title="Πάνω">
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Intro -->
+    <section id="intro">
+      <div class="badge">
+        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+        <span class="lang-el">🌍 ΟΔΗΓΟΣ ΣΕΙΣΜΟΥ: ΠΡΟΣΤΑΣΙΑ &amp; ΕΚΚΕΝΩΣΗ</span>
+        <span class="lang-en">🌍 EARTHQUAKE GUIDE: PROTECTION &amp; EVACUATION</span>
+      </div>
+
+      <h1>
+        <span class="lang-el">Τι κάνουμε σε σεισμό στο γραφείο</span>
+        <span class="lang-en">What to do during an earthquake at the office</span>
+      </h1>
+
+      <p>
+        <span class="lang-el">
+          🎯 Στόχος: Να ξέρουμε ακριβώς τι κάνουμε πριν, κατά τη διάρκεια και μετά από έναν σεισμό,
+          και πώς εκκενώνουμε οργανωμένα τα γραφεία με ασφάλεια.
+        </span>
+        <span class="lang-en">
+          🎯 Goal: To know exactly what to do before, during and after an earthquake,
+          and how to evacuate office spaces safely and in an organized way.
+        </span>
+      </p>
+
+      <p class="pill">
+        <span class="lang-el">Κανόνας: Σκύβω – Καλύπτομαι – Κρατιέμαι.</span>
+        <span class="lang-en">Rule: Drop – Cover – Hold on.</span>
+      </p>
+
+      <div class="callout">
+        <p style="margin:0;">
+          <strong>
+            <span class="lang-el">Σημαντικό:</span>
+            <span class="lang-en">Important:</span>
+          </strong>
+          <span class="lang-el"> Οι μετασεισμοί είναι συχνοί. Εκκενώνουμε μόνο όταν σταματήσει η δόνηση και είναι ασφαλές.</span>
+          <span class="lang-en"> Aftershocks are common. Evacuate only after shaking stops and it is safe to move.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Before (Preparedness) -->
+    <section id="before">
+      <h2>
+        <span class="lang-el">1) Πριν από σεισμό (προετοιμασία στο γραφείο)</span>
+        <span class="lang-en">1) Before an earthquake (office preparedness)</span>
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3>
+            <span class="lang-el">Τι γνωρίζω</span>
+            <span class="lang-en">What I should know</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Πού είναι οι έξοδοι κινδύνου και οι σκάλες.</span><span class="lang-en">Where emergency exits and stairs are.</span></li>
+            <li><span class="lang-el">Ποιο είναι το σημείο συγκέντρωσης.</span><span class="lang-en">Where the assembly point is.</span></li>
+            <li><span class="lang-el">Πού υπάρχει φαρμακείο/πρώτες βοήθειες.</span><span class="lang-en">Where the first aid kit is.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Τι τακτοποιώ</span>
+            <span class="lang-en">What I keep safe</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Δεν αφήνω βαριά αντικείμενα ψηλά (ράφια/ντουλάπια).</span><span class="lang-en">Avoid heavy objects on high shelves.</span></li>
+            <li><span class="lang-el">Σταθεροποιώ όπου γίνεται βιβλιοθήκες/οθόνες.</span><span class="lang-en">Secure bookcases/monitors where possible.</span></li>
+            <li><span class="lang-el">Κρατώ διαδρόμους και εξόδους ελεύθερες.</span><span class="lang-en">Keep corridors and exits clear.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Ρόλοι (αν υπάρχουν)</span>
+            <span class="lang-en">Roles (if assigned)</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Υπεύθυνος εκκένωσης: καθοδηγεί τη ροή προς τις σκάλες.</span><span class="lang-en">Evacuation warden: guides flow to stairs.</span></li>
+            <li><span class="lang-el">Πρώτες βοήθειες: βοηθά σε ελαφρά περιστατικά.</span><span class="lang-en">First aiders: assist with minor injuries.</span></li>
+            <li><span class="lang-el">Σημείο καταμέτρησης: επιβεβαιώνει παρουσίες.</span><span class="lang-en">Roll-call point: confirms people are accounted for.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- During -->
+    <section id="during">
+      <h2>
+        <span class="lang-el">2) Κατά τη διάρκεια του σεισμού</span>
+        <span class="lang-en">2) During the earthquake</span>
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3>
+            <span class="lang-el">Αν είμαι σε γραφείο</span>
+            <span class="lang-en">If I’m at a desk</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Σκύβω και μπαίνω κάτω από γερό γραφείο.</span><span class="lang-en">Drop and get under a sturdy desk.</span></li>
+            <li><span class="lang-el">Καλύπτω κεφάλι/αυχένα με χέρια.</span><span class="lang-en">Protect head/neck with arms.</span></li>
+            <li><span class="lang-el">Κρατιέμαι από πόδι γραφείου μέχρι να σταματήσει.</span><span class="lang-en">Hold on to the desk leg until shaking stops.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Αν είμαι σε διάδρομο/ανοικτό χώρο</span>
+            <span class="lang-en">If I’m in a corridor/open area</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Πηγαίνω προς εσωτερικό τοίχο, μακριά από τζάμια.</span><span class="lang-en">Move to an interior wall, away from glass.</span></li>
+            <li><span class="lang-el">Σκύβω και καλύπτω κεφάλι/αυχένα.</span><span class="lang-en">Drop and protect head/neck.</span></li>
+            <li><span class="lang-el">Δεν τρέχω προς σκάλες όσο κουνάει.</span><span class="lang-en">Don’t run to stairs while shaking.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Τι αποφεύγω</span>
+            <span class="lang-en">What I avoid</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Δεν χρησιμοποιώ ασανσέρ.</span><span class="lang-en">Do not use elevators.</span></li>
+            <li><span class="lang-el">Δεν στέκομαι κοντά σε ράφια/ντουλάπια/φωτιστικά.</span><span class="lang-en">Avoid shelves/cabinets/lights.</span></li>
+            <li><span class="lang-el">Δεν βγαίνω έξω τρέχοντας την ώρα της δόνησης.</span><span class="lang-en">Don’t rush outside during shaking.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="pill">
+        <span class="lang-el">Αν είσαι δίπλα σε παράθυρο: απομακρύνσου άμεσα και κάλυψε το κεφάλι.</span>
+        <span class="lang-en">If you’re near a window: move away immediately and protect your head.</span>
+      </p>
+    </section>
+
+    <!-- After -->
+    <section id="after">
+      <h2>
+        <span class="lang-el">3) Αμέσως μετά (έλεγχος &amp; ετοιμότητα για εκκένωση)</span>
+        <span class="lang-en">3) Immediately after (check &amp; prepare to evacuate)</span>
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3>
+            <span class="lang-el">Γρήγορος έλεγχος</span>
+            <span class="lang-en">Quick check</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Ελέγχω τον εαυτό μου και τους γύρω για τραυματισμούς.</span><span class="lang-en">Check yourself and others for injuries.</span></li>
+            <li><span class="lang-el">Ελέγχω για κινδύνους: σπασμένα γυαλιά, πεσμένα αντικείμενα.</span><span class="lang-en">Look for hazards: broken glass, fallen items.</span></li>
+            <li><span class="lang-el">Ακούω οδηγίες από υπεύθυνους/ανακοινώσεις αν υπάρχουν.</span><span class="lang-en">Listen for instructions/announcements if available.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Αν υπάρχει ένδειξη κινδύνου</span>
+            <span class="lang-en">If there are danger signs</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Μυρωδιά αερίου/καπνός → απομακρύνομαι άμεσα και ειδοποιώ.</span><span class="lang-en">Gas smell/smoke → move away and report.</span></li>
+            <li><span class="lang-el">Πεσμένα καλώδια/σπινθήρες → δεν αγγίζω, κρατώ απόσταση.</span><span class="lang-en">Down wires/sparks → don’t touch, keep distance.</span></li>
+            <li><span class="lang-el">Ρωγμές/πτώσεις σοβάδων → αποφεύγω τη διέλευση από κάτω.</span><span class="lang-en">Cracks/falling debris → avoid passing underneath.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Μετασεισμοί</span>
+            <span class="lang-en">Aftershocks</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Πιθανοί ανά πάσα στιγμή.</span><span class="lang-en">Can happen at any time.</span></li>
+            <li><span class="lang-el">Αν ξεκινήσει μετασεισμός, σταματώ και καλύπτομαι ξανά.</span><span class="lang-en">If an aftershock starts, stop and cover again.</span></li>
+            <li><span class="lang-el">Κρατώ την έξοδο “στο μυαλό”, αλλά δεν πανικοβάλλομαι.</span><span class="lang-en">Keep exits in mind, stay calm.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evacuation (Detailed) -->
+    <section id="evacuation">
+      <h2>
+        <span class="lang-el">4) Εκκένωση γραφείων (βήμα-βήμα)</span>
+        <span class="lang-en">4) Office evacuation (step-by-step)</span>
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3>
+            <span class="lang-el">Βήμα 1: Ξεκινάω οργανωμένα</span>
+            <span class="lang-en">Step 1: Start calmly</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Παίρνω μόνο απολύτως απαραίτητα (π.χ. κινητό), χωρίς καθυστέρηση.</span><span class="lang-en">Take only essentials (e.g., phone), no delays.</span></li>
+            <li><span class="lang-el">Κλείνω πόρτες πίσω μου, χωρίς να τις κλειδώνω.</span><span class="lang-en">Close doors behind you, do not lock.</span></li>
+            <li><span class="lang-el">Προχωράω σε σειρά, χωρίς σπρωξίματα.</span><span class="lang-en">Move in order, no pushing.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Βήμα 2: Σκάλες &amp; διαδρομή</span>
+            <span class="lang-en">Step 2: Stairs &amp; route</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Χρησιμοποιώ μόνο σκάλες (όχι ασανσέρ).</span><span class="lang-en">Use stairs only (no elevators).</span></li>
+            <li><span class="lang-el">Κρατιέμαι από κουπαστή, βλέπω το πάτημα.</span><span class="lang-en">Hold the handrail, watch your steps.</span></li>
+            <li><span class="lang-el">Ακολουθώ τις οδεύσεις/εξόδους κινδύνου.</span><span class="lang-en">Follow escape routes/emergency exits.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Βήμα 3: Σημείο συγκέντρωσης</span>
+            <span class="lang-en">Step 3: Assembly point</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Απομακρύνομαι από κτίρια, προσόψεις, τζάμια.</span><span class="lang-en">Stay away from buildings, facades, glass.</span></li>
+            <li><span class="lang-el">Μένω στο σημείο συγκέντρωσης μέχρι οδηγίες.</span><span class="lang-en">Stay at the assembly point until instructed.</span></li>
+            <li><span class="lang-el">Γίνεται καταμέτρηση/ενημέρωση υπεύθυνου αν λείπει κάποιος.</span><span class="lang-en">Roll-call is done; report missing persons.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Τι δεν κάνω</span>
+            <span class="lang-en">What I don’t do</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Δεν επιστρέφω στο κτίριο χωρίς επίσημη έγκριση.</span><span class="lang-en">Do not re-enter without official clearance.</span></li>
+            <li><span class="lang-el">Δεν μπλοκάρω σκάλες/εξόδους για να “περιμένω”.</span><span class="lang-en">Don’t block stairs/exits to “wait”.</span></li>
+            <li><span class="lang-el">Δεν στέκομαι κάτω από μπαλκόνια/επιγραφές.</span><span class="lang-en">Don’t stand under balconies/signs.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="card">
+        <strong>
+          <span class="lang-el">⚠️ Αν υπάρχει καπνός/φωτιά, ακολουθώ τις οδηγίες πυρασφάλειας και αλλάζω διαδρομή αν χρειάζεται.</span>
+          <span class="lang-en">⚠️ If there is smoke/fire, follow fire safety procedures and change route if needed.</span>
+        </strong>
+      </p>
+    </section>
+
+    <!-- Special cases -->
+    <section id="special">
+      <h2>
+        <span class="lang-el">5) Ειδικές περιπτώσεις</span>
+        <span class="lang-en">5) Special situations</span>
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3>
+            <span class="lang-el">Αν κάποιος έχει δυσκολία μετακίνησης</span>
+            <span class="lang-en">If someone has mobility difficulties</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Ζητάμε βοήθεια από υπεύθυνο/ομάδα υποστήριξης.</span><span class="lang-en">Ask for help from the assigned support/warden.</span></li>
+            <li><span class="lang-el">Κινούμαστε προς ασφαλή περιοχή/κλιμακοστάσιο χωρίς πανικό.</span><span class="lang-en">Move calmly to a safer area/stairwell.</span></li>
+            <li><span class="lang-el">Δεν επιχειρούμε επικίνδυνες μεταφορές χωρίς οδηγίες.</span><span class="lang-en">Don’t attempt risky carries without guidance.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Αν εγκλωβιστώ</span>
+            <span class="lang-en">If I’m trapped</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Παραμένω ήρεμος/η και καλώ βοήθεια αν μπορώ.</span><span class="lang-en">Stay calm and call for help if possible.</span></li>
+            <li><span class="lang-el">Καλύπτω στόμα/μύτη από σκόνη, αποφεύγω άσκοπη κίνηση.</span><span class="lang-en">Cover mouth/nose from dust, avoid unnecessary movement.</span></li>
+            <li><span class="lang-el">Αν υπάρχει δυνατότητα, κάνω θόρυβο περιοδικά (όχι συνεχώς) για εντοπισμό.</span><span class="lang-en">Make periodic noise (not constantly) to help rescuers locate you.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Επικοινωνία</span>
+            <span class="lang-en">Communication</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Στέλνω σύντομο μήνυμα αντί για κλήση (αποσυμφόρηση δικτύου).</span><span class="lang-en">Prefer short texts instead of calls (reduces network load).</span></li>
+            <li><span class="lang-el">Ακολουθώ τις οδηγίες της επιχείρησης/υπεύθυνων.</span><span class="lang-en">Follow company/warden instructions.</span></li>
+            <li><span class="lang-el">Δεν διασπείρω φήμες – επιβεβαιώνω πληροφορίες.</span><span class="lang-en">Avoid rumors—verify information.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick checklist -->
+    <section id="checklist">
+      <h2>
+        <span class="lang-el">Γρήγορη υπενθύμιση (checklist)</span>
+        <span class="lang-en">Quick reminder (checklist)</span>
+      </h2>
+
+      <div class="row">
+        <div class="card">
+          <h3>
+            <span class="lang-el">Κατά τη δόνηση</span>
+            <span class="lang-en">During shaking</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Σκύβω</span><span class="lang-en">Drop</span></li>
+            <li><span class="lang-el">Καλύπτομαι</span><span class="lang-en">Cover</span></li>
+            <li><span class="lang-el">Κρατιέμαι</span><span class="lang-en">Hold on</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Μετά τη δόνηση</span>
+            <span class="lang-en">After shaking</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Έλεγχος τραυματισμών</span><span class="lang-en">Check injuries</span></li>
+            <li><span class="lang-el">Προσοχή σε κινδύνους</span><span class="lang-en">Watch hazards</span></li>
+            <li><span class="lang-el">Εκκένωση με σκάλες</span><span class="lang-en">Evacuate via stairs</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>
+            <span class="lang-el">Στο σημείο συγκέντρωσης</span>
+            <span class="lang-en">At assembly point</span>
+          </h3>
+          <ul>
+            <li><span class="lang-el">Καταμέτρηση</span><span class="lang-en">Roll-call</span></li>
+            <li><span class="lang-el">Αναφορά προβλημάτων</span><span class="lang-en">Report issues</span></li>
+            <li><span class="lang-el">Αναμονή οδηγιών</span><span class="lang-en">Wait for instructions</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MINI QUIZ -->
+    <section id="quiz">
+      <h2>
+        <span class="lang-el">Mini Quiz — Σεισμός</span>
+        <span class="lang-en">Mini Quiz — Earthquake</span>
+      </h2>
+
+      <p class="quiz-note">
+        <span class="lang-el">Επίλεξε απάντηση σε κάθε ερώτηση. Το ✓ και ✗ εμφανίζονται άμεσα.</span>
+        <span class="lang-en">Choose an answer for each question. ✓ and ✗ appear instantly.</span>
+      </p>
+
+      <form class="quiz-form">
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">1. Τι κάνεις πρώτα όταν ξεκινά ο σεισμός;</span>
+            <span class="lang-en">1. What do you do first when an earthquake starts?</span>
+          </h3>
+          <div class="quiz-option">
+            <input type="radio" id="q1a" name="q1">
+            <label for="q1a" data-correct="true">
+              <span class="lang-el">Σκύβω, καλύπτομαι και κρατιέμαι.</span>
+              <span class="lang-en">Drop, cover and hold on.</span>
+            </label>
+          </div>
+          <div class="quiz-option">
+            <input type="radio" id="q1b" name="q1">
+            <label for="q1b" data-correct="false">
+              <span class="lang-el">Τρέχω προς την έξοδο.</span>
+              <span class="lang-en">Run to the exit.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">2. Πότε εκκενώνεις το κτίριο;</span>
+            <span class="lang-en">2. When do you evacuate?</span>
+          </h3>
+          <div class="quiz-option">
+            <input type="radio" id="q2a" name="q2">
+            <label for="q2a" data-correct="false">
+              <span class="lang-el">Κατά τη διάρκεια της δόνησης.</span>
+              <span class="lang-en">During the shaking.</span>
+            </label>
+          </div>
+          <div class="quiz-option">
+            <input type="radio" id="q2b" name="q2">
+            <label for="q2b" data-correct="true">
+              <span class="lang-el">Αφού σταματήσει η δόνηση και είναι ασφαλές να κινηθώ.</span>
+              <span class="lang-en">After shaking stops and it is safe to move.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-question">
+          <h3>
+            <span class="lang-el">3. Ποιο είναι σωστό για την εκκένωση;</span>
+            <span class="lang-en">3. Which is correct for evacuation?</span>
+          </h3>
+          <div class="quiz-option">
+            <input type="radio" id="q3a" name="q3">
+            <label for="q3a" data-correct="true">
+              <span class="lang-el">Χρησιμοποιώ σκάλες και κρατιέμαι από κουπαστή.</span>
+              <span class="lang-en">Use stairs and hold the handrail.</span>
+            </label>
+          </div>
+          <div class="quiz-option">
+            <input type="radio" id="q3b" name="q3">
+            <label for="q3b" data-correct="false">
+              <span class="lang-el">Χρησιμοποιώ ασανσέρ για να φύγω πιο γρήγορα.</span>
+              <span class="lang-en">Use the elevator to exit faster.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-reset-wrap">
+          <button type="reset" class="btn secondary">
+            <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+            <span class="lang-el">Επανεκκίνηση Quiz</span>
+            <span class="lang-en">Restart Quiz</span>
+          </button>
+        </div>
+      </form>
+
+      <p class="card" style="margin-top:12px;">
+        <strong>
+          <span class="lang-el">🟢 «Η ψυχραιμία σώζει. Σκύβω–Καλύπτομαι–Κρατιέμαι και εκκενώνω οργανωμένα.»</span>
+          <span class="lang-en">🟢 “Calm saves lives. Drop–Cover–Hold on, then evacuate in an organized way.”</span>
+        </strong>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    © <span>2026</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+    <span class="lang-en">Occupational Health &amp; Safety</span>
+  </footer>
+</body>
+</html>
