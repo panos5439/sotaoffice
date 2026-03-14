@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ενότητα 10: Χημικές Ουσίες &amp; Ασφαλής Διαχείριση</title>
 
-  <!-- Icons (μόνο για τίτλους / κουμπιά) -->
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         referrerpolicy="no-referrer"/>
@@ -37,7 +36,6 @@
       line-height:1.7;
     }
 
-    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
     #langToggle{
       position:absolute;
       left:-9999px;
@@ -55,7 +53,6 @@
       display:inline;
     }
 
-    /* HEADER */
     header{
       position:sticky;
       top:0;
@@ -130,7 +127,6 @@
       box-shadow:0 14px 30px rgba(15,23,42,.9);
     }
 
-    /* LAYOUT */
     main{
       max-width:var(--maxw);
       margin:22px auto;
@@ -196,7 +192,7 @@
     .badge i{ color:#c4b5fd; }
 
     @keyframes pulseBadge{
-      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(168,85,247,.4); }
+      0%,100%{ transform:scale(1); box-shadow:0 0 18px rgba(168,85,247,.4); }
       50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(168,85,247,.8); }
     }
 
@@ -238,7 +234,6 @@
       margin:0 auto 10px;
     }
 
-    /* ===== ANIMATION: ΧΗΜΙΚΟ ΦΙΑΛΙΔΙΟ ΜΕ ΦΟΥΣΚΑΛΕΣ ===== */
     .lab-hero{
       display:flex;
       flex-wrap:wrap;
@@ -307,7 +302,7 @@
       animation:liquidWaves 4s ease-in-out infinite;
     }
     @keyframes liquidWaves{
-      0%,100{ transform:translateY(0); }
+      0%,100%{ transform:translateY(0); }
       50%{ transform:translateY(-4px); }
     }
     .bubble{
@@ -330,28 +325,27 @@
       100%{ transform:translateY(-55px) scale(1.1); opacity:0; }
     }
 
-    /* ===== ΠΙΝΑΚΑΣ ΣΥΜΒΟΛΩΝ GHS (ΟΠΤΙΚΟ) ===== */
     .ghs-grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(170px,1fr));
-      gap:12px;
-      margin-top:12px;
+      grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+      gap:14px;
+      margin-top:14px;
     }
     .ghs-item{
       display:flex;
-      gap:10px;
-      padding:8px 10px;
-      border-radius:12px;
+      gap:12px;
+      padding:12px;
+      border-radius:14px;
       border:1px solid #1e293b;
-      background:#020617;
-      align-items:center;
+      background:linear-gradient(180deg,rgba(2,6,23,.95),rgba(15,23,42,.92));
+      align-items:flex-start;
+      min-height:170px;
+      box-shadow:0 12px 30px rgba(0,0,0,.55);
     }
-
-    /* RESPONSIVE FRAME ΓΙΑ ΚΑΘΕ GHS ΕΙΚΟΝΑ */
     .ghs-icon{
-      flex:0 0 60px;
-      height:60px;
-      border-radius:12px;
+      flex:0 0 68px;
+      height:68px;
+      border-radius:14px;
       background:#ffffff;
       border:2px solid #b91c1c;
       display:flex;
@@ -366,18 +360,43 @@
       object-fit:contain;
       display:block;
     }
-
+    .ghs-content{
+      flex:1;
+      min-width:0;
+    }
     .ghs-text-title{
       font-weight:bold;
       color:#f9fafb;
-      font-size:18px;
+      font-size:19px;
+      margin-bottom:4px;
     }
     .ghs-text-sub{
-      font-size:15px;
+      font-size:16px;
       color:#cbd5f5;
+      margin-bottom:8px;
+    }
+    .ghs-mini{
+      margin:0;
+      padding-left:18px;
+    }
+    .ghs-mini li{
+      font-size:16px;
+      line-height:1.55;
+      color:#dbe4f3;
+    }
+    .ghs-final-note{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(239,68,68,.45);
+      background:linear-gradient(90deg,rgba(127,29,29,.35),rgba(2,6,23,.92));
+      color:#fee2e2;
+      box-shadow:0 0 18px rgba(239,68,68,.18);
+    }
+    .ghs-final-note strong{
+      color:#fff;
     }
 
-    /* ===== MINI GAME: “ΒΑΘΜΟΣ ΕΠΙΚΙΝΔΥΝΟΤΗΤΑΣ” ===== */
     .chem-game{
       margin-top:14px;
       border-radius:16px;
@@ -423,7 +442,6 @@
       transition:width .25s ease, background .25s ease, box-shadow .25s ease;
     }
 
-    /* πλάτος & χρώμα ανά επιλογή */
     #scene_safe:checked ~ .chem-meter .chem-meter-fill{
       width:20%;
       background:linear-gradient(90deg,#22c55e,#bbf7d0);
@@ -469,7 +487,6 @@
       color:#c4b5fd;
     }
 
-    /* ενεργή επιλογή */
     #scene_safe:checked ~ .chem-options label[for="scene_safe"],
     #scene_mid:checked ~ .chem-options label[for="scene_mid"],
     #scene_danger:checked ~ .chem-options label[for="scene_danger"]{
@@ -502,7 +519,6 @@
       color:#f97373;
     }
 
-    /* QUIZ */
     .quiz-question{
       border-radius:14px;
       border:1px solid #1f2937;
@@ -588,12 +604,12 @@
     @media (max-width:768px){
       .lab-hero{ flex-direction:column; }
       .lab-visual-wrapper{ justify-content:flex-start; }
-      .ghs-grid{ grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); }
+      .ghs-grid{ grid-template-columns:1fr; }
+      .ghs-item{ min-height:auto; }
     }
   </style>
 </head>
 <body>
-  <!-- CSS-toggle για γλώσσα -->
   <input type="checkbox" id="langToggle" />
 
   <a id="top"></a>
@@ -621,7 +637,6 @@
   </header>
 
   <main>
-    <!-- Εισαγωγή + animation beaker -->
     <section id="intro">
       <div class="lab-hero">
         <div class="lab-text">
@@ -669,7 +684,6 @@
       </div>
     </section>
 
-    <!-- 10.1 Πού υπάρχουν χημικές ουσίες -->
     <section id="where">
       <h2>
         <span class="lang-el">10.1 Πού μπορεί να υπάρχουν χημικές ουσίες σε ένα γραφείο</span>
@@ -707,7 +721,6 @@
       </p>
     </section>
 
-    <!-- 10.2 Κίνδυνοι -->
     <section id="risks">
       <h2>
         <span class="lang-el">10.2 Κίνδυνοι από την κακή χρήση</span>
@@ -734,7 +747,6 @@
       </ul>
     </section>
 
-    <!-- 10.3 Βασικοί κανόνες ασφάλειας + mini game -->
     <section id="rules">
       <h2>
         <span class="lang-el">10.3 Βασικοί κανόνες ασφάλειας</span>
@@ -823,7 +835,6 @@
         </div>
       </div>
 
-      <!-- MINI GAME: “Πόσο ασφαλής είναι η σκηνή;” -->
       <div class="chem-game">
         <div class="chem-game-title">
           <i class="fa-solid fa-flask-vial" aria-hidden="true"></i>
@@ -831,7 +842,6 @@
           <span class="lang-en">Mini game: How safe is your chemical handling?</span>
         </div>
 
-        <!-- Επιλογές (ραδιόφωνα) -->
         <input type="radio" name="scene" id="scene_safe" checked />
         <input type="radio" name="scene" id="scene_mid" />
         <input type="radio" name="scene" id="scene_danger" />
@@ -891,136 +901,148 @@
       </div>
     </section>
 
-    <!-- 10.4 Σύμβολα GHS -->
-        <!-- 10.4 Σύμβολα GHS -->
     <section id="ghs">
       <h2>
-        <span class="lang-el">10.4 Σύμβολα κινδύνου (GHS)</span>
-        <span class="lang-en">10.4 Hazard symbols (GHS)</span>
+        <span class="lang-el">10.4 Εικονογράμματα Χημικού Κινδύνου (GHS)</span>
+        <span class="lang-en">10.4 Chemical Hazard Pictograms (GHS)</span>
       </h2>
 
       <p>
         <span class="lang-el">
-          Στις ετικέτες θα δεις χαρακτηριστικά σύμβολα. Κάθε ένα δείχνει διαφορετικό τύπο κινδύνου:
+          Στη συνέχεια αναλύονται τα 9 επίσημα εικονογράμματα μέσω παραδειγμάτων, ενώ παράλληλα παρουσιάζονται οι πιθανοί κίνδυνοι που μπορούν να προκληθούν.
         </span>
         <span class="lang-en">
-          On the labels you will see characteristic symbols. Each one shows a different type of hazard:
+          Next are analyzed the 9 official pictograms through examples, while at the same time are presented the possible dangers that can be caused.
         </span>
       </p>
 
       <div class="ghs-grid">
-        <!-- Τοξικό / Επιβλαβές – GHS06 Skull and crossbones -->
         <div class="ghs-item">
           <div class="ghs-icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/58/GHS-pictogram-skull.svg"
-                 alt="GHS skull and crossbones pictogram (toxic)" loading="lazy">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/58/GHS-pictogram-skull.svg" alt="GHS skull and crossbones pictogram" loading="lazy">
           </div>
-          <div>
-            <div class="ghs-text-title">
-              <span class="lang-el">Τοξικό / Επιβλαβές</span>
-              <span class="lang-en">Toxic / Harmful</span>
-            </div>
-            <div class="ghs-text-sub">
-              <span class="lang-el">Διαλύτες και ορισμένες κόλλες.</span>
-              <span class="lang-en">Solvent and some glues.</span>
-            </div>
+          <div class="ghs-content">
+            <div class="ghs-text-title"><span class="lang-el">Οξεία τοξικότητα</span><span class="lang-en">Toxic / Acute toxicity</span></div>
+            <div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: τοξικά φυτοφάρμακα, υδρόθειο, ορισμένοι ισχυροί διαλύτες.</span><span class="lang-en">Examples: toxic pesticides, hydrogen sulfide, some strong solvents.</span></div>
+            <ul class="ghs-mini">
+              <li><span class="lang-el">Κίνδυνοι: δηλητηρίαση, σοβαρή βλάβη ή θάνατος από εισπνοή, κατάποση ή επαφή.</span><span class="lang-en">Risks: poisoning, severe harm or death by inhalation, swallowing or contact.</span></li>
+            </ul>
           </div>
         </div>
 
-        <!-- Εύφλεκτο – GHS02 Flame -->
         <div class="ghs-item">
           <div class="ghs-icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/GHS-pictogram-flamme.svg"
-                 alt="GHS flame pictogram (flammable)" loading="lazy">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/GHS-pictogram-flamme.svg" alt="GHS flame pictogram" loading="lazy">
           </div>
-          <div>
-            <div class="ghs-text-title">
-              <span class="lang-el">Εύφλεκτο</span>
-              <span class="lang-en">Flammable</span>
-            </div>
-            <div class="ghs-text-sub">
-              <span class="lang-el">Αεροζόλ, καθαριστικά, σπρέι.</span>
-              <span class="lang-en">Aerosols, cleaners, sprays.</span>
-            </div>
+          <div class="ghs-content">
+            <div class="ghs-text-title"><span class="lang-el">Εύφλεκτο</span><span class="lang-en">Flammable</span></div>
+            <div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: αλκοόλες, βενζίνη, αεροζόλ, διαλυτικά.</span><span class="lang-en">Examples: alcohols, gasoline, aerosols, solvents.</span></div>
+            <ul class="ghs-mini">
+              <li><span class="lang-el">Κίνδυνοι: ανάφλεξη από σπινθήρα, θερμότητα ή φλόγα, φωτιά και έκρηξη.</span><span class="lang-en">Risks: ignition from spark, heat or flame, fire and explosion.</span></li>
+            </ul>
           </div>
         </div>
 
-        <!-- Οξειδωτικό – GHS03 Flame over circle -->
         <div class="ghs-item">
           <div class="ghs-icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/GHS-pictogram-rondflam.svg"
-                 alt="GHS flame over circle pictogram (oxidizing)" loading="lazy">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/GHS-pictogram-rondflam.svg" alt="GHS flame over circle pictogram" loading="lazy">
           </div>
-          <div>
-            <div class="ghs-text-title">
-              <span class="lang-el">Οξειδωτικό</span>
-              <span class="lang-en">Oxidising</span>
-            </div>
-            <div class="ghs-text-sub">
-              <span class="lang-el">Λευκαντικά και ισχυρά χημικά καθαρισμού.</span>
-              <span class="lang-en">Bleaches and strong cleaning agents.</span>
-            </div>
+          <div class="ghs-content">
+            <div class="ghs-text-title"><span class="lang-el">Οξειδωτικό</span><span class="lang-en">Oxidising</span></div>
+            <div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: υπεροξείδιο του υδρογόνου, νιτρικά, λευκαντικά.</span><span class="lang-en">Examples: hydrogen peroxide, nitrates, bleach.</span></div>
+            <ul class="ghs-mini">
+              <li><span class="lang-el">Κίνδυνοι: ενισχύει την καύση, επιταχύνει τη φωτιά και προκαλεί βίαιες χημικές αντιδράσεις.</span><span class="lang-en">Risks: it strengthens the burning, accelerates the fire and causes violent chemical reactions.</span></li>
+            </ul>
           </div>
         </div>
 
-        <!-- Διαβρωτικό – GHS05 Corrosive -->
         <div class="ghs-item">
           <div class="ghs-icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/GHS-pictogram-acid.svg"
-                 alt="GHS corrosive pictogram (acid)" loading="lazy">
+            <img src=https://panos5439.github.io/sotaoffice/ghs01.jpeg alt="GHS exploding bomb pictogram" loading="lazy">
           </div>
-          <div>
-            <div class="ghs-text-title">
-              <span class="lang-el">Διαβρωτικό</span>
-              <span class="lang-en">Corrosive</span>
-            </div>
-            <div class="ghs-text-sub">
-              <span class="lang-el">Καθαριστικά μπάνιου, απορρυπαντικά ισχυρής δράσης.</span>
-              <span class="lang-en">Bathroom cleaners, strong detergents.</span>
-            </div>
+          <div class="ghs-content">
+            <div class="ghs-text-title"><span class="lang-el">Εκρηκτικές ουσίες</span><span class="lang-en">Explosive</span></div>
+            <div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: εκρηκτικά μείγματα, πυροτεχνικά υλικά, ασταθή οργανικά υπεροξείδια.</span><span class="lang-en">Examples: explosive mixtures, pyrotechnic materials, unstable organic peroxides.</span></div>
+            <ul class="ghs-mini">
+              <li><span class="lang-el">Κίνδυνοι: έκρηξη από κρούση, τριβή, θερμότητα ή φλόγα.</span><span class="lang-en">Risks: explosion from impact, friction, heat or flame.</span></li>
+            </ul>
           </div>
         </div>
 
-        <!-- Προσοχή – GHS07 Exclamation mark -->
         <div class="ghs-item">
           <div class="ghs-icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/GHS-pictogram-exclam.svg"
-                 alt="GHS exclamation mark pictogram (warning/irritant)" loading="lazy">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/GHS-pictogram-acid.svg" alt="GHS corrosive pictogram" loading="lazy">
           </div>
-          <div>
-            <div class="ghs-text-title">
-              <span class="lang-el">Προσοχή</span>
-              <span class="lang-en">Warning</span>
-            </div>
-            <div class="ghs-text-sub">
-              <span class="lang-el">Ήπια καθαριστικά, μικρότεροι αλλά υπαρκτοί κίνδυνοι.</span>
-              <span class="lang-en">Mild cleaners, lower but real risks.</span>
-            </div>
+          <div class="ghs-content">
+            <div class="ghs-text-title"><span class="lang-el">Διαβρωτικό</span><span class="lang-en">Corrosive</span></div>
+            <div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: υδροχλωρικό οξύ, θειικό οξύ, ισχυρά καθαριστικά σωληνώσεων.</span><span class="lang-en">Examples: hydrochloric acid, sulfuric acid, strong drain cleaners.</span></div>
+            <ul class="ghs-mini">
+              <li><span class="lang-el">Κίνδυνοι: σοβαρά εγκαύματα δέρματος, βλάβη στα μάτια, διάβρωση μετάλλων.</span><span class="lang-en">Risks: severe skin burns, eye damage, corrosion of metals.</span></li>
+            </ul>
           </div>
         </div>
 
-        <!-- Επικίνδυνο για το περιβάλλον – GHS09 Environment -->
         <div class="ghs-item">
           <div class="ghs-icon">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/GHS-pictogram-pollu.svg"
-                 alt="GHS environment pictogram (environmental hazard)" loading="lazy">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/GHS-pictogram-exclam.svg" alt="GHS exclamation mark pictogram" loading="lazy">
           </div>
-          <div>
-            <div class="ghs-text-title">
-              <span class="lang-el">Επικίνδυνο για το περιβάλλον</span>
-              <span class="lang-en">Hazardous to the environment</span>
-            </div>
-            <div class="ghs-text-sub">
-              <span class="lang-el">Υγρά απολύμανσης και ορισμένα χημικά καθαρισμού.</span>
-              <span class="lang-en">Disinfectant liquids and some cleaning chemicals.</span>
-            </div>
+          <div class="ghs-content">
+            <div class="ghs-text-title"><span class="lang-el">Ερεθιστικό / επιβλαβές</span><span class="lang-en">Warning / Irritant</span></div>
+            <div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: απορρυπαντικά, κόλλες, ήπια καθαριστικά.</span><span class="lang-en">Examples: detergents, glues, mild cleaning products.</span></div>
+            <ul class="ghs-mini">
+              <li><span class="lang-el">Κίνδυνοι: ερεθισμός δέρματος, ματιών ή αναπνευστικού, αλλεργική αντίδραση.</span><span class="lang-en">Risks: skin, eye or respiratory irritation, allergic reaction.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ghs-item">
+          <div class="ghs-icon">
+            <img src=https://panos5439.github.io/sotaoffice/ghs08.jpeg loading="lazy">
+          </div>
+          <div class="ghs-content">
+            <div class="ghs-text-title"><span class="lang-el">Σοβαρές επιπτώσεις στην υγεία</span><span class="lang-en">Serious health hazard</span></div>
+            <div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: καρκινογόνες ουσίες, μεταλλαξιογόνες ουσίες.</span><span class="lang-en">Examples: carcinogens, mutagenic substances.</span></div>
+            <ul class="ghs-mini">
+              <li><span class="lang-el">Κίνδυνοι: καρκίνος, βλάβη οργάνων, ευαισθησία αναπνευστικού.</span><span class="lang-en">Risks: cancer, organ damage, respiratory sensitivity.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ghs-item">
+          <div class="ghs-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/GHS-pictogram-pollu.svg" alt="GHS environmental hazard pictogram" loading="lazy">
+          </div>
+          <div class="ghs-content">
+            <div class="ghs-text-title"><span class="lang-el">Επικίνδυνο για το περιβάλλον</span><span class="lang-en">Environmental hazard</span></div>
+            <div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: φυτοφάρμακα, λάδια, βιομηχανικά χημικά.</span><span class="lang-en">Examples: pesticides, oils, industrial chemicals.</span></div>
+            <ul class="ghs-mini">
+              <li><span class="lang-el">Κίνδυνοι: ρύπανση νερού, βλάβη σε υδρόβιους οργανισμούς και οικοσυστήματα.</span><span class="lang-en">Risks: water pollution, harm to aquatic life and ecosystems.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ghs-item">
+          <div class="ghs-icon">
+            <img src=https://panos5439.github.io/sotaoffice/ghs04.png alt="GHS gas cylinder pictogram" loading="lazy">
+          </div>
+          <div class="ghs-content">
+            <div class="ghs-text-title"><span class="lang-el">Αέριο υπό πίεση</span><span class="lang-en">Gas under pressure</span></div>
+            <div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: φιάλες οξυγόνου, προπανίου, πεπιεσμένο άζωτο.</span><span class="lang-en">Examples: oxygen, propane and compressed nitrogen.</span></div>
+            <ul class="ghs-mini">
+              <li><span class="lang-el">Κίνδυνοι: ρήξη φιάλης όταν θερμανθεί, βίαιη εκτόνωση πίεσης.</span><span class="lang-en">Risks: cylinder rupture when heated, violent pressure release.</span></li>
+            </ul>
           </div>
         </div>
       </div>
+
+      <p class="ghs-final-note">
+        <strong><span class="lang-el">⚠️ Μην αφαιρείτε ποτέ τις πινακίδες ή τις ετικέτες κινδύνου από τα δοχεία.</span><span class="lang-en">⚠️ Never remove hazard signs or labels from containers.</span></strong>
+        <br>
+        <span class="lang-el">Οι επισημάνσεις αυτές ενημερώνουν άμεσα για τον κίνδυνο και αποτελούν βασικό μέτρο πρόληψης ατυχήματος.</span>
+        <span class="lang-en">These markings give immediate hazard information and are a basic accident-prevention measure.</span>
+      </p>
     </section>
 
-
-    <!-- Παράδειγμα & Κεντρικό μήνυμα -->
     <section id="example">
       <h2>
         <span class="lang-el">Παράδειγμα &amp; Κεντρικό μήνυμα</span>
@@ -1050,7 +1072,6 @@
       </p>
     </section>
 
-    <!-- MINI QUIZ -->
     <section id="quiz">
       <h2>
         <span class="lang-el">Mini Quiz — Χημικές ουσίες &amp; ασφάλεια</span>
@@ -1069,7 +1090,6 @@
       </p>
 
       <form class="quiz-form">
-        <!-- Q1 -->
         <div class="quiz-question">
           <h3>
             <span class="lang-el">1. Ποιο είναι το πρώτο βήμα πριν χρησιμοποιήσεις ένα χημικό προϊόν;</span>
@@ -1093,7 +1113,6 @@
           </div>
         </div>
 
-        <!-- Q2 -->
         <div class="quiz-question">
           <h3>
             <span class="lang-el">2. Είναι σωστό να μεταγγίσω καθαριστικό σε μπουκάλι νερού χωρίς ετικέτα;</span>
@@ -1117,10 +1136,9 @@
           </div>
         </div>
 
-        <!-- Q3 -->
         <div class="quiz-question">
           <h3>
-            <span class="lang-el">3. Τι κάνω αν κατά λάθος έρθει χημικό στο δέρμα μου;</span>
+            <span class="lang-el">3. Τι κάνω αν κατά λάθος πέσει χημικό στο δέρμα μου;</span>
             <span class="lang-en">3. What should I do if a chemical accidentally gets on my skin?</span>
           </h3>
           <div class="quiz-options">
@@ -1141,7 +1159,6 @@
           </div>
         </div>
 
-        <!-- Q4 -->
         <div class="quiz-question">
           <h3>
             <span class="lang-el">4. Ποια από τις παρακάτω πρακτικές είναι ασφαλής;</span>
@@ -1177,7 +1194,7 @@
   </main>
 
   <footer>
-    © <span>2026</span> ·
+    © <span>2025</span> ·
     <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
     <span class="lang-en">Occupational Health &amp; Safety</span>
   </footer>
