@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Emergency Numbers</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f3f4f6;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.container{
+width:700px;
+max-width:90%;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+/* header */
+
+.header{
+background:#c40000;
+color:white;
+font-size:32px;
+font-weight:bold;
+padding:18px;
+border-radius:10px;
+}
+
+/* card rows */
+
+.card{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px;
+border-radius:10px;
+color:white;
+font-size:26px;
+font-weight:bold;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+transition:transform .2s;
+}
+
+.card:hover{
+transform:scale(1.02);
+}
+
+.left{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+/* colors */
+
+.police{
+background:#1e40af;
+}
+
+.fire{
+background:#dc2626;
+}
+
+.ambulance{
+background:#16a34a;
+}
+
+.eu{
+background:#ea580c;
+}
+
+.number{
+font-size:40px;
+font-weight:900;
+}
+
+.icon svg{
+display:block;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+🚨 Emergency Numbers
+</div>
+
+<!-- POLICE -->
+
+<div class="card police">
+
+<div class="left">
+
+<div class="icon">
+
+<svg width="42" height="42" viewBox="0 0 24 24">
+
+<defs>
+<radialGradient id="g" cx="50%" cy="40%">
+<stop offset="0%" stop-color="#60a5fa"/>
+<stop offset="100%" stop-color="#1d4ed8"/>
+</radialGradient>
+</defs>
+
+<!-- beacon base -->
+<rect x="6" y="16" width="12" height="3" fill="#1f2937" rx="1"/>
+
+<!-- beacon light body -->
+<rect x="7" y="8" width="10" height="8" rx="2" fill="url(#g)"/>
+
+<!-- reflection highlight -->
+<rect x="9" y="9" width="2" height="6" fill="#bfdbfe" opacity="0.6"/>
+
+<!-- light rays -->
+<path d="M12 4v2" stroke="#60a5fa" stroke-width="2"/>
+<path d="M5 6l2 1" stroke="#60a5fa" stroke-width="2"/>
+<path d="M19 6l-2 1" stroke="#60a5fa" stroke-width="2"/>
+
+</svg>
+
+</div>
+
+Police
+
+</div>
+
+<div class="number">
+100
+</div>
+
+</div>
+
+<!-- FIRE -->
+
+<div class="card fire">
+
+<div class="left">
+
+<div class="icon">
+🚒
+</div>
+
+Fire Department
+
+</div>
+
+<div class="number">
+199
+</div>
+
+</div>
+
+<!-- AMBULANCE -->
+
+<div class="card ambulance">
+
+<div class="left">
+
+<div class="icon">
+🚑
+</div>
+
+Ambulance
+
+</div>
+
+<div class="number">
+166
+</div>
+
+</div>
+
+<!-- EU -->
+
+<div class="card eu">
+
+<div class="left">
+
+<div class="icon">
+🇪🇺
+</div>
+
+EU Emergency Number
+
+</div>
+
+<div class="number">
+112
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
