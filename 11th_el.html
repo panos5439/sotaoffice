@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ενότητα 11: Ασφαλής Μετακίνηση &amp; Οδήγηση</title>
+<!-- Icons (μόνο για τίτλους / κουμπιά) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#38bdf8;
+      --primary-soft:#7dd3fc;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #0ea5e955 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e55 0, #020617 65%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:#38bdf8;
+      filter:drop-shadow(0 0 12px rgba(56,189,248,1));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#38bdf8,#22c55e);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#f9fafb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#38bdf8,#22c55e);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 50%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#0ea5e940 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e35 0,transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin-top:0; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(125,211,252,.8);
+      background:linear-gradient(90deg,rgba(56,189,248,.35),rgba(15,23,42,.95));
+      font-size:16px;
+      color:#fef9c3;
+      box-shadow:0 0 22px rgba(56,189,248,.9);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#e0f2fe; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(56,189,248,.5); }
+      50%{ transform:scale(1.03); box-shadow:0 0 32px rgba(56,189,248,1); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.8));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:black;
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+
+    }
+
+    /* ===== HERO ROAD ANIMATION ===== */
+    .drive-hero{
+      display:flex;
+      flex-wrap:wrap;
+      gap:20px;
+      align-items:stretch;
+    }
+    .drive-text{
+      flex:1 1 260px;
+      min-width:0;
+    }
+    .drive-visual-wrapper{
+      flex:0 0 280px;
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .road-wrap{
+      width:260px;
+      height:200px;
+      border-radius:22px;
+      background:radial-gradient(circle at top,#1e293b,#020617 70%);
+      border:1px solid #38bdf8;
+      box-shadow:0 20px 40px rgba(0,0,0,.9);
+      position:relative;
+      overflow:hidden;
+    }
+    .road{
+      position:absolute;
+      inset:18px 40px 18px 40px;
+      background:radial-gradient(circle at top,#111827,#020617 70%);
+      border-radius:18px;
+      box-shadow:0 0 0 2px #020617;
+    }
+    .road-lanes{
+      position:absolute;
+      left:50%;
+      top:0;
+      width:5px;
+      height:100%;
+      transform:translateX(-50%);
+      background:repeating-linear-gradient(
+        to bottom,
+        #fef9c3 0,
+        #fef9c3 16px,
+        transparent 16px,
+        transparent 30px
+      );
+      animation:lanesMove 1.2s linear infinite;
+      opacity:1;
+      filter:drop-shadow(0 0 6px rgba(255,255,255,.8));
+    }
+    @keyframes lanesMove{
+      0%{ background-position-y:0; }
+      100%{ background-position-y:40px; }
+    }
+
+    .car{
+      position:absolute;
+      bottom:26px;
+      left:50%;
+      transform:translateX(-50%);
+      width:74px;
+      height:40px;
+      border-radius:12px 12px 16px 16px;
+      background:linear-gradient(90deg,#e0f2fe,#38bdf8);
+      box-shadow:0 10px 22px rgba(0,0,0,1);
+      border:2px solid #f9fafb;
+    }
+    .car::before{
+      content:"";
+      position:absolute;
+      top:-14px;
+      left:7px;
+      right:7px;
+      height:20px;
+      border-radius:12px 12px 4px 4px;
+      background:linear-gradient(180deg,#e5f6ff,#0f172a);
+      box-shadow:0 0 10px rgba(148,163,184,.6) inset;
+    }
+    .wheel{
+      position:absolute;
+      bottom:-8px;
+      width:18px;
+      height:18px;
+      border-radius:999px;
+      background:#020617;
+      box-shadow:0 0 0 3px #020617;
+      border:2px solid #4b5563;
+    }
+    .wheel.left{ left:7px; }
+    .wheel.right{ right:7px; }
+
+    .speed-lines{
+      position:absolute;
+      top:32%;
+      left:-20px;
+      width:60px;
+      height:3px;
+      background:linear-gradient(90deg,transparent,#7dd3fc,#e0f2fe);
+      opacity:.9;
+      animation:speedLines 1.1s linear infinite;
+      filter:drop-shadow(0 0 6px rgba(125,211,252,1));
+    }
+    @keyframes speedLines{
+      0%{ transform:translateX(0); opacity:.4; }
+      50%{ opacity:1; }
+      100%{ transform:translateX(80px); opacity:0; }
+    }
+
+    /* ===== MINI GAME: ΕΠΙΠΕΔΟ ΠΡΟΣΟΧΗΣ ===== */
+    .drive-game{
+      margin-top:14px;
+      border-radius:16px;
+      border:1px solid #1d4ed8;
+      padding:12px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+      font-size:16px;
+    }
+    .drive-game-title{
+      font-weight:bold;
+      margin-bottom:6px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:#e0f2fe;
+    }
+
+    .drive-game input[type="radio"]{
+      position:absolute;
+      left:-9999px;
+    }
+
+    .drive-meter{
+      margin-top:8px;
+    }
+    .drive-meter-bg{
+      position:relative;
+      width:100%;
+      height:20px;
+      border-radius:999px;
+      background:#020617;
+      border:1px solid #4b5563;
+      overflow:hidden;
+      box-shadow:inset 0 0 10px rgba(0,0,0,.8);
+    }
+    .drive-meter-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#22c55e,#bbf7d0);
+      box-shadow:0 0 14px rgba(34,197,94,.8);
+      transition:width .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+    #mode_focus:checked ~ .drive-meter .drive-meter-fill{
+      width:20%;
+      background:linear-gradient(90deg,#22c55e,#bbf7d0);
+      box-shadow:0 0 14px rgba(34,197,94,.9);
+    }
+    #mode_call:checked ~ .drive-meter .drive-meter-fill{
+      width:55%;
+      background:linear-gradient(90deg,#eab308,#fbbf24);
+      box-shadow:0 0 14px rgba(234,179,8,.9);
+    }
+    #mode_text:checked ~ .drive-meter .drive-meter-fill{
+      width:100%;
+      background:linear-gradient(90deg,#ef4444,#b91c1c);
+      box-shadow:0 0 16px rgba(239,68,68,1);
+    }
+
+    .drive-meter-label{
+      margin-top:4px;
+      display:flex;
+      justify-content:space-between;
+      color:#e5e7eb;
+      font-size:14px;
+    }
+
+    .drive-options{
+      margin-top:8px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .drive-option-label{
+      display:block;
+      padding:6px 8px;
+      border-radius:999px;
+      border:1px solid #4b5563;
+      background:#020617;
+      color:#e5e7eb;
+      cursor:pointer;
+      font-size:15px;
+    }
+    .drive-option-label:hover{
+      border-color:#38bdf8;
+      color:#bae6fd;
+    }
+
+    #mode_focus:checked ~ .drive-options label[for="mode_focus"],
+    #mode_call:checked ~ .drive-options label[for="mode_call"],
+    #mode_text:checked ~ .drive-options label[for="mode_text"]{
+      background:radial-gradient(circle at top,#38bdf8,#22c55e);
+      color:#020617;
+      border-color:#7dd3fc;
+      box-shadow:0 0 10px rgba(56,189,248,.8);
+    }
+
+    .drive-status{
+      margin-top:6px;
+      min-height:28px;
+      font-size:15px;
+    }
+    .drive-status-safe,
+    .drive-status-mid,
+    .drive-status-danger{
+      display:none;
+    }
+    #mode_focus:checked ~ .drive-status .drive-status-safe{
+      display:block;
+      color:#4ade80;
+    }
+    #mode_call:checked ~ .drive-status .drive-status-mid{
+      display:block;
+      color:#facc15;
+    }
+    #mode_text:checked ~ .drive-status .drive-status-danger{
+      display:block;
+      color:#f97373;
+    }
+
+    /* QUIZ */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#020617 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-option{
+      margin:6px 0;
+    }
+    .quiz-option input{
+      position:absolute;
+      left:-9999px;
+    }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #1e293b;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+    .quiz-option input:checked + label{
+      border-color:#38bdf8;
+      box-shadow:0 0 0 1px #0ea5e9;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+    .quiz-form{
+      margin-top:8px;
+    }
+    .quiz-reset-wrap{
+      margin-top:10px;
+      text-align:left;
+    }
+    .quiz-reset-wrap .btn{
+      font-size:14px;
+      padding:5px 11px;
+      box-shadow:none;
+    }
+
+    @media (max-width:768px){
+      .drive-hero{ flex-direction:column; }
+      .drive-visual-wrapper{ justify-content:flex-start; }
+    }
+  </style>
+</head>
+<body>
+<!-- CSS-toggle για γλώσσα -->
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-car-side"></i>
+<span class="lang-el">Ενότητα 11 · Ασφαλής Μετακίνηση &amp; Οδήγηση</span>
+
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή + animation δρόμου -->
+<section id="intro">
+<div class="drive-hero">
+<div class="drive-text">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-road-circle-check"></i>
+<span class="lang-el">🚗 ΕΝΟΤΗΤΑ 11: ΑΣΦΑΛΗΣ ΜΕΤΑΚΙΝΗΣΗ &amp; ΟΔΗΓΗΣΗ</span>
+
+</div>
+<h1>
+<span class="lang-el">Η ασφάλεια συνεχίζεται και στον δρόμο</span>
+
+</h1>
+<p>
+<span class="lang-el">
+              🎯 Στόχος: Να αναπτύξουμε ασφαλή νοοτροπία κατά τη μετακίνηση, να γνωρίζουμε
+              τους βασικούς κανόνες πρόληψης τροχαίων ατυχημάτων και να διατηρούμε προσήλωση
+              στην οδική ασφάλεια, είτε οδηγούμε εταιρικό όχημα είτε το δικό μας.
+            </span>
+
+</p>
+<p class="pill">
+<span class="lang-el">Κάθε διαδρομή από και προς τη δουλειά είναι μέρος της ΥΑΕ.</span>
+
+</p>
+</div>
+<div aria-hidden="true" class="drive-visual-wrapper">
+<div class="road-wrap">
+<div class="road">
+<div class="road-lanes"></div>
+<div class="car">
+<div class="wheel left"></div>
+<div class="wheel right"></div>
+</div>
+</div>
+<div class="speed-lines"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 11.1 Γιατί μας αφορά -->
+<section id="why">
+<h2>
+<span class="lang-el">11.1 Γιατί μας αφορά</span>
+
+</h2>
+<p>
+<span class="lang-el">
+          Ακόμη και αν δεν οδηγούμε υπηρεσιακά οχήματα, πολλοί εργαζόμενοι:
+        </span>
+
+</p>
+<ul>
+<li>
+<span class="lang-el">Μετακινούνται για επαγγελματικές συναντήσεις.</span>
+
+</li>
+<li>
+<span class="lang-el">Χρησιμοποιούν εταιρικά αυτοκίνητα ή δίκυκλα.</span>
+
+</li>
+<li>
+<span class="lang-el">Πηγαίνουν και επιστρέφουν καθημερινά από την εργασία.</span>
+
+</li>
+</ul>
+<p>
+<span class="lang-el">
+          ➡️ Όλες αυτές οι μετακινήσεις συνδέονται με την εργασία και εμπίπτουν στις αρχές της ΥΑΕ.
+        </span>
+
+</p>
+</section>
+<!-- 11.2 Βασικοί κανόνες ασφαλούς οδήγησης + mini game -->
+<section id="rules">
+<h2>
+<span class="lang-el">11.2 Βασικοί κανόνες ασφαλούς οδήγησης</span>
+
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+<span class="lang-el">✅ Πριν ξεκινήσετε</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Ελέγξτε φώτα, φρένα, λάστιχα και ζώνες.</span>
+
+</li>
+<li>
+<span class="lang-el">Ρυθμίστε κάθισμα, καθρέφτες και τιμόνι πριν βάλετε μπρος.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην οδηγείτε κουρασμένοι ή υπερβολικά αγχωμένοι.</span>
+
+</li>
+<li>
+<span class="lang-el">Προγραμματίστε τη διαδρομή εκ των προτέρων.</span>
+
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">✅ Κατά την οδήγηση</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Φοράτε πάντα ζώνη ασφαλείας, ακόμη και για μικρές αποστάσεις.</span>
+
+</li>
+<li>
+<span class="lang-el">Όλοι οι επιβάτες πρέπει επίσης να φορούν ζώνη.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην υπερβαίνετε τα όρια ταχύτητας.</span>
+
+</li>
+<li>
+<span class="lang-el">Προσαρμόστε την οδήγηση στις συνθήκες (βροχή, κίνηση, σκοτάδι).</span>
+
+</li>
+<li>
+<span class="lang-el">Κρατήστε αποστάσεις ασφαλείας από το προπορευόμενο όχημα.</span>
+
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">✅ Μετά τη διαδρομή</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Μην αφήνετε αντικείμενα στο ταμπλό που μπορεί να πεταχτούν σε φρενάρισμα.</span>
+
+</li>
+<li>
+<span class="lang-el">Κλείστε παράθυρα, φώτα και ασφαλίστε το όχημα.</span>
+
+</li>
+</ul>
+</div>
+</div>
+<!-- MINI GAME: Επίπεδο προσοχής -->
+<div class="drive-game">
+<div class="drive-game-title">
+<i aria-hidden="true" class="fa-solid fa-gauge-high"></i>
+<span class="lang-el">Mini παιχνίδι: Πόσο προσεκτικός οδηγός είσαι;</span>
+
+</div>
+<!-- επιλογές -->
+<input checked="" id="mode_focus" name="mode" type="radio"/>
+<input id="mode_call" name="mode" type="radio"/>
+<input id="mode_text" name="mode" type="radio"/>
+<div class="drive-meter">
+<div class="drive-meter-bg">
+<div class="drive-meter-fill"></div>
+</div>
+<div class="drive-meter-label">
+<span class="lang-el">Επίπεδο κινδύνου</span>
+
+<span>0–100%</span>
+</div>
+</div>
+<div class="drive-options">
+<label class="drive-option-label" for="mode_focus">
+<span class="lang-el">
+              Σενάριο Α: Οδηγείς με ζώνη, χωρίς κινητό, πλήρης συγκέντρωση στον δρόμο.
+            </span>
+
+</label>
+<label class="drive-option-label" for="mode_call">
+<span class="lang-el">
+              Σενάριο Β: Μιλάς σε hands-free για λίγα λεπτά, με μέτρια κίνηση.
+            </span>
+
+</label>
+<label class="drive-option-label" for="mode_text">
+<span class="lang-el">
+              Σενάριο Γ: Στέλνεις μήνυμα στο κινητό ενώ οδηγείς στον αυτοκινητόδρομο.
+            </span>
+
+</label>
+</div>
+<div class="drive-status">
+<div class="drive-status-safe">
+<span class="lang-el">Άριστα! Έτσι μειώνεις στο ελάχιστο τον κίνδυνο ατυχήματος.</span>
+
+</div>
+<div class="drive-status-mid">
+<span class="lang-el">Προσοχή. Ακόμη και με hands-free, η προσοχή μειώνεται.</span>
+
+</div>
+<div class="drive-status-danger">
+<span class="lang-el">ΚΙΝΔΥΝΟΣ! Η αποστολή μηνύματος είναι από τις πιο επικίνδυνες συμπεριφορές.</span>
+
+</div>
+</div>
+</div>
+</section>
+<!-- 11.3 Οδήγηση υπό την επήρεια ουσιών -->
+<section id="substances">
+<h2>
+<span class="lang-el">11.3 Οδήγηση υπό την επήρεια ουσιών</span>
+
+</h2>
+<p>
+<span class="lang-el">
+          Αλκοόλ, ναρκωτικά και ορισμένα φάρμακα επηρεάζουν την κρίση, τα αντανακλαστικά και τη συγκέντρωση.
+        </span>
+
+</p>
+<ul>
+<li>
+<span class="lang-el">
+            Αν παίρνετε φάρμακα, διαβάστε το φύλλο οδηγιών ή ρωτήστε τον γιατρό αν επηρεάζουν την οδήγηση.
+          </span>
+
+</li>
+<li>
+<span class="lang-el">Μην υποτιμάτε “μικρές” ποσότητες — ακόμη και ένα ποτό μειώνει την εγρήγορση.</span>
+
+</li>
+</ul>
+<p class="pill">
+<span class="lang-el">🚫 Αλκοόλ και οδήγηση δεν συμβαδίζουν — ποτέ και για κανέναν λόγο.</span>
+
+</p>
+</section>
+<!-- 11.4 Χρήση κινητού -->
+<section id="phone">
+<h2>
+<span class="lang-el">11.4 Χρήση κινητού τηλεφώνου</span>
+
+</h2>
+<p>
+<span class="lang-el">
+          Η χρήση κινητού κατά την οδήγηση τετραπλασιάζει τον κίνδυνο ατυχήματος.
+        </span>
+
+</p>
+<ul>
+<li>
+<span class="lang-el">Αν πρέπει να απαντήσετε, χρησιμοποιήστε hands-free ή Bluetooth.</span>
+
+</li>
+<li>
+<span class="lang-el">Ιδανικά, σταθμεύστε σε ασφαλές σημείο και μιλήστε.</span>
+
+</li>
+</ul>
+</section>
+<!-- 11.5 Ασφάλεια πεζών & ποδηλατών -->
+<section id="pedestrians">
+<h2>
+<span class="lang-el">11.5 Ασφάλεια πεζών και ποδηλατών</span>
+
+</h2>
+<ul>
+<li>
+<span class="lang-el">Διασχίζετε δρόμους μόνο από διαβάσεις.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην φοράτε ακουστικά με δυνατή μουσική όταν περνάτε δρόμο.</span>
+
+</li>
+<li>
+<span class="lang-el">Προσέχετε ιδιαίτερα σε χώρους στάθμευσης (όχημα που κάνει όπισθεν).</span>
+
+</li>
+<li>
+<span class="lang-el">Αν κινείστε με ποδήλατο → φορέστε κράνος και ανακλαστικά.</span>
+
+</li>
+</ul>
+</section>
+<!-- Παράδειγμα & Κεντρικό μήνυμα -->
+<section id="example">
+<h2>
+<span class="lang-el">Παράδειγμα &amp; Κεντρικό μήνυμα</span>
+
+</h2>
+<div class="card">
+<h3>
+<span class="lang-el">Παράδειγμα</span>
+
+</h3>
+<p>
+<span class="lang-el">
+            Ο Ανδρέας οδηγούσε για επαγγελματικό ραντεβού και απάντησε σε ένα μήνυμα στο κινητό του.
+            Μέσα σε δευτερόλεπτα, έχασε τον έλεγχο του οχήματος και προκάλεσε μικροατύχημα.
+            Από τότε, σταματά σε ασφαλές σημείο όποτε χρειάζεται να χρησιμοποιήσει το κινητό του.
+          </span>
+
+</p>
+</div>
+<p class="card">
+<strong>
+<span class="lang-el">
+            🟢 «Η ασφάλεια δεν τελειώνει στο γραφείο — συνεχίζεται και στον δρόμο».
+            Επιστρέφουμε πάντα σπίτι υγιείς και ασφαλείς· αυτό είναι το σημαντικότερο “ραντεβού” της ημέρας.
+          </span>
+
+</strong>
+</p>
+</section>
+<!-- MINI QUIZ -->
+<section id="quiz">
+<h2>
+<span class="lang-el">Mini Quiz — Ασφαλής Μετακίνηση &amp; Οδήγηση</span>
+
+</h2>
+<p class="quiz-note">
+<span class="lang-el">
+          Επίλεξε απάντηση σε κάθε ερώτηση. Το ✓ και ✗ εμφανίζονται άμεσα.
+          Πάτησε «Επανεκκίνηση Quiz» για να καθαρίσεις τις επιλογές.
+        </span>
+
+</p>
+<form class="quiz-form">
+<!-- Q1 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">1. Πότε πρέπει να φοράς ζώνη ασφαλείας;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q1a" name="q1" type="radio"/>
+<label data-correct="false" for="q1a">
+<span class="lang-el">Μόνο σε μεγάλες αποστάσεις ή στον αυτοκινητόδρομο.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q1b" name="q1" type="radio"/>
+<label data-correct="true" for="q1b">
+<span class="lang-el">Πάντα, ανεξάρτητα από την απόσταση.</span>
+
+</label>
+</div>
+</div>
+</div>
+<!-- Q2 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">2. Τι είναι πιο ασφαλές όταν χτυπήσει το κινητό κατά την οδήγηση;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q2a" name="q2" type="radio"/>
+<label data-correct="true" for="q2a">
+<span class="lang-el">Να σταθμεύσεις σε ασφαλές σημείο και μετά να απαντήσεις.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q2b" name="q2" type="radio"/>
+<label data-correct="false" for="q2b">
+<span class="lang-el">Να κοιτάξεις γρήγορα την οθόνη και να συνεχίσεις.</span>
+
+</label>
+</div>
+</div>
+</div>
+<!-- Q3 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">3. Ποια από τις παρακάτω συμπεριφορές είναι πιο επικίνδυνη;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q3a" name="q3" type="radio"/>
+<label data-correct="false" for="q3a">
+<span class="lang-el">Να οδηγείς με ανοιχτό παράθυρο.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q3b" name="q3" type="radio"/>
+<label data-correct="true" for="q3b">
+<span class="lang-el">Να στέλνεις μήνυμα στο κινητό ενώ κινείσαι.</span>
+
+</label>
+</div>
+</div>
+</div>
+<!-- Q4 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">4. Τι πρέπει να κάνεις ως πεζός;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q4a" name="q4" type="radio"/>
+<label data-correct="true" for="q4a">
+<span class="lang-el">Να χρησιμοποιείς διαβάσεις και να κοιτάς και από τις δύο πλευρές.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q4b" name="q4" type="radio"/>
+<label data-correct="false" for="q4b">
+<span class="lang-el">Να περνάς όπου βολεύει, ακόμη και ανάμεσα στα αυτοκίνητα.</span>
+
+</label>
+</div>
+</div>
+</div>
+<div class="quiz-reset-wrap">
+<button class="btn secondary" type="reset">
+<i aria-hidden="true" class="fa-solid fa-rotate"></i>
+<span class="lang-el">Επανεκκίνηση Quiz</span>
+
+</button>
+</div>
+</form>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+
+</footer>
+</body>
+</html>

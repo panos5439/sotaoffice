@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ενότητα 9: Σήμανση Ασφαλείας</title>
+<!-- Icons (μόνο για header / κουμπιά / τίτλους) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#22c55e;
+      --primary-soft:#4ade80;
+      --accent:#0ea5e9;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #22c55e30 0, transparent 55%),
+        radial-gradient(circle at bottom, #0ea5e930 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:#facc15;
+      filter:drop-shadow(0 0 10px rgba(250,204,21,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#22c55e,#0ea5e9);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#f9fafb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#22c55e,#0ea5e9);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#facc1525 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e25 0,transparent 45%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(250,204,21,.8);
+      background:linear-gradient(90deg,rgba(250,204,21,.25),rgba(248,250,252,.04));
+      font-size:16px;
+      color:#fef9c3;
+      box-shadow:0 0 22px rgba(250,204,21,.7);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#facc15; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(250,204,21,.4); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(250,204,21,.8); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.85));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    /* ===== LEGEND ΓΙΑ ΚΑΤΗΓΟΡΙΕΣ ΣΗΜΑΤΩΝ ===== */
+    .sign-legend{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+      gap:10px;
+      margin-top:10px;
+    }
+    .sign-item{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid #1e293b;
+      background:#020617;
+    }
+    .sign-icon{
+      flex:0 0 46px;
+      height:46px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+      box-shadow:0 0 14px rgba(15,23,42,.8);
+      position:relative;
+      overflow:hidden;
+    }
+    .sign-icon.warn{
+      background:#020617;
+      color:#1e293b;
+    }
+    .sign-icon.prohib{
+      background:#020617;
+      color:#fef2f2;
+    }
+    .sign-icon.mand{
+      background:#020617;
+      color:#eff6ff;
+    }
+    .sign-icon.escape{
+      background:#020617; /* σκοτεινό φόντο ώστε να ξεχωρίζει το πράσινο ορθογώνιο */
+      color:#ecfdf3;
+    }
+    .sign-icon.fire{
+      background:#020617;
+      color:#fee2e2;
+    }
+
+    /* Σχήματα λογότυπων μόνο με CSS */
+    .sign-icon::before,
+    .sign-icon::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+    }
+
+    /* Προειδοποιητικά: κίτρινο τρίγωνο */
+    .sign-icon.warn::before{
+      width:0;
+      height:0;
+      border-left:14px solid transparent;
+      border-right:14px solid transparent;
+      border-bottom:26px solid #facc15;
+      transform:translate(-50%,-45%);
+    }
+
+    /* Απαγορευτικά: κόκκινος κύκλος με διαγώνια κόκκινη γραμμή, εσωτερικά λευκό */
+    .sign-icon.prohib::before{
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background:#ffffff;
+      border:4px solid #b91c1c;
+    }
+    .sign-icon.prohib::after{
+      width:4px;
+      height:32px;
+      background:#b91c1c;
+      transform:translate(-50%,-50%) rotate(-45deg);
+    }
+
+    /* Υποχρεωτικά: μπλε κύκλος */
+    .sign-icon.mand::before{
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      background:#1d4ed8;
+    }
+
+    /* Σήματα διάσωσης: ΠΡΑΣΙΝΟ ΟΡΘΟΓΩΝΙΟ */
+    .sign-icon.escape::before{
+      width:34px;   /* πιο μεγάλο πλάτος από ύψος για καθαρό ορθογώνιο */
+      height:18px;
+      border-radius:2px;
+      background:#16a34a;
+    }
+
+    /* Πυρόσβεσης: κόκκινο τετράγωνο */
+    .sign-icon.fire::before{
+      width:28px;
+      height:28px;
+      background:#dc2626;
+    }
+
+    .sign-text-title{
+      font-weight:bold;
+      color:#f9fafb;
+      font-size:18px;
+    }
+    .sign-text-sub{
+      font-size:15px;
+      color:#cbd5f5;
+    }
+
+    /* ===== QUIZ (CSS ONLY) ===== */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#020617 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-option{
+      margin:6px 0;
+    }
+    .quiz-option input{
+      position:absolute;
+      left:-9999px;
+    }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #1e293b;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+
+    .quiz-option input:checked + label{
+      border-color:#38bdf8;
+      box-shadow:0 0 0 1px #0ea5e9;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+    .quiz-form{
+      margin-top:8px;
+    }
+    .quiz-reset-wrap{
+      margin-top:10px;
+      text-align:left;
+    }
+    .quiz-reset-wrap .btn{
+      font-size:14px;
+      padding:5px 11px;
+      box-shadow:none;
+    }
+
+    @media (max-width:768px){
+      .sign-legend{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- CSS-toggle για γλώσσα -->
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-triangle-exclamation"></i>
+
+<span class="lang-en">Unit 9 · Safety Signage</span>
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή -->
+<section id="intro">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-circle-info"></i>
+
+<span class="lang-en">🚧 UNIT 9: SAFETY SIGNAGE</span>
+</div>
+<h1>
+
+<span class="lang-en">Signage is the “voice” of safety</span>
+</h1>
+<p>
+
+<span class="lang-en">
+          🎯 Goal: To learn what safety signs in the workplace mean, how to react when we see them
+          and why we must never ignore or move them.
+        </span>
+</p>
+<p class="pill">
+
+<span class="lang-en">If you understand signage, you see danger before it reaches you.</span>
+</p>
+</section>
+<!-- 9.1 Τι είναι η σήμανση ασφαλείας -->
+<section id="what">
+<h2>
+
+<span class="lang-en">9.1 What is safety signage</span>
+</h2>
+<p>
+
+<span class="lang-en">
+          Safety signage is a system of symbols, colours and shapes
+          that helps us quickly understand what danger exists and what we must do.
+        </span>
+</p>
+<p>
+
+<span class="lang-en">
+          It is internationally recognised so that everyone —regardless of language— can understand the message.
+        </span>
+</p>
+</section>
+<!-- 9.2 Γενικοί κανόνες -->
+<section id="rules">
+<h2>
+
+<span class="lang-en">9.2 General rules</span>
+</h2>
+<ul>
+<li>
+
+<span class="lang-en">I know the signs that exist in my workplace.</span>
+</li>
+<li>
+
+<span class="lang-en">I strictly follow what they instruct.</span>
+</li>
+<li>
+
+<span class="lang-en">I report if any sign is missing, damaged or not visible.</span>
+</li>
+<li>
+
+<span class="lang-en">I never cover or move signs (e.g. behind furniture or cabinets).</span>
+</li>
+<li>
+
+<span class="lang-en">I do not remove labels from chemicals or equipment.</span>
+</li>
+</ul>
+</section>
+<!-- 9.3 Κατηγορίες σημάτων – οπτική “παλέτα” -->
+<section id="categories">
+<h2>
+
+<span class="lang-en">9.3 Categories of safety signs</span>
+</h2>
+<p>
+
+<span class="lang-en">
+          Each category has a specific colour and shape so we can recognise it instantly:
+        </span>
+</p>
+<div class="sign-legend">
+<div class="sign-item">
+<div class="sign-icon warn">
+<!-- Κίτρινο τρίγωνο με CSS -->
+</div>
+<div>
+<div class="sign-text-title">
+
+<span class="lang-en">Warning signs</span>
+</div>
+<div class="sign-text-sub">
+
+<span class="lang-en">Yellow triangle · warns of danger (e.g. risk of electric shock).</span>
+</div>
+</div>
+</div>
+<div class="sign-item">
+<div class="sign-icon prohib">
+<!-- Κόκκινος κύκλος με διαγώνια γραμμή & λευκό εσωτερικό με CSS -->
+</div>
+<div>
+<div class="sign-text-title">
+
+<span class="lang-en">Prohibition signs</span>
+</div>
+<div class="sign-text-sub">
+
+<span class="lang-en">Red circle with diagonal line · something is forbidden (e.g. smoking).</span>
+</div>
+</div>
+</div>
+<div class="sign-item">
+<div class="sign-icon mand">
+<!-- Μπλε κύκλος με CSS -->
+</div>
+<div>
+<div class="sign-text-title">
+
+<span class="lang-en">Mandatory signs</span>
+</div>
+<div class="sign-text-sub">
+
+<span class="lang-en">Blue circle · you must do something (e.g. wear gloves).</span>
+</div>
+</div>
+</div>
+<div class="sign-item">
+<div class="sign-icon escape">
+<!-- Πράσινο ορθογώνιο με CSS -->
+</div>
+<div>
+<div class="sign-text-title">
+
+<span class="lang-en">Escape / safety signs</span>
+</div>
+<div class="sign-text-sub">
+
+<span class="lang-en">Green rectangle · shows emergency exit or first aid.</span>
+</div>
+</div>
+</div>
+<div class="sign-item">
+<div class="sign-icon fire">
+<!-- Κόκκινο τετράγωνο με CSS -->
+</div>
+<div>
+<div class="sign-text-title">
+
+<span class="lang-en">Fire-fighting equipment signs</span>
+</div>
+<div class="sign-text-sub">
+
+<span class="lang-en">Red square · indicates extinguisher, fire hose, etc.</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 9.4 Ειδικές ετικέτες -->
+<section id="special">
+<h2>
+
+<span class="lang-en">9.4 Special labels and markings</span>
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+
+<span class="lang-en">Chemical substances</span>
+</h3>
+<p>
+
+<span class="lang-en">
+              Each container has a GHS label with hazard symbols (e.g. flammable, corrosive, toxic).
+              We never remove these labels.
+            </span>
+</p>
+</div>
+<div class="card">
+<h3>
+
+<span class="lang-en">Exits and escape routes</span>
+</h3>
+<p>
+
+<span class="lang-en">
+              Green signs above doors indicate escape routes.
+              These routes must always be clear of obstacles.
+            </span>
+</p>
+</div>
+<div class="card">
+<h3>
+
+<span class="lang-en">Electrical panels &amp; storage areas</span>
+</h3>
+<p>
+
+<span class="lang-en">
+              Electrical panels have warning signs for voltage.
+              Storage areas often have signs for restricted access or obligatory PPE.
+            </span>
+</p>
+</div>
+</div>
+</section>
+<!-- 9.5 Πρακτικές συμβουλές -->
+<section id="tips">
+<h2>
+
+<span class="lang-en">9.5 Practical tips</span>
+</h2>
+<ul>
+<li>
+
+<span class="lang-en">Look around you: do you know where the nearest emergency exit is?</span>
+</li>
+<li>
+
+<span class="lang-en">If you see “CAUTION – SLIPPERY FLOOR”, do not ignore it.</span>
+</li>
+<li>
+
+<span class="lang-en">If a sign is missing from an extinguisher or door, report it immediately.</span>
+</li>
+<li>
+
+<span class="lang-en">In an evacuation drill, follow the green exit signs.</span>
+</li>
+</ul>
+<p class="card">
+<strong>
+
+<span class="lang-en">🟢 “Signage is the ‘voice’ of safety. If you know it and listen to it, you prevent danger.”</span>
+</strong>
+</p>
+</section>
+<!-- MINI QUIZ -->
+<section id="quiz">
+<h2>
+
+<span class="lang-en">Mini Quiz — Safety Signage</span>
+</h2>
+<p class="quiz-note">
+
+<span class="lang-en">
+          Choose an answer for each question. ✓ and ✗ appear instantly.
+          Press “Restart Quiz” to clear your answers.
+        </span>
+</p>
+<form class="quiz-form">
+<!-- Q1 -->
+<div class="quiz-question">
+<h3>
+
+<span class="lang-en">1. What does a yellow triangular sign indicate?</span>
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q1a" name="q1" type="radio"/>
+<label data-correct="false" for="q1a">
+
+<span class="lang-en">No entry.</span>
+</label>
+</div>
+<div class="quiz-option">
+<input id="q1b" name="q1" type="radio"/>
+<label data-correct="true" for="q1b">
+
+<span class="lang-en">Warning about a danger.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Q2 -->
+<div class="quiz-question">
+<h3>
+
+<span class="lang-en">2. What does a red sign with a diagonal line mean?</span>
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q2a" name="q2" type="radio"/>
+<label data-correct="true" for="q2a">
+
+<span class="lang-en">Something is forbidden (e.g. smoking).</span>
+</label>
+</div>
+<div class="quiz-option">
+<input id="q2b" name="q2" type="radio"/>
+<label data-correct="false" for="q2b">
+
+<span class="lang-en">It is an emergency exit.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Q3 -->
+<div class="quiz-question">
+<h3>
+
+<span class="lang-en">3. What should you do if an emergency exit sign is covered by a cabinet?</span>
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q3a" name="q3" type="radio"/>
+<label data-correct="false" for="q3a">
+
+<span class="lang-en">Leave it as it is, “it’s not your job”.</span>
+</label>
+</div>
+<div class="quiz-option">
+<input id="q3b" name="q3" type="radio"/>
+<label data-correct="true" for="q3b">
+
+<span class="lang-en">Immediately inform your supervisor or Safety Officer.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Q4 -->
+<div class="quiz-question">
+<h3>
+
+<span class="lang-en">4. Which of the following behaviours is CORRECT?</span>
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q4a" name="q4" type="radio"/>
+<label data-correct="false" for="q4a">
+
+<span class="lang-en">I remove labels from chemical containers so they look “cleaner”.</span>
+</label>
+</div>
+<div class="quiz-option">
+<input id="q4b" name="q4" type="radio"/>
+<label data-correct="true" for="q4b">
+
+<span class="lang-en">I keep all signs clear and visible and report any damage.</span>
+</label>
+</div>
+</div>
+</div>
+<div class="quiz-reset-wrap">
+<button class="btn secondary" type="reset">
+<i aria-hidden="true" class="fa-solid fa-rotate"></i>
+
+<span class="lang-en">Restart Quiz</span>
+</button>
+</div>
+</form>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    
+<span class="lang-en">Occupational Health &amp; Safety</span>
+</footer>
+</body>
+</html>

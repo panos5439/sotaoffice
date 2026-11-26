@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Πρώτες Βοήθειες σε Περίπτωση Ατυχήματος</title>
+<!-- Icons (μόνο για header / κουμπιά / τίτλους) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#22c55e;
+      --primary-soft:#4ade80;
+      --accent:#0ea5e9;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #22c55e30 0, transparent 55%),
+        radial-gradient(circle at bottom, #0ea5e930 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 10px rgba(34,197,94,.9));
+    }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#22c55e,#0ea5e9);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#22c55e25 0,transparent 45%),
+        radial-gradient(circle at bottom right,#0ea5e925 0,transparent 45%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin:0 0 8px; font-size:22px; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(34,197,94,.8);
+      background:linear-gradient(90deg,rgba(34,197,94,.25),rgba(14,165,233,.12));
+      font-size:16px;
+      color:#ecfdf3;
+      box-shadow:0 0 22px rgba(34,197,94,.55);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(34,197,94,.35); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(34,197,94,.7); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.85));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+      align-items:start;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    /* ===== ΕΙΚΟΝΑ (RESPONSIVE) ===== */
+    .ext-image-wrap{
+      max-width:360px;
+      justify-self:end;
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:10px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+    .ext-image-wrap img{
+      display:block;
+      max-width:100%;
+      height:auto;
+      border-radius:10px;
+      margin:0 auto 6px;
+    }
+    .ext-image-caption{
+      text-align:center;
+      font-size:14px;
+      color:#e5e7eb;
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    @media (max-width:768px){
+      .ext-image-wrap{ justify-self:start; max-width:520px; }
+    }
+  </style>
+</head>
+<body>
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-kit-medical"></i>
+
+<span class="lang-en">First Aid in Case of an Accident</span>
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή -->
+<section id="intro">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-circle-info"></i>
+
+<span class="lang-en">FIRST AID</span>
+</div>
+<h1>
+
+<span class="lang-en">The first actions make the difference</span>
+</h1>
+<p>
+
+<span class="lang-en">
+          🎯 Goal: To know what to do in the first minutes of an accident, how to protect the injured person,
+          and when to call for help immediately.
+        </span>
+</p>
+<p class="pill">
+
+<span class="lang-en">Safety first – then help. Calmness is “equipment”.</span>
+</p>
+</section>
+<!-- 1. Προτεραιότητες -->
+<section id="priorities">
+<h2>
+
+<span class="lang-en">1. The 3 key priorities (IN ORDER)</span>
+</h2>
+<div class="card">
+<ul>
+<li>
+
+<span class="lang-en"><strong>Scene safety:</strong> you can’t help if you become a victim too (electricity, fire, smoke, glass, chemicals).</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>Call for help:</strong> immediately call 112/166 and inform the site responsible.</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>Basic support:</strong> check breathing/bleeding and provide simple aid until professionals arrive.</span>
+</li>
+</ul>
+</div>
+<p class="pill">
+
+<span class="lang-en">If there is an immediate life threat: severe bleeding, no breathing, unconsciousness → priority.</span>
+</p>
+</section>
+<!-- 2. Βασικός έλεγχος (DRSABC) -->
+<section id="check">
+<h2>
+
+<span class="lang-en">2. Quick check (DRSABC)</span>
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+
+<span class="lang-en">Steps</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en"><strong>D – Danger:</strong> Check it’s safe (electricity/fire/chemicals).</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>R – Response:</strong> Speak loudly, ask for a response, gently tap shoulder.</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>S – Send for help:</strong> Call 112/166 (or delegate).</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>A – Airway:</strong> Open airway (head tilt/chin lift).</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>B – Breathing:</strong> Look/listen/feel for breathing up to 10s.</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>C – Circulation:</strong> Check for severe bleeding and stop it with pressure.</span>
+</li>
+</ul>
+</div>
+<div class="ext-image-wrap">
+<img alt="Κουτί Πρώτων Βοηθειών / First Aid Kit" src="https://upload.wikimedia.org/wikipedia/commons/d/d6/A-first-aid-kit.jpg"/>
+<div class="ext-image-caption">
+
+<span class="lang-en">First Aid Kit.</span>
+</div>
+</div>
+<p class="pill">
+
+<span class="lang-en">If not breathing normally → start CPR and ask for an AED.</span>
+</p>
+</div></section>
+<!-- 3. Επείγοντα που σώζουν ζωή -->
+<section id="life-threatening">
+<h2>
+
+<span class="lang-en">3. Life-threatening emergencies (what to do immediately)</span>
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+
+<span class="lang-en">🩸 Severe bleeding</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">Apply <strong>firm direct pressure</strong> with gauze/clean cloth.</span>
+</li>
+<li>
+
+<span class="lang-en">If it soaks through, <strong>do not remove</strong> the first layer — add on top.</span>
+</li>
+<li>
+
+<span class="lang-en">Elevate if possible and <strong>call</strong> for help.</span>
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+
+<span class="lang-en">💨 Choking / airway obstruction</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">If coughing effectively → encourage continued coughing.</span>
+</li>
+<li>
+
+<span class="lang-en">If cannot speak/breathe → 5 back blows + 5 abdominal thrusts (alternate).</span>
+</li>
+<li>
+
+<span class="lang-en">If collapses → call emergency services and start CPR.</span>
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+
+<span class="lang-en">❤️ Cardiac arrest (CPR)</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">Call emergency services, request an <strong>AED</strong>.</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>30 compressions</strong> center chest + <strong>2 breaths</strong> (if trained/able).</span>
+</li>
+<li>
+
+<span class="lang-en">If not giving breaths → hands-only compressions continuously.</span>
+</li>
+</ul>
+</div>
+</div>
+<p class="pill">
+
+<span class="lang-en">In all cases: follow the dispatcher’s instructions.</span>
+</p>
+</section>
+<!-- 4. Συχνά ατυχήματα γραφείου -->
+<section id="common">
+<h2>
+
+<span class="lang-en">4. Common office incidents (practical guidance)</span>
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+
+<span class="lang-en">🔥 Burn</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">Cool under <strong>running water for 10–20 minutes</strong>.</span>
+</li>
+<li>
+
+<span class="lang-en">Remove nearby jewellery if easily possible.</span>
+</li>
+<li>
+
+<span class="lang-en">Cover with sterile dressing. No oils/toothpaste.</span>
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+
+<span class="lang-en">🦴 Sprain / bruise</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">RICE: Rest, Ice (wrapped), Compression, Elevation.</span>
+</li>
+<li>
+
+<span class="lang-en">If severe pain/deformity → seek medical help.</span>
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+
+<span class="lang-en">🧪 Chemical on eyes/skin</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">Immediate rinse with <strong>plenty of water for 15+ minutes</strong>.</span>
+</li>
+<li>
+
+<span class="lang-en">Remove contaminated clothing/gloves.</span>
+</li>
+<li>
+
+<span class="lang-en">Follow SDS/instructions and call for help if irritation persists.</span>
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+
+<span class="lang-en">😵 Fainting</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">Lay them down, elevate legs, ventilate the area.</span>
+</li>
+<li>
+
+<span class="lang-en">If not recovering quickly / pain / injury → call emergency services.</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- 5. Αν ο τραυματίας είναι αναίσθητος αλλά αναπνέει -->
+<section id="recovery">
+<h2>
+
+<span class="lang-en">5. Unconscious but breathing</span>
+</h2>
+<div class="card">
+<ul>
+<li>
+
+<span class="lang-en">Call emergency services and <strong>monitor</strong> breathing.</span>
+</li>
+<li>
+
+<span class="lang-en">Place in <strong>recovery position</strong> (if no suspected major trauma).</span>
+</li>
+<li>
+
+<span class="lang-en">Keep warm and stay with them.</span>
+</li>
+</ul>
+</div>
+<p class="pill">
+
+<span class="lang-en">If breathing stops → start CPR.</span>
+</p>
+</section>
+<!-- 6. Τι ΔΕΝ κάνω + Κεντρικό μήνυμα -->
+<section id="dont">
+<h2>
+
+<span class="lang-en">6. What NOT to do (important)</span>
+</h2>
+<div class="card">
+<ul>
+<li>
+
+<span class="lang-en">I do not move an injured person with a suspected neck or spinal injury unless there is immediate danger (e.g., fire).</span>
+</li>
+<li>
+
+<span class="lang-en">Do not remove embedded objects — stabilise around them.</span>
+</li>
+<li>
+
+<span class="lang-en">Do not give food/drink to seriously injured or unconscious person.</span>
+</li>
+<li>
+
+<span class="lang-en">Do not delay calling for help “to see what happens”.</span>
+</li>
+</ul>
+</div>
+<p class="card">
+<strong>
+
+<span class="lang-en">🟢 “Safety, calling for help, and correct simple actions in the first minutes are key.”</span>
+</strong>
+</p>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    
+<span class="lang-en">Occupational Health &amp; Safety</span>
+</footer>
+</body>
+</html>

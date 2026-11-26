@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Συντήρηση &amp; Χρήση Φορητού Πυροσβεστήρα</title>
+<!-- Icons (μόνο για header / κουμπιά / τίτλους) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#ef4444;
+      --primary-soft:#f97373;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #ef444430 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e30 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 10px rgba(248,113,113,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#ef4444,#22c55e);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#f9fafb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#ef4444,#22c55e);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#ef444425 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e25 0,transparent 45%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin:0 0 8px; font-size:22px; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(248,113,113,.8);
+      background:linear-gradient(90deg,rgba(248,113,113,.25),rgba(15,23,42,.95));
+      font-size:16px;
+      color:#fee2e2;
+      box-shadow:0 0 22px rgba(248,113,113,.7);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#fecaca; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(248,113,113,.4); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(248,113,113,.8); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.85));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    /* ===== ΕΙΚΟΝΕΣ ΠΥΡΟΣΒΕΣΤΗΡΑ ===== */
+    .ext-image-wrap{
+      margin-top:12px;
+      border-radius:14px;
+      border:1px solid #1e293b;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      padding:10px;
+      max-width:420px;
+    }
+    .ext-image-wrap img{
+      display:block;
+      max-width:100%;
+      height:auto;
+      border-radius:10px;
+      margin:0 auto 6px;
+    }
+    .ext-image-caption{
+      font-size:14px;
+      color:#e5e7eb;
+      text-align:center;
+    }
+
+    @media (max-width:768px){
+      .row{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- CSS-toggle για γλώσσα -->
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-fire-extinguisher"></i>
+<span class="lang-el">Συντήρηση Φορητού Πυροσβεστήρα</span>
+
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή -->
+<section id="intro">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-circle-info"></i>
+<span class="lang-el">🧯 ΣΥΝΤΗΡΗΣΗ &amp; ΧΡΗΣΗ ΦΟΡΗΤΟΥ ΠΥΡΟΣΒΕΣΤΗΡΑ</span>
+
+</div>
+<h1>
+<span class="lang-el">Ένας πυροσβεστήρας είναι χρήσιμος μόνο αν είναι έτοιμος να δουλέψει</span>
+
+</h1>
+<p>
+<span class="lang-el">
+          Η σωστή συντήρηση εξασφαλίζει ότι ο πυροσβεστήρας θα λειτουργήσει αξιόπιστα όταν τον χρειαστούμε.
+          Σε αυτή την ενότητα βλέπουμε πόσο συχνά ελέγχεται, πότε αλλάζει το υλικό του
+          και ποια είναι η διάρκεια ζωής του.
+        </span>
+
+</p>
+<p class="pill">
+<span class="lang-el">Ο πυροσβεστήρας δεν είναι διακόσμηση – είναι εξοπλισμός ζωής.</span>
+
+</p>
+</section>
+<!-- 1. Ετήσια συντήρηση από εταιρία -->
+<section id="yearly">
+<h2>
+<span class="lang-el">1. Ετήσια συντήρηση από πιστοποιημένη εταιρία</span>
+
+</h2>
+<div class="row">
+<div class="card">
+<p>
+<span class="lang-el">
+              Η σωστή συντήρηση ενός πυροσβεστήρα αποτελεί βασική προϋπόθεση για την
+              αξιόπιστη και αποτελεσματική λειτουργία του σε περίπτωση ανάγκης.
+              Ο πυροσβεστήρας πρέπει να συντηρείται <strong>μία φορά τον χρόνο</strong>
+              από αναγνωρισμένη και πιστοποιημένη εταιρία συντήρησης.
+            </span>
+
+</p>
+</div>
+<div class="ext-image-wrap">
+<!-- Εικόνα μανόμετρου / πυροσβεστήρα -->
+<img alt="Fire extinguisher pressure gauge" src="https://flamecontrol.gr/wp-content/uploads/2025/10/301-006-029.jpg"/>
+<div class="ext-image-caption">
+<span class="lang-el">Το μανόμετρο δείχνει αν ο πυροσβεστήρας έχει τη σωστή πίεση (πράσινη ζώνη).</span>
+
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Τριμηνιαίος οπτικός έλεγχος -->
+<section id="quarterly">
+<h2>
+<span class="lang-el">2. Τριμηνιαίος οπτικός έλεγχος από τον ιδιοκτήτη</span>
+
+</h2>
+<div class="card">
+<p>
+<span class="lang-el">
+            Εκτός από την ετήσια συντήρηση, ο ιδιοκτήτης οφείλει να πραγματοποιεί
+            <strong>τριμηνιαίο οπτικό έλεγχο</strong>, διασφαλίζοντας ότι:
+          </span>
+
+</p>
+<ul>
+<li>
+<span class="lang-el">Ο δείκτης του μανομέτρου βρίσκεται στην πράσινη περιοχή.</span>
+
+</li>
+<li>
+<span class="lang-el">Δεν υπάρχουν εμφανείς φθορές, σκουριά ή παραμορφώσεις στο σώμα.</span>
+
+</li>
+<li>
+<span class="lang-el">Η ασφάλεια (περόνη ασφαλείας) είναι στη θέση της και άθικτη.</span>
+
+</li>
+</ul>
+<p>
+<span class="lang-el">
+            Σε οποιαδήποτε απόκλιση, πρέπει να υπάρχει <strong>άμεση επικοινωνία</strong>
+            με την εταιρία συντήρησης για επιδιόρθωση ή αντικατάσταση.
+          </span>
+
+</p>
+</div>
+</section>
+<!-- 3. Κατασβεστικό υλικό & εκτεταμένος έλεγχος -->
+<section id="agent">
+<h2>
+<span class="lang-el">3. Κατασβεστικό υλικό &amp; εκτεταμένος έλεγχος</span>
+
+</h2>
+<div class="card">
+<p>
+<span class="lang-el">
+            Το κατασβεστικό υλικό αντικαθίσταται <strong>υποχρεωτικά κάθε 5 χρόνια</strong>,
+            ανεξάρτητα από την ποιότητα ή την κατάσταση του πυροσβεστήρα,
+            ή <strong>αμέσως μετά από οποιαδήποτε χρήση</strong> του.
+          </span>
+
+</p>
+<p>
+<span class="lang-el">
+            Αν η ηλικία του πυροσβεστήρα ξεπερνά τα <strong>10 έτη</strong>, ή όταν η συνολική
+            του κατάσταση το απαιτεί, υπόκειται σε <strong>εκτεταμένο εργαστηριακό έλεγχο</strong>, ο οποίος περιλαμβάνει:
+          </span>
+
+</p>
+<ul>
+<li>
+<span class="lang-el">Αντικατάσταση όλων των φθαρμένων εξαρτημάτων.</span>
+
+</li>
+<li>
+<span class="lang-el">Αλλαγή κατασβεστικού υλικού.</span>
+
+</li>
+<li>
+<span class="lang-el">Υδραυλική δοκιμή του κυλίνδρου.</span>
+
+</li>
+<li>
+<span class="lang-el">Πλήρη έλεγχο του συστήματος πίεσης.</span>
+
+</li>
+</ul>
+</div>
+</section>
+<!-- 4. Διάρκεια ζωής -->
+<section id="lifetime">
+<h2>
+<span class="lang-el">4. Διάρκεια ζωής πυροσβεστήρα</span>
+
+</h2>
+<div class="card">
+<p>
+<span class="lang-el">
+            Οι πυροσβεστήρες σκόνης έχουν <strong>μέγιστη διάρκεια ζωής 20 έτη</strong>.
+            Μετά από αυτό το διάστημα <strong>αποσύρονται υποχρεωτικά</strong> και
+            αντικαθίστανται με νέους.
+          </span>
+
+</p>
+</div>
+</section>
+<!-- 5. Κατασβεστική ικανότητα -->
+<section id="rating">
+<h2>
+<span class="lang-el">5. Κατασβεστική ικανότητα – “πόσο δυνατός” είναι ο πυροσβεστήρας;</span>
+
+</h2>
+<div class="card">
+<p>
+<span class="lang-el">
+            Η απόδοση του πυροσβεστήρα ονομάζεται <strong>κατασβεστική ικανότητα</strong>
+            και αναγράφεται στην ετικέτα του. Δεν σημαίνει ότι δύο πυροσβεστήρες
+            με την ίδια ποσότητα υλικού έχουν και ίδια αποτελεσματικότητα –
+            γι’ αυτό η κατασβεστική ικανότητα πρέπει να λαμβάνεται σοβαρά υπόψη
+            κατά την επιλογή του κατάλληλου πυροσβεστήρα για κάθε χώρο.
+          </span>
+
+</p>
+</div>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+
+</footer>
+</body>
+</html>

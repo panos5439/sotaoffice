@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Πυρασφάλεια: Εξοπλισμός</title>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer"/>
+  <style>
+    :root{
+      --maxw: 900px; --text:#0f172a; --muted:#334155; --border:#e2e8f0;
+      --primary:#dc2626; --primary-soft:#fca5a5; --accent:#f59e0b;
+      --shadow:0 18px 40px rgba(2,6,23,.12); --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0; font-family:"Times New Roman", Times, serif;
+      background: radial-gradient(circle at top, rgba(220,38,38,.12) 0, transparent 55%),
+                  radial-gradient(circle at bottom, rgba(245,158,11,.10) 0, #f8fafc 60%);
+      color:var(--text); font-size:20px; line-height:1.7;
+    }
+    header{ position:sticky; top:0; background:rgba(248,250,252,.92); border-bottom:1px solid var(--border); backdrop-filter:blur(10px); }
+    .nav{ max-width:var(--maxw); margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:12px; }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:bold; font-size:20px; }
+    .brand i{ color:var(--primary); }
+    main{ max-width:var(--maxw); margin:22px auto; padding:0 16px 40px; }
+    h1{ font-size:30px; margin:0 0 18px; }
+    .list{ display:flex; flex-direction:column; gap:10px; }
+    a.unit{
+      display:flex; align-items:center; gap:14px;
+      background:#ffffff; border:1px solid var(--border); border-radius:14px;
+      padding:14px 18px; text-decoration:none; color:var(--text);
+      box-shadow:0 10px 22px rgba(2,6,23,.06);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    a.unit:hover{ transform:translateY(-2px); box-shadow:0 14px 28px rgba(2,6,23,.12); }
+    .ico{
+      flex:0 0 auto; width:40px; height:40px; border-radius:999px;
+      background:radial-gradient(circle at top,var(--primary),var(--accent));
+      color:#fff; display:flex; align-items:center; justify-content:center;
+    }
+    .lbl{ font-size:19px; }
+    .chev{ margin-left:auto; color:#94a3b8; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="brand"><i class="fa-solid fa-house-fire"></i><span>Πυρασφάλεια: Εξοπλισμός</span></div>
+    </nav>
+  </header>
+  <main>
+    <h1>🧯 Εξοπλισμός Πυρασφάλειας</h1>
+    <div class="list">
+      <a class="unit" href="ext_el.html" target="_blank"><span class="ico"><i class="fa-solid fa-fire-extinguisher"></i></span><span class="lbl">Πυροσβεστήρας</span><i class="fa-solid fa-chevron-right chev"></i></a>
+      <a class="unit" href="Co2_el.html" target="_blank"><span class="ico"><i class="fa-solid fa-fire-extinguisher"></i></span><span class="lbl">Πυροσβεστήρας CO2</span><i class="fa-solid fa-chevron-right chev"></i></a>
+      <a class="unit" href="callpoint_el.html" target="_blank"><span class="ico"><i class="fa-solid fa-bullseye-pointer"></i></span><span class="lbl">Κομβίο Συναγερμού</span><i class="fa-solid fa-chevron-right chev"></i></a>
+      <a class="unit" href="detector_el.html" target="_blank"><span class="ico"><i class="fa-solid fa-satellite-dish"></i></span><span class="lbl">Πυρανίχνευση</span><i class="fa-solid fa-chevron-right chev"></i></a>
+    </div>
+  </main>
+</body>
+</html>

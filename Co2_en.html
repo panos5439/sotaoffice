@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Πυροσβεστήρας CO₂</title>
+<!-- Icons (μόνο για header / κουμπιά / τίτλους) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#ef4444;
+      --primary-soft:#f97373;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #ef444430 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e30 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 10px rgba(248,113,113,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#ef4444,#22c55e);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#f9fafb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#ef4444,#22c55e);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#ef444425 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e25 0,transparent 45%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin:0 0 8px; font-size:22px; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(248,113,113,.8);
+      background:linear-gradient(90deg,rgba(248,113,113,.25),rgba(15,23,42,.95));
+      font-size:16px;
+      color:#fee2e2;
+      box-shadow:0 0 22px rgba(248,113,113,.7);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#fecaca; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(248,113,113,.4); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(248,113,113,.8); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.85));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    /* ===== ΕΙΚΟΝΑ CO₂ ΠΥΡΟΣΒΕΣΤΗΡΑ ===== */
+    .ext-image-wrap{
+      margin-top:12px;
+      border-radius:14px;
+      border:1px solid #1e293b;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      padding:10px;
+      max-width:420px;
+    }
+    .ext-image-wrap img{
+      display:block;
+      max-width:100%;
+      height:auto;
+      border-radius:10px;
+      margin:0 auto 6px;
+    }
+    .ext-image-caption{
+      font-size:14px;
+      color:#e5e7eb;
+      text-align:center;
+    }
+
+    @media (max-width:768px){
+      .row{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- CSS-toggle για γλώσσα -->
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-fire-extinguisher"></i>
+
+<span class="lang-en">CO₂ Fire Extinguisher</span>
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή -->
+<section id="intro">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-circle-info"></i>
+
+<span class="lang-en">🧯 FIRE EXTINGUISHER</span>
+</div>
+<h1>
+
+<span class="lang-en">The appropriate extinguisher for electrical fires &amp; flammable liquids</span>
+</h1>
+<p>
+
+<span class="lang-en">
+          In this unit we get to know the CO₂ extinguisher: when to use it,
+          how it puts out fire and what risks exist if it is used incorrectly.
+        </span>
+</p>
+<p class="pill">
+
+<span class="lang-en">The right type of extinguisher makes the difference in seconds.</span>
+</p>
+</section>
+<!-- 1. Τι είναι ο πυροσβεστήρας CO2 -->
+<section id="what">
+<h2>
+
+<span class="lang-en">1. What is a CO₂ extinguisher</span>
+</h2>
+<div class="row">
+<div class="card">
+<p>
+
+<span class="lang-en">
+              A CO₂ extinguisher contains carbon dioxide (CO₂) in liquefied form under high pressure.
+              When discharged, CO₂ comes out as a white “cloud”, extremely cold due to rapid expansion.
+            </span>
+</p>
+</div>
+<div class="ext-image-wrap">
+<img alt="Τομή πυροσβεστήρα CO₂ με μπουκάλα και χοάνη / CO₂ fire extinguisher cutaway diagram" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Fire_extinguisher_CO2_b.svg/960px-Fire_extinguisher_CO2_b.svg.png"/>
+<div class="ext-image-caption">
+
+<span class="lang-en">Illustration of a CO₂ extinguisher and how the agent is released.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Για ποιες πυρκαγιές είναι κατάλληλος -->
+<section id="classes">
+<h2>
+
+<span class="lang-en">2. For which fires is it suitable</span>
+</h2>
+<div class="card">
+<h3>
+
+<span class="lang-en">✅ Suitable</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en"><strong>Class B</strong>: Flammable liquids (oils, petrol, solvents, etc.).</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>Electrical equipment fires</strong> (switchboards, servers, computers, etc.).</span>
+</li>
+</ul>
+<h3>
+
+<span class="lang-en">❌ Not suitable</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">For <strong>solid fuels (Class A)</strong> such as wood, paper, textiles.</span>
+</li>
+<li>
+
+<span class="lang-en">For <strong>metal fires (Class D)</strong>.</span>
+</li>
+</ul>
+<p>
+
+<span class="lang-en">
+            Ideal locations: electrical panels, computer rooms, lift machinery rooms,
+            workshops and industrial areas with electrical installations.
+          </span>
+</p>
+</div>
+</section>
+<!-- 3. Πώς σβήνει τη φωτιά -->
+<section id="how">
+<h2>
+
+<span class="lang-en">3. How it extinguishes fire</span>
+</h2>
+<p>
+
+<span class="lang-en">
+          CO₂ displaces the oxygen around the flame and also cools the discharge area
+          due to its very low temperature. In this way it “smothers” the fire, leaving
+          no residue (unlike powder or foam extinguishers).
+        </span>
+</p>
+</section>
+<!-- 4. Πλεονεκτήματα -->
+<section id="pros">
+<h2>
+
+<span class="lang-en">4. Advantages</span>
+</h2>
+<ul>
+<li>
+
+<span class="lang-en">Leaves no residue → ideal for electronic/electrical equipment.</span>
+</li>
+<li>
+
+<span class="lang-en">Non-conductive → safe to use on live electrical systems.</span>
+</li>
+<li>
+
+<span class="lang-en">Fast extinguishing when used correctly.</span>
+</li>
+</ul>
+</section>
+<!-- 5. Μειονεκτήματα / κίνδυνοι -->
+<section id="cons">
+<h2>
+
+<span class="lang-en">5. Disadvantages &amp; risks</span>
+</h2>
+<ul>
+<li>
+
+<span class="lang-en">Risk of asphyxiation in small, enclosed spaces (oxygen reduction).</span>
+</li>
+<li>
+
+<span class="lang-en">Nozzle and horn become extremely cold → risk of cold burns/frostbite.</span>
+</li>
+<li>
+
+<span class="lang-en">Discharges fairly quickly (short discharge time).</span>
+</li>
+<li>
+
+<span class="lang-en">Not effective on solid fuel fires (paper, wood, etc.).</span>
+</li>
+</ul>
+</section>
+<!-- 6. Τυπικές χωρητικότητες -->
+<section id="sizes">
+<h2>
+
+<span class="lang-en">6. Typical capacities &amp; uses</span>
+</h2>
+<ul>
+<li>
+
+<span class="lang-en"><strong>2 kg CO₂</strong> → for small panels and small offices.</span>
+</li>
+<li>
+
+<span class="lang-en"><strong>5 kg CO₂</strong> → common in commercial areas and plant rooms.</span>
+</li>
+</ul>
+<p>
+
+<span class="lang-en">
+          In larger facilities there may also be fixed CO₂ systems, activated automatically or manually
+          to protect whole rooms or equipment zones.
+        </span>
+</p>
+<p class="card">
+<strong>
+
+<span class="lang-en">🟢 “Use CO₂ only where it fits: flammable liquids and electrical equipment.”</span>
+</strong>
+</p>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    
+<span class="lang-en">Occupational Health &amp; Safety</span>
+</footer>
+</body>
+</html>

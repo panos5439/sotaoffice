@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Οδηγός Χρήσης Πλατφόρμας Εκπαίδευσης</title>
+<!-- Icons (μόνο για header / κουμπιά / τίτλους) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#f8fafc;          /* ΦΩΤΕΙΝΟ */
+      --card:#ffffff;        /* ΦΩΤΕΙΝΟ */
+      --card-soft:#ffffff;   /* ΦΩΤΕΙΝΟ */
+      --text:#0f172a;        /* ΣΚΟΥΡΟ ΚΕΙΜΕΝΟ */
+      --muted:#334155;
+      --border:#e2e8f0;
+      --primary:#7c3aed;      /* purple */
+      --primary-soft:#c4b5fd; /* light purple */
+      --accent:#06b6d4;       /* cyan */
+      --shadow:0 18px 40px rgba(2,6,23,.12);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, rgba(124,58,237,.14) 0, transparent 55%),
+        radial-gradient(circle at bottom, rgba(6,182,212,.12) 0, #f8fafc 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{ position:absolute; left:-9999px; }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{ display:none; }
+
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{ display:inline; }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(248,250,252,.92);
+      border-bottom:1px solid var(--border);
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 10px rgba(124,58,237,.35));
+    }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,var(--primary),var(--accent));
+      color:#ffffff;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(2,6,23,.10);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:#ffffff;
+      border-color:#cbd5e1;
+      color:#0f172a;
+      box-shadow:0 10px 20px rgba(2,6,23,.08);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(2,6,23,.12);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #ffffff 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,rgba(124,58,237,.10) 0,transparent 45%),
+        radial-gradient(circle at bottom right,rgba(6,182,212,.08) 0,transparent 45%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin:0 0 8px; font-size:22px; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(124,58,237,.25);
+      background:linear-gradient(90deg,rgba(124,58,237,.12),rgba(6,182,212,.08));
+      font-size:16px;
+      color:#0f172a;
+      box-shadow:0 0 18px rgba(124,58,237,.12);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:var(--primary); }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 14px rgba(124,58,237,.10); }
+      50%{ transform:scale(1.03); box-shadow:0 0 22px rgba(124,58,237,.18); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(248,250,252,.95),rgba(248,250,252,.85));
+      color:#0f172a;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #e2e8f0;
+      padding:14px;
+      background:#ffffff;
+      box-shadow:0 10px 22px rgba(2,6,23,.08);
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size:14px;
+      padding:2px 8px;
+      border-radius:10px;
+      border:1px solid #cbd5e1;
+      background:#f1f5f9;
+      color:#0f172a;
+      display:inline-block;
+      margin:2px 0;
+    }
+
+    footer{
+      text-align:center;
+      color:#475569;
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid var(--border);
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    @media (max-width:768px){
+      .row{ grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<!-- CSS-toggle για γλώσσα -->
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-graduation-cap"></i>
+<span class="lang-el">Οδηγός · Πλατφόρμα Εκπαίδευσης</span>
+
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή -->
+<section id="intro">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-circle-info"></i>
+<span class="lang-el">📘 ΟΔΗΓΟΣ ΧΡΗΣΗΣ: ΠΛΑΤΦΟΡΜΑ ΕΚΠΑΙΔΕΥΣΗΣ</span>
+
+</div>
+<h1>
+<span class="lang-el">Γρήγορα, απλά και χωρίς σύγχυση</span>
+
+</h1>
+<p>
+<span class="lang-el">
+          🎯 Στόχος: Να ξέρεις πού θα βρεις τα tags, πώς κινείσαι στον 3D χώρο, πώς λειτουργεί η γλώσσα
+          και πότε/πώς δίνεις το τελικό διαγώνισμα.
+        </span>
+
+</p>
+<p class="pill">
+<span class="lang-el">Κανόνας #1: Δες όλα τα tags — από εκεί βγαίνουν οι ερωτήσεις.</span>
+
+</p>
+</section>
+<!-- 1. Πλευρικό Μενού & Tags -->
+<section id="tags">
+<h2>
+<span class="lang-el">1. Πλευρικό Μενού &amp; Tags (ΑΠΑΡΑΙΤΗΤΟ)</span>
+
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+<span class="lang-el">✅ Τι είναι τα tags;</span>
+
+</h3>
+<p>
+<span class="lang-el">
+              Τα tags είναι τα βασικά “σημεία μάθησης” (πληροφορίες, οδηγίες, mini quiz).
+              Το τελικό διαγώνισμα βασίζεται στο περιεχόμενό τους.
+            </span>
+
+</p>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">⭐ Τι πρέπει να κάνω;</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el"><b>Μην παραλείπεις tags</b> — κάθε ένα είναι ύλη εξέτασης.</span>
+
+</li>
+<li>
+<span class="lang-el">Προχώρα με σειρά, ώστε να μην ξεχάσεις κάποιο.</span>
+
+</li>
+<li>
+<span class="lang-el"><b>Μην</b> ξεχνας να αποδέχεσαι σε κάθε ενότητα οτι την έχεις "ολοκληρώσει" στο αντίστοιχο checkbox που εμφανίζεται στο κάτω μέρος της οθόνης.</span>
+
+</li>
+</ul>
+</div>
+</div>
+<p class="card">
+<strong>
+<span class="lang-el">🟣 Tip: Αν χαθείς, γύρνα στο μενού και συνέχισε από το επόμενο tag.</span>
+
+</strong>
+</p>
+</section>
+<!-- 2. Navigation στον 3D Χώρο -->
+<section id="nav3d">
+<h2>
+<span class="lang-el">2. Navigation στον 3D Χώρο</span>
+
+</h2>
+<p>
+<span class="lang-el">Η πλοήγηση είναι γρήγορη και φυσική. Τα πιο συνηθισμένα:</span>
+
+</p>
+<div class="card">
+<ul>
+<li>
+<span class="lang-el"><span class="kbd">Αριστερό κλικ + σύρσιμο</span> → περιστροφή θέασης</span>
+
+</li>
+<li>
+<span class="lang-el"><span class="kbd">Ροδέλα ποντικιού</span> → zoom in / out</span>
+
+</li>
+<li>
+<span class="lang-el"><span class="kbd">Κλικ σε σημείο / βελάκια</span> → μετακίνηση στον χώρο</span>
+
+</li>
+</ul>
+</div>
+<p class="pill">
+<span class="lang-el">Αν κάτι δεν ανταποκρίνεται: δοκίμασε zoom out και ξανά κλικ στο σημείο.</span>
+
+</p>
+</section>
+<!-- 3. Γλώσσες -->
+<section id="languages">
+<h2>
+<span class="lang-el">3. Γλώσσες (χωρίς σύγχυση)</span>
+
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+<span class="lang-el">🌐 Μέσα στο tag (πάνω δεξιά)</span>
+
+</h3>
+<p>
+<span class="lang-el">
+              Από εκεί αλλάζεις τη γλώσσα του <b>κειμένου</b> του συγκεκριμένου tag.
+              Αυτή η αλλαγή αφορά μόνο το tag που βλέπεις.
+            </span>
+
+</p>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">🧩 Γλώσσα μενού / Τελικής εξέτασης</span>
+
+</h3>
+<p>
+<span class="lang-el">
+              Η γλώσσα του πλευρικού μενού (icon γλώσσας) καθορίζει και τη γλώσσα που θα εμφανιστεί στο <b>τελικό διαγώνισμα</b>.
+            </span>
+
+</p>
+</div>
+</div>
+<p class="card">
+<strong>
+<span class="lang-el">🟣 Πριν ξεκινήσεις εξέταση: έλεγξε ότι το μενού είναι στη γλώσσα που θέλεις.</span>
+
+</strong>
+</p>
+</section>
+<!-- 4. Τελικό Διαγώνισμα -->
+<section id="exam">
+<h2>
+<span class="lang-el">4. Τελικό Διαγώνισμα</span>
+
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+<span class="lang-el">🎓 Πώς το βρίσκω;</span>
+
+</h3>
+<p>
+<span class="lang-el">
+              Από το πλευρικό μενού πήγαινε στην ενότητα “ΞΕΚΙΝΑ ΤΗΝ ΕΞΕΤΑΣΗ” και κάνε <b>κλικ στο αντίστοιχο tag</b> που το εκκινεί.
+            </span>
+
+</p>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">✅ Απαίτηση επιτυχίας</span>
+
+</h3>
+<p>
+<span class="lang-el">
+              Για να ολοκληρώσεις επιτυχώς, χρειάζεσαι <b>70%</b> (ή το ποσοστό που έχει οριστεί από τον οργανισμό).
+            </span>
+
+</p>
+<p class="pill">
+<span class="lang-el">Οι ερωτήσεις βασίζονται 100% στο περιεχόμενο των tags.</span>
+
+</p>
+</div>
+</div>
+</section>
+<!-- 5. Quick Tips & Troubleshooting -->
+<section id="tips">
+<h2>
+<span class="lang-el">5. Quick Tips &amp; Troubleshooting</span>
+
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+<span class="lang-el">💡 Γρήγορες συμβουλές</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el"><b>Δες όλα τα tags</b> πριν πας σε εξέταση.</span>
+
+</li>
+<li>
+<span class="lang-el">Αν κάτι δεν είναι ξεκάθαρο, άλλαξε γλώσσα μέσα στο tag (πάνω δεξιά).</span>
+
+</li>
+<li>
+<span class="lang-el">Πριν την εξέταση, έλεγξε τη γλώσσα από το icon στο πλευρικό μενού.</span>
+
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">🛠️ Αν δεν φορτώνει σωστά</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Κάνε <b>ανανέωση σελίδας</b> (refresh).</span>
+
+</li>
+<li>
+<span class="lang-el">Περίμενε λίγα δευτερόλεπτα για να φορτώσουν τα στοιχεία του 3D χώρου.</span>
+
+</li>
+<li>
+<span class="lang-el">Αν συνεχίζει, κλείσε/άνοιξε τον browser ή δοκίμασε άλλο.</span>
+
+</li>
+</ul>
+</div>
+</div>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    <span class="lang-el">Οδηγός Πλατφόρμας Εκπαίδευσης</span>
+
+</footer>
+</body>
+</html>

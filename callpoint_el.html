@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ενότητα: Κομβία Συναγερμού</title>
+<!-- Icons (μόνο για header / κουμπιά / τίτλους) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#ef4444;
+      --primary-soft:#fca5a5;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #ef444430 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e30 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{ position:absolute; left:-9999px; }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{ display:none; }
+
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{ display:inline; }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 10px rgba(239,68,68,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#ef4444,#22c55e);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#f9fafb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#ef4444,#22c55e);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#ef444425 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e25 0,transparent 45%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(239,68,68,.8);
+      background:linear-gradient(90deg,rgba(239,68,68,.22),rgba(248,250,252,.04));
+      font-size:16px;
+      color:#fee2e2;
+      box-shadow:0 0 22px rgba(239,68,68,.6);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#fecaca; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(239,68,68,.35); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(239,68,68,.7); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.85));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    /* εικόνα όπως στα άλλα σου blocks */
+    .img-wrap{
+      margin-bottom:10px;
+      border-radius:12px;
+      padding:10px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      border:1px solid #1e293b;
+      text-align:center;
+    }
+    .img-wrap img{
+      max-width:100%;
+      border-radius:8px;
+      display:block;
+      margin:0 auto 6px;
+    }
+    .img-cap{
+      font-size:13px;
+      color:#e5e7eb;
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+  </style>
+</head>
+<body>
+<!-- CSS-toggle για γλώσσα -->
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-hand-point-up"></i>
+<span class="lang-el">Οδηγός · Κομβία Συναγερμού</span>
+
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή -->
+<section id="intro">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-bell"></i>
+<span class="lang-el">🚨 ΚΟΜΒΙΑ ΣΥΝΑΓΕΡΜΟΥ (ΜΠΟΥΤΟΝ ΠΥΡΚΑΓΙΑΣ)</span>
+
+</div>
+<h1>
+<span class="lang-el">Ενεργοποιούν άμεσα τον συναγερμό όταν υπάρχει κίνδυνος</span>
+
+</h1>
+<p>
+<span class="lang-el">
+          🎯 Στόχος: Να μάθουμε τι είναι το κομβίο συναγερμού, πού βρίσκεται, πότε το χρησιμοποιούμε
+          και ποια βήματα ακολουθούμε μετά την ενεργοποίηση.
+        </span>
+
+</p>
+<p class="pill">
+<span class="lang-el">Κανόνας: Κομβίο → Ενημέρωση → Εκκένωση.</span>
+
+</p>
+</section>
+<!-- Εικόνα -->
+<section id="photo">
+<h2>
+<span class="lang-el">Παράδειγμα κομβίου</span>
+
+</h2>
+<div class="img-wrap">
+<img alt="Κομβίο συναγερμού πυρκαγιάς / Manual call point" src="https://commons.wikimedia.org/wiki/Special:FilePath/Manual%20call%20point%201.jpg"/>
+<div class="img-cap">
+<span class="lang-el">Κομβίο συναγερμού πυρκαγιάς (χειροκίνητη ενεργοποίηση).</span>
+
+</div>
+</div>
+<p>
+<span class="lang-el">
+          Συνήθως είναι κόκκινο και τοποθετείται σε εμφανές σημείο, κοντά σε εξόδους κινδύνου και οδεύσεις διαφυγής.
+        </span>
+
+</p>
+</section>
+<!-- Κύρια σημεία -->
+<section id="how">
+<h2>
+<span class="lang-el">Τι είναι, πού βρίσκεται, πότε &amp; πώς το χρησιμοποιώ</span>
+
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+<span class="lang-el">1) Τι είναι</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Συσκευή χειροκίνητης ενεργοποίησης συναγερμού πυρκαγιάς.</span>
+
+</li>
+<li>
+<span class="lang-el">Στέλνει σήμα στον πίνακα πυρανίχνευσης/συναγερμού.</span>
+
+</li>
+<li>
+<span class="lang-el">Ενεργοποιεί σειρήνες/φάρους ανάλογα με το σύστημα.</span>
+
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">2) Πού βρίσκεται συνήθως</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Κοντά σε εξόδους κινδύνου και κλιμακοστάσια.</span>
+
+</li>
+<li>
+<span class="lang-el">Σε διαδρόμους και κοινόχρηστους χώρους.</span>
+
+</li>
+<li>
+<span class="lang-el">Σε σημείο που δεν καλύπτεται από αντικείμενα/έπιπλα.</span>
+
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">3) Πότε το χρησιμοποιώ</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Όταν δω φωτιά ή καπνό.</span>
+
+</li>
+<li>
+<span class="lang-el">Όταν υπάρχει άμεσος κίνδυνος και δεν έχει ενεργοποιηθεί συναγερμός.</span>
+
+</li>
+<li>
+<span class="lang-el">Κατά την εκκένωση, αν περνάω δίπλα από κομβίο και ο συναγερμός δεν έχει ηχήσει.</span>
+
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">4) Πώς το χρησιμοποιώ</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Ενεργοποιώ το κομβίο (πάτημα ή «σπάσιμο» προστατευτικού, ανάλογα με τον τύπο).</span>
+
+</li>
+<li>
+<span class="lang-el">Ενημερώνω άμεσα όσους είναι κοντά μου και καλώ 112 (ή αναθέτω σε άλλον).</span>
+
+</li>
+<li>
+<span class="lang-el">Ακολουθώ τις πράσινες πινακίδες και εκκενώνω προς το σημείο συγκέντρωσης.</span>
+
+</li>
+</ul>
+</div>
+</div>
+<p class="card" style="margin-top:12px;">
+<strong>
+<span class="lang-el">⚠️ Χρήση μόνο σε πραγματική ανάγκη. Η ψευδής ενεργοποίηση προκαλεί πανικό και αποσυντονίζει την ασφάλεια.</span>
+
+</strong>
+</p>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+
+</footer>
+</body>
+</html>

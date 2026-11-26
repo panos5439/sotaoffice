@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ενότητα 6: Ηλεκτρισμός &amp; Ηλεκτρική Ασφάλεια</title>
+<!-- Icons από βιβλιοθήκη -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --border:#1f2937;
+      --primary:#facc15;
+      --primary-soft:#f97316;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.6);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #facc1533 0, transparent 55%),
+        radial-gradient(circle at bottom, #ef44441a 0, #020617 55%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    
+
+    /* όταν είναι τσεκαρισμένο → Αγγλικά */
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #111827;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 8px rgba(250,204,21,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#facc15,#f97316);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#e5e7eb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#facc15,#f97316);
+      color:#111827;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(250,204,21,.5);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#0ea5e9,#0369a1);
+      border-color:#0ea5e9;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(14,165,233,.5);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #0f172a 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at top,#facc1530 0,transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(250,204,21,.7);
+      background:linear-gradient(90deg,rgba(250,204,21,.18),rgba(248,113,113,.18));
+      font-size:16px;
+      color:#fef9c3;
+      box-shadow:0 0 20px rgba(250,204,21,.55);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#facc15; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(250,204,21,.35); }
+      50{ transform:scale(1.03); box-shadow:0 0 30px rgba(250,204,21,.7); }
+    }
+
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(248,113,113,.7);
+      background:linear-gradient(90deg,rgba(248,250,252,.08),rgba(248,113,113,.18));
+      color:#fecaca;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:14px;
+      background:radial-gradient(circle at top left,#111827 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #111827;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    /* ===== HERO + ΠΑΙΧΝΙΔΙ ΠΟΛΥΠΡΙΖΟΥ (CSS ONLY) ===== */
+    .hero{
+      display:flex;
+      gap:20px;
+      align-items:stretch;
+      flex-wrap:wrap;
+    }
+    .hero-text{
+      flex:1 1 260px;
+      min-width:0;
+    }
+    .hero-game-wrapper{
+      flex:0 0 320px;
+      display:flex;
+      justify-content:flex-end;
+      align-items:flex-start;
+      padding-top:10px;
+    }
+
+    .elecgame{
+      width:100%;
+      max-width:320px;
+      border-radius:16px;
+      padding:12px 12px 14px;
+      background:radial-gradient(circle at top,#111827,#020617 70%);
+      border:1px solid #f97316;
+      box-shadow:0 16px 35px rgba(15,23,42,.9);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-size:14px;
+    }
+
+    .elecgame-title{
+      font-size:15px;
+      font-weight:bold;
+      color:#fef9c3;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .elecgame input[type="radio"]{
+      position:absolute;
+      left:-9999px;
+    }
+
+    .elecgame-meter{
+      margin-top:6px;
+    }
+    .elecgame-meter-bg{
+      position:relative;
+      width:100%;
+      height:20px;
+      border-radius:999px;
+      background:rgba(15,23,42,.9);
+      border:1px solid #4b5563;
+      overflow:hidden;
+      box-shadow:inset 0 0 10px rgba(0,0,0,.8);
+    }
+    .elecgame-meter-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#22c55e,#a3e635);
+      box-shadow:0 0 14px rgba(34,197,94,.8);
+      transition:width .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+    /* πλάτος & χρώμα ανά επιλογή */
+    #dev0:checked ~ .elecgame-meter .elecgame-meter-fill{ width:0%; }
+    #dev1:checked ~ .elecgame-meter .elecgame-meter-fill{ width:20%; }
+    #dev2:checked ~ .elecgame-meter .elecgame-meter-fill{ width:45%; }
+    #dev3:checked ~ .elecgame-meter .elecgame-meter-fill{
+      width:70%;
+      background:linear-gradient(90deg,#facc15,#f97316);
+      box-shadow:0 0 16px rgba(248,181,21,.9);
+    }
+    #dev4:checked ~ .elecgame-meter .elecgame-meter-fill{
+      width:100%;
+      background:linear-gradient(90deg,#ef4444,#b91c1c);
+      box-shadow:0 0 18px rgba(248,113,113,1);
+    }
+
+    .elecgame-meter-label{
+      margin-top:4px;
+      display:flex;
+      justify-content:space-between;
+      color:#e5e7eb;
+    }
+
+    .elecgame-buttons{
+      margin-top:6px;
+      display:flex;
+      gap:6px;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .elecgame-buttons label{
+      flex:1 1 45%;
+      text-align:center;
+      padding:4px 6px;
+      border-radius:999px;
+      border:1px solid #4b5563;
+      background:#020617;
+      color:#e5e7eb;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .elecgame-buttons label:hover{
+      border-color:#facc15;
+      color:#facc15;
+    }
+
+    /* ενεργή επιλογή */
+    #dev0:checked ~ .elecgame-buttons label[for="dev0"],
+    #dev1:checked ~ .elecgame-buttons label[for="dev1"],
+    #dev2:checked ~ .elecgame-buttons label[for="dev2"],
+    #dev3:checked ~ .elecgame-buttons label[for="dev3"],
+    #dev4:checked ~ .elecgame-buttons label[for="dev4"]{
+      background:radial-gradient(circle at top,#facc15,#f97316);
+      color:#111827;
+      border-color:#facc15;
+      box-shadow:0 0 10px rgba(250,204,21,.8);
+    }
+
+    .elecgame-status{
+      margin-top:6px;
+      min-height:32px;
+      font-size:14px;
+    }
+    .elecgame-status .msg-safe,
+    .elecgame-status .msg-warn,
+    .elecgame-status .msg-danger{
+      display:none;
+    }
+
+    #dev0:checked ~ .elecgame-status .msg-safe,
+    #dev1:checked ~ .elecgame-status .msg-safe,
+    #dev2:checked ~ .elecgame-status .msg-safe{
+      display:block;
+      color:#4ade80;
+    }
+
+    #dev3:checked ~ .elecgame-status .msg-warn{
+      display:block;
+      color:#facc15;
+    }
+
+    #dev4:checked ~ .elecgame-status .msg-danger{
+      display:block;
+      color:#f97373;
+    }
+
+    @media (max-width:768px){
+      .hero{ flex-direction:column; }
+      .hero-game-wrapper{ justify-content:flex-start; }
+    }
+
+    /* ===== QUIZ (CSS ONLY) ===== */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#111827 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-option{
+      margin:6px 0;
+    }
+    .quiz-option input{
+      position:absolute;
+      left:-9999px;
+    }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #374151;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+
+    /* checked */
+    .quiz-option input:checked + label{
+      border-color:#60a5fa;
+      box-shadow:0 0 0 1px #1d4ed8;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+
+    .quiz-form{
+      margin-top:8px;
+    }
+    .quiz-reset-wrap{
+      margin-top:10px;
+      text-align:left;
+    }
+  </style>
+</head>
+<body>
+<!-- CSS-toggle για γλώσσα -->
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-bolt"></i>
+
+<span class="lang-en">Unit 6 · Electricity &amp; Electrical Safety</span>
+</div>
+<div class="grow"></div>
+<!-- κουμπί γλώσσας (CSS) -->
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή + Παιχνίδι -->
+<section id="intro">
+<div class="hero">
+<div class="hero-text">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-bolt"></i>
+
+<span class="lang-en">⚡️ UNIT 6: ELECTRICITY AND ELECTRICAL SAFETY</span>
+</div>
+<h1>
+
+<span class="lang-en">Electricity: useful but dangerous</span>
+</h1>
+<p>
+
+<span class="lang-en">
+              🎯 Goal: To know the basic safety rules when using electrical devices
+              in the office and to be able to recognise dangerous situations.
+            </span>
+</p>
+<p class="pill">
+
+<span class="lang-en">Electricity does not forgive mistakes – it requires respect and control.</span>
+</p>
+</div>
+<!-- Παιχνίδι: Πολύπριζο / Υπερφόρτωση (CSS ONLY) -->
+<div class="hero-game-wrapper">
+<div class="elecgame">
+<!-- καταστάσεις φόρτισης -->
+<input checked="" id="dev0" name="dev" type="radio"/>
+<input id="dev1" name="dev" type="radio"/>
+<input id="dev2" name="dev" type="radio"/>
+<input id="dev3" name="dev" type="radio"/>
+<input id="dev4" name="dev" type="radio"/>
+<div class="elecgame-title">
+<i aria-hidden="true" class="fa-solid fa-plug-circle-bolt"></i>
+
+<span class="lang-en">Mini game: How many devices can the power strip handle?</span>
+</div>
+<div class="elecgame-meter">
+<div class="elecgame-meter-bg">
+<div class="elecgame-meter-fill"></div>
+</div>
+<div class="elecgame-meter-label">
+
+<span class="lang-en">Power strip load</span>
+<span>0–100%</span>
+</div>
+</div>
+<div class="elecgame-buttons">
+<label for="dev0">
+
+<span class="lang-en">0–1 devices</span>
+</label>
+<label for="dev1">
+
+<span class="lang-en">2 devices</span>
+</label>
+<label for="dev2">
+
+<span class="lang-en">3 devices</span>
+</label>
+<label for="dev3">
+
+<span class="lang-en">4 devices</span>
+</label>
+<label for="dev4">
+
+<span class="lang-en">5+ devices</span>
+</label>
+</div>
+<div class="elecgame-status">
+<div class="msg-safe">
+
+<span class="lang-en">Safe load. The power strip is working properly.</span>
+</div>
+<div class="msg-warn">
+
+<span class="lang-en">You are near the limit. Consider whether all devices are necessary.</span>
+</div>
+<div class="msg-danger">
+
+<span class="lang-en">OVERLOAD RISK! Unplug some devices or use another socket.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6.1 Ο ηλεκτρισμός είναι… -->
+<section id="hazards">
+<h2>
+
+<span class="lang-en">6.1 Electricity is…</span>
+</h2>
+<p>
+
+<span class="lang-en">
+          Electricity is essential, but it can become extremely dangerous if we do not respect it.
+        </span>
+</p>
+<p>
+
+<span class="lang-en">In Greek we say it has the “6 As”:</span>
+</p>
+<ul>
+<li><span class="lang-en">Colourless</span></li>
+<li><span class="lang-en">Odourless</span></li>
+<li><span class="lang-en">Tasteless</span></li>
+<li><span class="lang-en">Silent</span></li>
+<li><span class="lang-en">Invisible</span></li>
+<li><span class="lang-en">Instantaneous</span></li>
+</ul>
+<p class="pill">
+
+<span class="lang-en">We often cannot perceive it — and that is why it requires even more care.</span>
+</p>
+</section>
+<!-- 6.2 Πιθανοί κίνδυνοι -->
+<section>
+<h2>
+
+<span class="lang-en">6.2 Possible hazards in offices</span>
+</h2>
+<p>
+
+<span class="lang-en">Even in an office, the following may happen:</span>
+</p>
+<ul>
+<li>
+
+<span class="lang-en">Electric shock, from damaged cables or liquids near sockets.</span>
+</li>
+<li>
+
+<span class="lang-en">Burns, due to overheating of cables or devices.</span>
+</li>
+<li>
+
+<span class="lang-en">Fire, from overloaded sockets or power strips.</span>
+</li>
+<li>
+
+<span class="lang-en">Falls, if cables are left trailing across the floor.</span>
+</li>
+</ul>
+</section>
+<!-- 6.3 Βασικοί κανόνες ηλεκτρικής ασφάλειας -->
+<section id="rules">
+<h2>
+
+<span class="lang-en">6.3 Basic electrical safety rules</span>
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+
+<span class="lang-en">✅ When I use electrical equipment:</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">I check that cables, plugs and sockets are in good condition.</span>
+</li>
+<li>
+
+<span class="lang-en">I do not use damaged or cut cables — I report them immediately.</span>
+</li>
+<li>
+
+<span class="lang-en">I never touch electrical devices with wet hands.</span>
+</li>
+<li>
+
+<span class="lang-en">I do not place devices near sources of water.</span>
+</li>
+<li>
+
+<span class="lang-en">I do not step on or pull cables — I unplug by holding the plug.</span>
+</li>
+<li>
+
+<span class="lang-en">If a device overheats or smells burnt, I unplug it and inform the responsible person.</span>
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+
+<span class="lang-en">⚠️ Power strips and extensions</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">I do not plug many devices into a single socket (overload).</span>
+</li>
+<li>
+
+<span class="lang-en">I use quality power strips with a switch and protection, not cheap or old ones.</span>
+</li>
+<li>
+
+<span class="lang-en">I do not daisy-chain multiple power strips.</span>
+</li>
+<li>
+
+<span class="lang-en">I avoid placing them under carpets or behind furniture without ventilation.</span>
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+
+<span class="lang-en">⚠️ If I see a problem:</span>
+</h3>
+<ul>
+<li>
+
+<span class="lang-en">I do not try to “fix it myself”.</span>
+</li>
+<li>
+
+<span class="lang-en">I immediately inform maintenance or the Safety Officer.</span>
+</li>
+<li>
+
+<span class="lang-en">I never open or touch electrical panels.</span>
+</li>
+<li>
+
+<span class="lang-en">In an electrical fire → I use a CO₂ or dry powder extinguisher (never water).</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- 6.4 Σωστή χρήση εξοπλισμού -->
+<section id="equipment">
+<h2>
+
+<span class="lang-en">6.4 Correct use of equipment</span>
+</h2>
+<div class="card">
+<table style="width:100%; border-collapse:collapse; font-size:18px;">
+<thead>
+<tr style="border-bottom:1px solid #374151;">
+<th style="text-align:left; padding:6px 4px;">
+<span class="lang-en">Device</span>
+</th>
+<th style="text-align:left; padding:6px 4px;">
+<span class="lang-en">Watch out for…</span>
+</th>
+<th style="text-align:left; padding:6px 4px;">
+<span class="lang-en">Rule</span>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:6px 4px;"><span class="lang-en">Printer</span></td>
+<td style="padding:6px 4px;"><span class="lang-en">Temperature, sockets</span></td>
+<td style="padding:6px 4px;"><span class="lang-en">Do not cover the ventilation openings.</span></td>
+</tr>
+<tr>
+<td style="padding:6px 4px;"><span class="lang-en">Computer</span></td>
+<td style="padding:6px 4px;"><span class="lang-en">Power cable, charger</span></td>
+<td style="padding:6px 4px;"><span class="lang-en">Do not stretch or pinch them.</span></td>
+</tr>
+<tr>
+<td style="padding:6px 4px;"><span class="lang-en">Coffee machine / kettle</span></td>
+<td style="padding:6px 4px;"><span class="lang-en">Water, steam</span></td>
+<td style="padding:6px 4px;"><span class="lang-en">Keep away from sockets.</span></td>
+</tr>
+<tr>
+<td style="padding:6px 4px;"><span class="lang-en">Power strip</span></td>
+<td style="padding:6px 4px;"><span class="lang-en">Too many plugs</span></td>
+<td style="padding:6px 4px;"><span class="lang-en">Use only as many sockets as needed, avoid overload.</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- 6.5 Τι κάνω σε περίπτωση ηλεκτρικού ατυχήματος -->
+<section id="incident">
+<h2>
+
+<span class="lang-en">6.5 What to do in an electrical accident</span>
+</h2>
+<ul>
+<li>
+
+<span class="lang-en">I never touch a person receiving an electric shock if they are still in contact with electricity.</span>
+</li>
+<li>
+
+<span class="lang-en">I switch off the main power or unplug the device (if it is safe).</span>
+</li>
+<li>
+
+<span class="lang-en">I immediately call for help (166 or 112).</span>
+</li>
+<li>
+
+<span class="lang-en">I inform my supervisor and the incident is recorded.</span>
+</li>
+</ul>
+<div class="card">
+<h3>
+
+<span class="lang-en">Example</span>
+</h3>
+<p>
+
+<span class="lang-en">
+            Dimitris noticed a damaged cable behind the printer.
+            Instead of trying to ‘fix’ it himself, he informed the technical department.
+            A few days later they found the cable had started to melt –
+            he prevented a possible fire.
+          </span>
+</p>
+</div>
+<p class="card">
+<strong>
+
+<span class="lang-en">🟢 “Electricity does not forgive mistakes. One extra check can save lives and offices.”</span>
+</strong>
+</p>
+<p style="margin: 20px 0 6px;">
+
+<span class="lang-en">The warning sign for electrical shock hazard is the following:</span>
+</p>
+<img alt="Σήμανση κινδύνου ηλεκτροπληξίας (ISO 7010 W012)" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/ISO_7010_W012.svg" style="width:60px; height:auto; margin-bottom:20px;"/>
+</section>
+<!-- MINI QUIZ 4 ΕΡΩΤΗΣΕΙΣ (CSS ONLY + RESET) -->
+<section id="quiz">
+<h2>
+
+<span class="lang-en">Mini Quiz — Electrical Safety</span>
+</h2>
+<p class="quiz-note">
+
+<span class="lang-en">Choose an answer for each question. ✓ and ✗ appear immediately. Press “Restart” to clear your answers.</span>
+</p>
+<!-- Μορφή φόρμας για reset -->
+<form class="quiz-form">
+<!-- Q1 -->
+<div class="quiz-question">
+<h3>
+
+<span class="lang-en">1. Why is electricity considered especially dangerous?</span>
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q1a" name="q1" type="radio"/>
+<label data-correct="false" for="q1a">
+
+<span class="lang-en">Because it is always visible and audible when there is a problem.</span>
+</label>
+</div>
+<div class="quiz-option">
+<input id="q1b" name="q1" type="radio"/>
+<label data-correct="true" for="q1b">
+
+<span class="lang-en">Because it is colourless, odourless, silent, invisible and instantaneous.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Q2 -->
+<div class="quiz-question">
+<h3>
+
+<span class="lang-en">2. Is it safe to touch electrical devices with wet hands if the voltage is ‘low’?</span>
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q2a" name="q2" type="radio"/>
+<label data-correct="false" for="q2a">
+
+<span class="lang-en">Yes, there is no risk.</span>
+</label>
+</div>
+<div class="quiz-option">
+<input id="q2b" name="q2" type="radio"/>
+<label data-correct="true" for="q2b">
+
+<span class="lang-en">No, water increases the risk of electric shock.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Q3 -->
+<div class="quiz-question">
+<h3>
+
+<span class="lang-en">3. What should I do if I see a damaged cable behind a printer?</span>
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q3a" name="q3" type="radio"/>
+<label data-correct="false" for="q3a">
+
+<span class="lang-en">I ‘fix’ it myself so it doesn’t show.</span>
+</label>
+</div>
+<div class="quiz-option">
+<input id="q3b" name="q3" type="radio"/>
+<label data-correct="true" for="q3b">
+
+<span class="lang-en">I immediately inform the technical department or maintenance.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Q4 -->
+<div class="quiz-question">
+<h3>
+
+<span class="lang-en">4. Which of the following is correct use of a power strip?</span>
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q4a" name="q4" type="radio"/>
+<label data-correct="false" for="q4a">
+
+<span class="lang-en">I chain multiple power strips together (‘strip into strip’).</span>
+</label>
+</div>
+<div class="quiz-option">
+<input id="q4b" name="q4" type="radio"/>
+<label data-correct="true" for="q4b">
+
+<span class="lang-en">I use a quality power strip with protection and avoid overloading it.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Κουμπί επανεκκίνησης -->
+<div class="quiz-reset-wrap">
+<button class="btn secondary" type="reset">
+<i aria-hidden="true" class="fa-solid fa-rotate"></i>
+
+<span class="lang-en">Restart Quiz</span>
+</button>
+</div>
+</form>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    
+<span class="lang-en">Occupational Health &amp; Safety</span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ενότητα 10: Χημικές Ουσίες &amp; Ασφαλής Διαχείριση</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#e5e7eb;
+      --border:#1f2937;
+      --primary:#a855f7;
+      --primary-soft:#c4b5fd;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.75);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #a855f730 0, transparent 55%),
+        radial-gradient(circle at bottom, #22c55e30 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:#a855f7;
+      filter:drop-shadow(0 0 10px rgba(168,85,247,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#a855f7,#22c55e);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#f9fafb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#a855f7,#22c55e);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#020617,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#a855f725 0,transparent 45%),
+        radial-gradient(circle at bottom right,#22c55e25 0,transparent 45%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    h3{ margin-top:0; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(196,181,253,.8);
+      background:linear-gradient(90deg,rgba(168,85,247,.25),rgba(15,23,42,.9));
+      font-size:16px;
+      color:#fef9c3;
+      box-shadow:0 0 22px rgba(168,85,247,.7);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#c4b5fd; }
+
+    @keyframes pulseBadge{
+      0%,100%{ transform:scale(1); box-shadow:0 0 18px rgba(168,85,247,.4); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(168,85,247,.8); }
+    }
+
+    p{ color:var(--muted); }
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.85));
+      color:#e5e7eb;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    .lab-hero{
+      display:flex;
+      flex-wrap:wrap;
+      gap:20px;
+      align-items:stretch;
+    }
+    .lab-text{
+      flex:1 1 260px;
+      min-width:0;
+    }
+    .lab-visual-wrapper{
+      flex:0 0 280px;
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .flask-wrap{
+      width:220px;
+      height:220px;
+      border-radius:20px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      border:1px solid #1f2937;
+      box-shadow:0 18px 35px rgba(0,0,0,.9);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .flask{
+      position:relative;
+      width:110px;
+      height:150px;
+    }
+    .flask-neck{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      top:0;
+      width:40px;
+      height:55px;
+      border-radius:20px;
+      border:4px solid #e5e7eb;
+      border-bottom:none;
+    }
+    .flask-body{
+      position:absolute;
+      bottom:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:120px;
+      height:110px;
+      border-radius:60px 60px 20px 20px;
+      border:4px solid #e5e7eb;
+      background:radial-gradient(circle at top,#0b1120,#020617 70%);
+      overflow:hidden;
+    }
+    .flask-liquid{
+      position:absolute;
+      bottom:0;
+      left:0;
+      width:100%;
+      height:55%;
+      background:linear-gradient(180deg,#22c55e,#16a34a);
+      box-shadow:0 0 20px rgba(34,197,94,.8);
+      animation:liquidWaves 4s ease-in-out infinite;
+    }
+    @keyframes liquidWaves{
+      0%,100%{ transform:translateY(0); }
+      50%{ transform:translateY(-4px); }
+    }
+    .bubble{
+      position:absolute;
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background:#bbf7d0;
+      opacity:0;
+      animation:bubbleRise 4s infinite ease-out;
+    }
+    .bubble:nth-child(1){ left:30%; bottom:18%; animation-delay:0s; }
+    .bubble:nth-child(2){ left:55%; bottom:16%; width:8px;height:8px; animation-delay:0.8s; }
+    .bubble:nth-child(3){ left:42%; bottom:20%; width:12px;height:12px; animation-delay:1.5s; }
+
+    @keyframes bubbleRise{
+      0%{ transform:translateY(0) scale(0.6); opacity:0; }
+      20%{ opacity:1; }
+      80%{ transform:translateY(-40px) scale(1); opacity:1; }
+      100%{ transform:translateY(-55px) scale(1.1); opacity:0; }
+    }
+
+    .ghs-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+      gap:14px;
+      margin-top:14px;
+    }
+    .ghs-item{
+      display:flex;
+      gap:12px;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid #1e293b;
+      background:linear-gradient(180deg,rgba(2,6,23,.95),rgba(15,23,42,.92));
+      align-items:flex-start;
+      min-height:170px;
+      box-shadow:0 12px 30px rgba(0,0,0,.55);
+    }
+    .ghs-icon{
+      flex:0 0 68px;
+      height:68px;
+      border-radius:14px;
+      background:#ffffff;
+      border:2px solid #b91c1c;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      box-shadow:0 0 12px rgba(0,0,0,.6);
+    }
+    .ghs-icon img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+    }
+    .ghs-content{
+      flex:1;
+      min-width:0;
+    }
+    .ghs-text-title{
+      font-weight:bold;
+      color:#f9fafb;
+      font-size:19px;
+      margin-bottom:4px;
+    }
+    .ghs-text-sub{
+      font-size:16px;
+      color:#cbd5f5;
+      margin-bottom:8px;
+    }
+    .ghs-mini{
+      margin:0;
+      padding-left:18px;
+    }
+    .ghs-mini li{
+      font-size:16px;
+      line-height:1.55;
+      color:#dbe4f3;
+    }
+    .ghs-final-note{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(239,68,68,.45);
+      background:linear-gradient(90deg,rgba(127,29,29,.35),rgba(2,6,23,.92));
+      color:#fee2e2;
+      box-shadow:0 0 18px rgba(239,68,68,.18);
+    }
+    .ghs-final-note strong{
+      color:#fff;
+    }
+
+    .chem-game{
+      margin-top:14px;
+      border-radius:16px;
+      border:1px solid #4c1d95;
+      padding:12px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+      font-size:16px;
+    }
+    .chem-game-title{
+      font-weight:bold;
+      margin-bottom:6px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:#ede9fe;
+    }
+
+    .chem-game input[type="radio"]{
+      position:absolute;
+      left:-9999px;
+    }
+
+    .chem-meter{
+      margin-top:8px;
+    }
+    .chem-meter-bg{
+      position:relative;
+      width:100%;
+      height:20px;
+      border-radius:999px;
+      background:#020617;
+      border:1px solid #4b5563;
+      overflow:hidden;
+      box-shadow:inset 0 0 10px rgba(0,0,0,.8);
+    }
+    .chem-meter-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#22c55e,#bbf7d0);
+      box-shadow:0 0 14px rgba(34,197,94,.8);
+      transition:width .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+    #scene_safe:checked ~ .chem-meter .chem-meter-fill{
+      width:20%;
+      background:linear-gradient(90deg,#22c55e,#bbf7d0);
+      box-shadow:0 0 14px rgba(34,197,94,.9);
+    }
+    #scene_mid:checked ~ .chem-meter .chem-meter-fill{
+      width:60%;
+      background:linear-gradient(90deg,#eab308,#fbbf24);
+      box-shadow:0 0 14px rgba(234,179,8,.9);
+    }
+    #scene_danger:checked ~ .chem-meter .chem-meter-fill{
+      width:100%;
+      background:linear-gradient(90deg,#ef4444,#b91c1c);
+      box-shadow:0 0 16px rgba(239,68,68,1);
+    }
+
+    .chem-meter-label{
+      margin-top:4px;
+      display:flex;
+      justify-content:space-between;
+      color:#e5e7eb;
+      font-size:14px;
+    }
+
+    .chem-options{
+      margin-top:8px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .chem-option-label{
+      display:block;
+      padding:6px 8px;
+      border-radius:999px;
+      border:1px solid #4b5563;
+      background:#020617;
+      color:#e5e7eb;
+      cursor:pointer;
+      font-size:15px;
+    }
+    .chem-option-label:hover{
+      border-color:#a855f7;
+      color:#c4b5fd;
+    }
+
+    #scene_safe:checked ~ .chem-options label[for="scene_safe"],
+    #scene_mid:checked ~ .chem-options label[for="scene_mid"],
+    #scene_danger:checked ~ .chem-options label[for="scene_danger"]{
+      background:radial-gradient(circle at top,#a855f7,#22c55e);
+      color:#020617;
+      border-color:#c4b5fd;
+      box-shadow:0 0 10px rgba(168,85,247,.8);
+    }
+
+    .chem-status{
+      margin-top:6px;
+      min-height:28px;
+      font-size:15px;
+    }
+    .chem-status-safe,
+    .chem-status-mid,
+    .chem-status-danger{
+      display:none;
+    }
+    #scene_safe:checked ~ .chem-status .chem-status-safe{
+      display:block;
+      color:#4ade80;
+    }
+    #scene_mid:checked ~ .chem-status .chem-status-mid{
+      display:block;
+      color:#facc15;
+    }
+    #scene_danger:checked ~ .chem-status .chem-status-danger{
+      display:block;
+      color:#f97373;
+    }
+
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#020617 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-option{
+      margin:6px 0;
+    }
+    .quiz-option input{
+      position:absolute;
+      left:-9999px;
+    }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #1e293b;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+    .quiz-option input:checked + label{
+      border-color:#38bdf8;
+      box-shadow:0 0 0 1px #0ea5e9;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+    .quiz-form{
+      margin-top:8px;
+    }
+    .quiz-reset-wrap{
+      margin-top:10px;
+      text-align:left;
+    }
+    .quiz-reset-wrap .btn{
+      font-size:14px;
+      padding:5px 11px;
+      box-shadow:none;
+    }
+
+    @media (max-width:768px){
+      .lab-hero{ flex-direction:column; }
+      .lab-visual-wrapper{ justify-content:flex-start; }
+      .ghs-grid{ grid-template-columns:1fr; }
+      .ghs-item{ min-height:auto; }
+    }
+  </style>
+</head>
+<body>
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-vial-circle-check"></i>
+<span class="lang-el">Ενότητα 10 · Χημικές Ουσίες &amp; Ασφαλής Διαχείριση</span>
+
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<section id="intro">
+<div class="lab-hero">
+<div class="lab-text">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-flask"></i>
+<span class="lang-el">🧪 ΕΝΟΤΗΤΑ 10: ΧΗΜΙΚΕΣ ΟΥΣΙΕΣ &amp; ΑΣΦΑΛΗΣ ΔΙΑΧΕΙΡΙΣΗ</span>
+
+</div>
+<h1>
+<span class="lang-el">Χημικές ουσίες στο γραφείο: μικρές ποσότητες, σοβαρή ευθύνη</span>
+
+</h1>
+<p>
+<span class="lang-el">
+              🎯 Στόχος: Να μάθουμε πώς να αναγνωρίζουμε, χειριζόμαστε και αποθηκεύουμε με ασφάλεια
+              τις χημικές ουσίες που υπάρχουν στο γραφείο, προστατεύοντας τον εαυτό μας και τους συναδέλφους μας.
+            </span>
+
+</p>
+<p class="pill">
+<span class="lang-el">Η γνώση της ετικέτας είναι το πρώτο μέτρο προστασίας.</span>
+
+</p>
+</div>
+<div class="lab-visual-wrapper">
+<div aria-hidden="true" class="flask-wrap">
+<div class="flask">
+<div class="flask-neck"></div>
+<div class="flask-body">
+<div class="flask-liquid"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="where">
+<h2>
+<span class="lang-el">10.1 Πού μπορεί να υπάρχουν χημικές ουσίες σε ένα γραφείο</span>
+
+</h2>
+<ul>
+<li>
+<span class="lang-el">Καθαριστικά για γραφεία, τζάμια, δάπεδα.</span>
+
+</li>
+<li>
+<span class="lang-el">Μελάνια και τόνερ εκτυπωτών.</span>
+
+</li>
+<li>
+<span class="lang-el">Απολυμαντικά ή σπρέι καθαρισμού.</span>
+
+</li>
+<li>
+<span class="lang-el">Μπαταρίες, κόλλες, διαλύτες ή διορθωτικά υγρά.</span>
+
+</li>
+</ul>
+<p>
+<span class="lang-el">
+          Όλες αυτές οι ουσίες μπορεί να φαίνονται «αθώες», αλλά περιέχουν χημικά συστατικά
+          που χρειάζονται προσοχή στη χρήση και την αποθήκευση.
+        </span>
+
+</p>
+</section>
+<section id="risks">
+<h2>
+<span class="lang-el">10.2 Κίνδυνοι από την κακή χρήση</span>
+
+</h2>
+<ul>
+<li>
+<span class="lang-el">Ερεθισμός ματιών, δέρματος ή αναπνευστικού.</span>
+
+</li>
+<li>
+<span class="lang-el">Εισπνοή επικίνδυνων ατμών.</span>
+
+</li>
+<li>
+<span class="lang-el">Ανάφλεξη ή έκρηξη αν οι ουσίες αποθηκευτούν λάθος.</span>
+
+</li>
+<li>
+<span class="lang-el">Αντίδραση μεταξύ ασύμβατων υλικών (π.χ. χλωρίνη με αμμωνία).</span>
+
+</li>
+</ul>
+</section>
+<section id="rules">
+<h2>
+<span class="lang-el">10.3 Βασικοί κανόνες ασφάλειας</span>
+
+</h2>
+<div class="row">
+<div class="card">
+<h3>
+<span class="lang-el">✅ Διαβάζω την ετικέτα &amp; το Δελτίο Δεδομένων Ασφαλείας (SDS)</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Κάθε προϊόν πρέπει να έχει σαφή σήμανση (όνομα, κινδύνους, οδηγίες).</span>
+
+</li>
+<li>
+<span class="lang-el">Το SDS εξηγεί κινδύνους, ΜΑΠ και ενέργειες σε διαρροή ή ατύχημα.</span>
+
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">✅ Ασφαλής αποθήκευση</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Φυλάσσω σε δροσερό, καλά αεριζόμενο χώρο, μακριά από θερμότητα.</span>
+
+</li>
+<li>
+<span class="lang-el">Δεν μεταφέρω χημικά σε άσχετα μπουκάλια (ιδίως νερού).</span>
+
+</li>
+<li>
+<span class="lang-el">Δεν αναμειγνύω προϊόντα και αποθηκεύω ασύμβατα υλικά χωριστά.</span>
+
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">✅ Κατά τη χρήση</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Χρησιμοποιώ γάντια ή μάσκα αν το προϊόν το απαιτεί.</span>
+
+</li>
+<li>
+<span class="lang-el">Αερίζω τον χώρο, αποφεύγω την εισπνοή ατμών.</span>
+
+</li>
+<li>
+<span class="lang-el">Δεν τρώω, δεν πίνω και δεν καπνίζω όσο χειρίζομαι χημικά.</span>
+
+</li>
+</ul>
+</div>
+<div class="card">
+<h3>
+<span class="lang-el">✅ Σε περίπτωση διαρροής ή επαφής</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Απομακρύνω άτομα, φορώ γάντια, καθαρίζω με απορροφητικό υλικό.</span>
+
+</li>
+<li>
+<span class="lang-el">Αερίζω καλά τον χώρο και ενημερώνω τον υπεύθυνο.</span>
+
+</li>
+<li>
+<span class="lang-el">Σε επαφή με δέρμα ή μάτια → ξεπλένω με νερό και, αν χρειάζεται, καλώ 166/112.</span>
+
+</li>
+</ul>
+</div>
+</div>
+<div class="chem-game">
+<div class="chem-game-title">
+<i aria-hidden="true" class="fa-solid fa-flask-vial"></i>
+<span class="lang-el">Mini παιχνίδι: Πόσο ασφαλής είναι ο τρόπος που χρησιμοποιείς τα χημικά;</span>
+
+</div>
+<input checked="" id="scene_safe" name="scene" type="radio"/>
+<input id="scene_mid" name="scene" type="radio"/>
+<input id="scene_danger" name="scene" type="radio"/>
+<div class="chem-meter">
+<div class="chem-meter-bg">
+<div class="chem-meter-fill"></div>
+</div>
+<div class="chem-meter-label">
+<span class="lang-el">Βαθμός επικινδυνότητας</span>
+
+<span>0–100%</span>
+</div>
+</div>
+<div class="chem-options">
+<label class="chem-option-label" for="scene_safe">
+<span class="lang-el">
+              Σενάριο Α: Ένα καθαριστικό, σωστά επισημασμένο, με ανοιχτό παράθυρο και γάντια.
+            </span>
+
+</label>
+<label class="chem-option-label" for="scene_mid">
+<span class="lang-el">
+              Σενάριο Β: Δύο διαφορετικά καθαριστικά χρησιμοποιούνται διαδοχικά, χωρίς ανάγνωση οδηγιών.
+            </span>
+
+</label>
+<label class="chem-option-label" for="scene_danger">
+<span class="lang-el">
+              Σενάριο Γ: Χημικό προϊόν μεταγγίζεται σε άδειο μπουκάλι νερού χωρίς ετικέτα.
+            </span>
+
+</label>
+</div>
+<div class="chem-status">
+<div class="chem-status-safe">
+<span class="lang-el">Ασφαλής πρακτική! Συνεχίζεις έτσι, με ετικέτες, αερισμό και ΜΑΠ.</span>
+
+</div>
+<div class="chem-status-mid">
+<span class="lang-el">Προσοχή! Χρειάζεται πάντα ανάγνωση οδηγιών πριν συνδυαστούν προϊόντα.</span>
+
+</div>
+<div class="chem-status-danger">
+<span class="lang-el">ΚΙΝΔΥΝΟΣ! Ποτέ χημικά σε μπουκάλια νερού ή χωρίς ετικέτα.</span>
+
+</div>
+</div>
+</div>
+</section>
+<section id="ghs">
+<h2>
+<span class="lang-el">10.4 Εικονογράμματα Χημικού Κινδύνου (GHS)</span>
+
+</h2>
+<p>
+<span class="lang-el">
+          Στη συνέχεια αναλύονται τα 9 επίσημα εικονογράμματα μέσω παραδειγμάτων, ενώ παράλληλα παρουσιάζονται οι πιθανοί κίνδυνοι που μπορούν να προκληθούν.
+        </span>
+
+</p>
+<div class="ghs-grid">
+<div class="ghs-item">
+<div class="ghs-icon">
+<img alt="GHS skull and crossbones pictogram" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/5/58/GHS-pictogram-skull.svg"/>
+</div>
+<div class="ghs-content">
+<div class="ghs-text-title"><span class="lang-el">Οξεία τοξικότητα</span></div>
+<div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: τοξικά φυτοφάρμακα, υδρόθειο, ορισμένοι ισχυροί διαλύτες.</span></div>
+<ul class="ghs-mini">
+<li><span class="lang-el">Κίνδυνοι: δηλητηρίαση, σοβαρή βλάβη ή θάνατος από εισπνοή, κατάποση ή επαφή.</span></li>
+</ul>
+</div>
+</div>
+<div class="ghs-item">
+<div class="ghs-icon">
+<img alt="GHS flame pictogram" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/6/6d/GHS-pictogram-flamme.svg"/>
+</div>
+<div class="ghs-content">
+<div class="ghs-text-title"><span class="lang-el">Εύφλεκτο</span></div>
+<div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: αλκοόλες, βενζίνη, αεροζόλ, διαλυτικά.</span></div>
+<ul class="ghs-mini">
+<li><span class="lang-el">Κίνδυνοι: ανάφλεξη από σπινθήρα, θερμότητα ή φλόγα, φωτιά και έκρηξη.</span></li>
+</ul>
+</div>
+</div>
+<div class="ghs-item">
+<div class="ghs-icon">
+<img alt="GHS flame over circle pictogram" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/e/e5/GHS-pictogram-rondflam.svg"/>
+</div>
+<div class="ghs-content">
+<div class="ghs-text-title"><span class="lang-el">Οξειδωτικό</span></div>
+<div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: υπεροξείδιο του υδρογόνου, νιτρικά, λευκαντικά.</span></div>
+<ul class="ghs-mini">
+<li><span class="lang-el">Κίνδυνοι: ενισχύει την καύση, επιταχύνει τη φωτιά και προκαλεί βίαιες χημικές αντιδράσεις.</span></li>
+</ul>
+</div>
+</div>
+<div class="ghs-item">
+<div class="ghs-icon">
+<img alt="GHS exploding bomb pictogram" loading="lazy" src="https://panos5439.github.io/sotaoffice/ghs01.jpeg"/>
+</div>
+<div class="ghs-content">
+<div class="ghs-text-title"><span class="lang-el">Εκρηκτικές ουσίες</span></div>
+<div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: εκρηκτικά μείγματα, πυροτεχνικά υλικά, ασταθή οργανικά υπεροξείδια.</span></div>
+<ul class="ghs-mini">
+<li><span class="lang-el">Κίνδυνοι: έκρηξη από κρούση, τριβή, θερμότητα ή φλόγα.</span></li>
+</ul>
+</div>
+</div>
+<div class="ghs-item">
+<div class="ghs-icon">
+<img alt="GHS corrosive pictogram" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/a/a1/GHS-pictogram-acid.svg"/>
+</div>
+<div class="ghs-content">
+<div class="ghs-text-title"><span class="lang-el">Διαβρωτικό</span></div>
+<div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: υδροχλωρικό οξύ, θειικό οξύ, ισχυρά καθαριστικά σωληνώσεων.</span></div>
+<ul class="ghs-mini">
+<li><span class="lang-el">Κίνδυνοι: σοβαρά εγκαύματα δέρματος, βλάβη στα μάτια, διάβρωση μετάλλων.</span></li>
+</ul>
+</div>
+</div>
+<div class="ghs-item">
+<div class="ghs-icon">
+<img alt="GHS exclamation mark pictogram" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/c/c3/GHS-pictogram-exclam.svg"/>
+</div>
+<div class="ghs-content">
+<div class="ghs-text-title"><span class="lang-el">Ερεθιστικό / επιβλαβές</span></div>
+<div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: απορρυπαντικά, κόλλες, ήπια καθαριστικά.</span></div>
+<ul class="ghs-mini">
+<li><span class="lang-el">Κίνδυνοι: ερεθισμός δέρματος, ματιών ή αναπνευστικού, αλλεργική αντίδραση.</span></li>
+</ul>
+</div>
+</div>
+<div class="ghs-item">
+<div class="ghs-icon">
+<img loading="lazy" src="https://panos5439.github.io/sotaoffice/ghs08.jpeg"/>
+</div>
+<div class="ghs-content">
+<div class="ghs-text-title"><span class="lang-el">Σοβαρές επιπτώσεις στην υγεία</span></div>
+<div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: καρκινογόνες ουσίες, μεταλλαξιογόνες ουσίες.</span></div>
+<ul class="ghs-mini">
+<li><span class="lang-el">Κίνδυνοι: καρκίνος, βλάβη οργάνων, ευαισθησία αναπνευστικού.</span></li>
+</ul>
+</div>
+</div>
+<div class="ghs-item">
+<div class="ghs-icon">
+<img alt="GHS environmental hazard pictogram" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/b/b9/GHS-pictogram-pollu.svg"/>
+</div>
+<div class="ghs-content">
+<div class="ghs-text-title"><span class="lang-el">Επικίνδυνο για το περιβάλλον</span></div>
+<div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: φυτοφάρμακα, λάδια, βιομηχανικά χημικά.</span></div>
+<ul class="ghs-mini">
+<li><span class="lang-el">Κίνδυνοι: ρύπανση νερού, βλάβη σε υδρόβιους οργανισμούς και οικοσυστήματα.</span></li>
+</ul>
+</div>
+</div>
+<div class="ghs-item">
+<div class="ghs-icon">
+<img alt="GHS gas cylinder pictogram" loading="lazy" src="https://panos5439.github.io/sotaoffice/ghs04.png"/>
+</div>
+<div class="ghs-content">
+<div class="ghs-text-title"><span class="lang-el">Αέριο υπό πίεση</span></div>
+<div class="ghs-text-sub"><span class="lang-el">Παραδείγματα: φιάλες οξυγόνου, προπανίου, πεπιεσμένο άζωτο.</span></div>
+<ul class="ghs-mini">
+<li><span class="lang-el">Κίνδυνοι: ρήξη φιάλης όταν θερμανθεί, βίαιη εκτόνωση πίεσης.</span></li>
+</ul>
+</div>
+</div>
+</div>
+<p class="ghs-final-note">
+<strong><span class="lang-el">⚠️ Μην αφαιρείτε ποτέ τις πινακίδες ή τις ετικέτες κινδύνου από τα δοχεία.</span></strong>
+<br/>
+<span class="lang-el">Οι επισημάνσεις αυτές ενημερώνουν άμεσα για τον κίνδυνο και αποτελούν βασικό μέτρο πρόληψης ατυχήματος.</span>
+
+</p>
+</section>
+<section id="example">
+<h2>
+<span class="lang-el">Παράδειγμα &amp; Κεντρικό μήνυμα</span>
+
+</h2>
+<div class="card">
+<h3>
+<span class="lang-el">Παράδειγμα</span>
+
+</h3>
+<p>
+<span class="lang-el">
+            Η Κατερίνα καθάρισε το γραφείο της χρησιμοποιώντας ισχυρά καθαριστικά, αλλά δεν φόρεσε γάντια για να προστατεύσει τα χέρια της. Η επαφή των προϊόντων με το δέρμα της προκάλεσε ερεθισμό και τελικά εμφάνισε έκζεμα. Αν είχε διαβάσει τις οδηγίες και είχε πάρει τα κατάλληλα μέτρα προστασίας, θα ήξερε ότι πρέπει να φορά γάντια κατά τη χρήση τέτοιων προϊόντων.
+          </span>
+
+</p>
+</div>
+<p class="card">
+<strong>
+<span class="lang-el">🟢 «Η γνώση προστατεύει. Μια ματιά στην ετικέτα μπορεί να προλάβει ένα ατύχημα.»</span>
+
+</strong>
+</p>
+</section>
+<section id="quiz">
+<h2>
+<span class="lang-el">Mini Quiz — Χημικές ουσίες &amp; ασφάλεια</span>
+
+</h2>
+<p class="quiz-note">
+<span class="lang-el">
+          Επίλεξε απάντηση σε κάθε ερώτηση. Το ✓ και ✗ εμφανίζονται άμεσα.
+          Πάτησε «Επανεκκίνηση Quiz» για να καθαρίσεις τις επιλογές.
+        </span>
+
+</p>
+<form class="quiz-form">
+<div class="quiz-question">
+<h3>
+<span class="lang-el">1. Ποιο είναι το πρώτο βήμα πριν χρησιμοποιήσεις ένα χημικό προϊόν;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q1a" name="q1" type="radio"/>
+<label data-correct="true" for="q1a">
+<span class="lang-el">Να διαβάσω την ετικέτα και τις οδηγίες χρήσης.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q1b" name="q1" type="radio"/>
+<label data-correct="false" for="q1b">
+<span class="lang-el">Να το δοκιμάσω πρώτα χωρίς να διαβάσω τίποτα.</span>
+
+</label>
+</div>
+</div>
+</div>
+<div class="quiz-question">
+<h3>
+<span class="lang-el">2. Είναι σωστό να μεταγγίσω καθαριστικό σε μπουκάλι νερού χωρίς ετικέτα;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q2a" name="q2" type="radio"/>
+<label data-correct="false" for="q2a">
+<span class="lang-el">Ναι, αν το κάνω μόνο για λίγο.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q2b" name="q2" type="radio"/>
+<label data-correct="true" for="q2b">
+<span class="lang-el">Όχι, μπορεί να προκύψει σοβαρή σύγχυση και δηλητηρίαση.</span>
+
+</label>
+</div>
+</div>
+</div>
+<div class="quiz-question">
+<h3>
+<span class="lang-el">3. Τι κάνω αν κατά λάθος πέσει χημικό στο δέρμα μου;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q3a" name="q3" type="radio"/>
+<label data-correct="true" for="q3a">
+<span class="lang-el">Το ξεπλένω άμεσα με άφθονο νερό και ενημερώνω τον υπεύθυνο.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q3b" name="q3" type="radio"/>
+<label data-correct="false" for="q3b">
+<span class="lang-el">Το σκουπίζω απλά με ένα χαρτί και συνεχίζω.</span>
+
+</label>
+</div>
+</div>
+</div>
+<div class="quiz-question">
+<h3>
+<span class="lang-el">4. Ποια από τις παρακάτω πρακτικές είναι ασφαλής;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q4a" name="q4" type="radio"/>
+<label data-correct="false" for="q4a">
+<span class="lang-el">Να αναμειγνύω διαφορετικά καθαριστικά για «καλύτερο αποτέλεσμα».</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q4b" name="q4" type="radio"/>
+<label data-correct="true" for="q4b">
+<span class="lang-el">Να χρησιμοποιώ μόνο το προτεινόμενο προϊόν, σύμφωνα με τις οδηγίες.</span>
+
+</label>
+</div>
+</div>
+</div>
+<div class="quiz-reset-wrap">
+<button class="btn secondary" type="reset">
+<i aria-hidden="true" class="fa-solid fa-rotate"></i>
+<span class="lang-el">Επανεκκίνηση Quiz</span>
+
+</button>
+</div>
+</form>
+</section>
+</main>
+<footer>
+    © <span>2025</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+
+</footer>
+</body>
+</html>

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ενότητα 7: Πυρασφάλεια &amp; Έκτακτη Ανάγκη</title>
+<!-- Icons από βιβλιοθήκη -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#0b0b10;
+      --card:#05030a;
+      --card-soft:#05030a;
+      --text:#f9fafb;
+      --muted:#d1d5db;
+      --border:#1f2937;
+      --primary:#f97316;
+      --primary-soft:#fb923c;
+      --accent:#22c55e;
+      --shadow:0 18px 40px rgba(0,0,0,.7);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #f9731630 0, transparent 55%),
+        radial-gradient(circle at bottom, #b91c1c1f 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(12,10,18,.96);
+      border-bottom:1px solid #111827;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 8px rgba(248,113,22,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#f97316,#ef4444);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#e5e7eb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#f97316,#ef4444);
+      color:#0b0f19;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(248,113,22,.5);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#0ea5e9,#0369a1);
+      border-color:#0ea5e9;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(14,165,233,.5);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #111827 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+    section:nth-of-type(8){ animation-delay:.48s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#f9731635 0,transparent 45%),
+        radial-gradient(circle at bottom right,#b91c1c30 0,transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(248,113,22,.8);
+      background:linear-gradient(90deg,rgba(248,113,22,.25),rgba(220,38,38,.25));
+      font-size:16px;
+      color:#fef9c3;
+      box-shadow:0 0 20px rgba(248,113,22,.6);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#f97316; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(248,113,22,.4); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(248,113,22,.8); }
+    }
+
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(248,250,252,.3);
+      background:linear-gradient(90deg,rgba(248,250,252,.1),rgba(248,250,252,.05));
+      color:#fef9c3;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:14px;
+      background:radial-gradient(circle at top left,#0b1220 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #111827;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      display:flex;
+      gap:20px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    .hero-text{
+      flex:1 1 260px;
+      min-width:0;
+    }
+
+    /* ===== ΠΑΙΧΝΙΔΙ ΚΑΤΑΣΒΕΣΗΣ ===== */
+    .firegame-form{
+      margin-top:10px;
+    }
+    .firegame{
+      width:100%;
+      max-width:420px;
+      border-radius:16px;
+      padding:12px 12px 14px;
+      background:radial-gradient(circle at top,#111827,#020617 70%);
+      border:1px solid #f97316;
+      box-shadow:0 16px 35px rgba(15,23,42,.9);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-size:14px;
+    }
+    .firegame-title{
+      font-size:15px;
+      font-weight:bold;
+      color:#fee2e2;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .firegame input[type="radio"]{
+      position:absolute;
+      left:-9999px;
+    }
+
+    .fire-scene{
+      position:relative;
+      margin-top:6px;
+      height:150px;
+      border-radius:12px;
+      background:radial-gradient(circle at top,#111827,#020617 65%);
+      overflow:hidden;
+      border:1px solid #374151;
+    }
+    .fire-floor{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:14px;
+      height:30px;
+      background:linear-gradient(to top,#020617,#0b1120);
+    }
+
+    /* Πυροσβεστήρας */
+    .fire-ext{
+      position:absolute;
+      right:26px;
+      bottom:24px;
+      width:40px;
+      height:70px;
+      border-radius:8px;
+      background:linear-gradient(to bottom,#ef4444,#b91c1c);
+      box-shadow:0 0 10px rgba(248,113,113,.9);
+    }
+    .fire-ext::before{
+      content:"";
+      position:absolute;
+      inset:12px 6px;
+      border-radius:6px;
+      border:2px solid #fecaca;
+      box-shadow:inset 0 0 4px rgba(0,0,0,.6);
+    }
+    .fire-ext::after{
+      content:"";
+      position:absolute;
+      top:2px;
+      left:4px;
+      width:32px;
+      height:8px;
+      border-radius:4px 4px 0 0;
+      background:#e5e7eb;
+      box-shadow:0 0 4px rgba(15,23,42,.7);
+    }
+
+    .fire-hose{
+      position:absolute;
+      right:26px;
+      bottom:52px;
+      width:34px;
+      height:28px;
+      border-radius:30px;
+      border:4px solid #111827;
+      border-left-color:transparent;
+      border-bottom-color:transparent;
+      transform:translateX(-16px) rotate(-20deg);
+      box-shadow:0 0 3px rgba(15,23,42,.9);
+    }
+    .fire-hose::after{
+      content:"";
+      position:absolute;
+      right:-4px;
+      top:-6px;
+      width:14px;
+      height:6px;
+      border-radius:4px;
+      background:#e5e7eb;
+      box-shadow:0 0 4px rgba(148,163,184,1);
+    }
+
+    .fire-label{
+      position:absolute;
+      right:18px;
+      top:6px;
+      font-size:9px;
+      font-weight:bold;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:#fee2e2;
+    }
+
+    /* Φλόγα πιο ξεκάθαρη */
+    .flame{
+      position:absolute;
+      left:52px;
+      bottom:20px;
+      background:radial-gradient(circle at 50% 20%,#fef9c3 0,#facc15 30%,#f97316 60%,#b91c1c 90%);
+      box-shadow:0 0 22px rgba(248,113,22,.95);
+      clip-path:polygon(
+        50% 0%,
+        70% 25%,
+        85% 50%,
+        75% 80%,
+        50% 100%,
+        25% 80%,
+        15% 50%,
+        30% 25%
+      );
+      transition:opacity .3s ease, transform .3s ease;
+      animation:flameFlicker 1.2s ease-in-out infinite;
+    }
+    .flame-big{
+      width:70px;
+      height:90px;
+    }
+    .flame-mid{
+      width:58px;
+      height:78px;
+      transform:translateY(6px);
+      opacity:0;
+    }
+    .flame-small{
+      width:44px;
+      height:64px;
+      transform:translateY(10px);
+      opacity:0;
+    }
+    .flame-out{
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background:#16a34a;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:15px;
+      font-weight:bold;
+      color:#022c22;
+      box-shadow:0 0 10px rgba(34,197,94,.9);
+      transform:translate(8px,18px);
+      opacity:0;
+    }
+
+    @keyframes flameFlicker{
+      0%{ transform:translateY(0) scale(1); box-shadow:0 0 20px rgba(248,113,22,.9); }
+      50%{ transform:translateY(-4px) scale(1.05); box-shadow:0 0 26px rgba(248,150,60,1); }
+      100%{ transform:translateY(0) scale(1); box-shadow:0 0 18px rgba(248,113,22,.8); }
+    }
+
+    .smoke{
+      position:absolute;
+      left:56px;
+      bottom:88px;
+      width:18px;
+      height:26px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 10%,#f9fafb80 0,#6b728080 70%,transparent 100%);
+      filter:blur(1px);
+      opacity:.8;
+      animation:smokeUp 2s ease-in-out infinite;
+    }
+    .smoke::after{
+      content:"";
+      position:absolute;
+      left:12px;
+      width:16px;
+      height:24px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 10%,#e5e7eb60 0,#6b728080 70%,transparent 100%);
+    }
+    @keyframes smokeUp{
+      0%{ transform:translateY(0); opacity:.8; }
+      100%{ transform:translateY(-12px); opacity:0; }
+    }
+
+    /* Κατάσταση φλόγας ανά σωστό βήμα */
+    #step1-ok:checked ~ .fire-scene .flame-big{ opacity:0.25; transform:translateY(10px) scale(.9); }
+    #step1-ok:checked ~ .fire-scene .flame-mid{ opacity:1; }
+
+    #step2-ok:checked ~ .fire-scene .flame-big{ opacity:0; }
+    #step2-ok:checked ~ .fire-scene .flame-mid{ opacity:0.25; transform:translateY(12px) scale(.9); }
+    #step2-ok:checked ~ .fire-scene .flame-small{ opacity:1; }
+
+    #step3-ok:checked ~ .fire-scene .flame-mid{ opacity:0; }
+    #step3-ok:checked ~ .fire-scene .flame-small{ opacity:1; transform:translateY(16px) scale(.85); }
+
+    #step4-ok:checked ~ .fire-scene .flame-big,
+    #step4-ok:checked ~ .fire-scene .flame-mid,
+    #step4-ok:checked ~ .fire-scene .flame-small{
+      opacity:0;
+    }
+    #step4-ok:checked ~ .fire-scene .flame-out{
+      opacity:1;
+    }
+    #step4-ok:checked ~ .fire-scene .smoke{
+      opacity:0;
+    }
+
+    .firegame-steps{
+      margin-top:6px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .fg-stage{
+      border-radius:10px;
+      border:1px solid #4b5563;
+      padding:6px 8px;
+      background:#020617;
+    }
+    .fg-stage h4{
+      margin:0 0 4px;
+      font-size:13px;
+      color:#e5e7eb;
+    }
+    .fg-options{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .fg-options label{
+      display:block;
+      border-radius:999px;
+      border:1px solid #374151;
+      padding:4px 8px;
+      background:#020617;
+      color:#e5e7eb;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .fg-options label:hover{
+      border-color:#f97316;
+      color:#f97316;
+    }
+
+    .fg-options label[data-correct="true"]::after{
+      content:"✓";
+      float:right;
+      opacity:0;
+    }
+    .fg-options label[data-correct="false"]::after{
+      content:"✗";
+      float:right;
+      opacity:0;
+    }
+    #step1-ok:checked ~ .firegame-steps .fg-stage1 label[for="step1-ok"]::after,
+    #step2-ok:checked ~ .firegame-steps .fg-stage2 label[for="step2-ok"]::after,
+    #step3-ok:checked ~ .firegame-steps .fg-stage3 label[for="step3-ok"]::after,
+    #step4-ok:checked ~ .firegame-steps .fg-stage4 label[for="step4-ok"]::after{
+      opacity:1;
+      color:#4ade80;
+    }
+    #step1-bad:checked ~ .firegame-steps .fg-stage1 label[for="step1-bad"]::after,
+    #step2-bad:checked ~ .firegame-steps .fg-stage2 label[for="step2-bad"]::after,
+    #step3-bad:checked ~ .firegame-steps .fg-stage3 label[for="step3-bad"]::after,
+    #step4-bad:checked ~ .firegame-steps .fg-stage4 label[for="step4-bad"]::after{
+      opacity:1;
+      color:#fca5a5;
+    }
+
+    .fg-stage2,
+    .fg-stage3,
+    .fg-stage4,
+    .fg-done{
+      display:none;
+    }
+    #step1-ok:checked ~ .firegame-steps .fg-stage2{ display:block; }
+    #step2-ok:checked ~ .firegame-steps .fg-stage3{ display:block; }
+    #step3-ok:checked ~ .firegame-steps .fg-stage4{ display:block; }
+    #step4-ok:checked ~ .firegame-steps .fg-done{ display:flex; }
+
+    .fg-done{
+      border-radius:10px;
+      border:1px solid #16a34a;
+      padding:6px 8px;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+      font-size:13px;
+      align-items:center;
+      gap:6px;
+    }
+
+    .fg-reset{
+      margin-top:8px;
+      text-align:left;
+    }
+    .fg-reset .btn{
+      font-size:13px;
+      padding:4px 9px;
+      box-shadow:none;
+    }
+
+    @media (max-width:768px){
+      .hero{ flex-direction:column; }
+    }
+
+    /* ===== QUIZ (CSS ONLY) ===== */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#111827 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-option{
+      margin:6px 0;
+    }
+    .quiz-option input{
+      position:absolute;
+      left:-9999px;
+    }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #374151;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+
+    .quiz-option input:checked + label{
+      border-color:#60a5fa;
+      box-shadow:0 0 0 1px #1d4ed8;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+
+    .quiz-form{
+      margin-top:8px;
+    }
+    .quiz-reset-wrap{
+      margin-top:10px;
+      text-align:left;
+    }
+  </style>
+</head>
+<body>
+<!-- CSS-toggle για γλώσσα -->
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-fire-extinguisher"></i>
+<span class="lang-el">Ενότητα 7 · Πυρασφάλεια &amp; Έκτακτη Ανάγκη</span>
+
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή -->
+<section id="intro">
+<div class="hero">
+<div class="hero-text">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-fire"></i>
+<span class="lang-el">🔥 ΕΝΟΤΗΤΑ 7: ΠΥΡΑΣΦΑΛΕΙΑ &amp; ΕΚΤΑΚΤΗ ΑΝΑΓΚΗ</span>
+
+</div>
+<h1>
+<span class="lang-el">Πυρκαγιά &amp; εκκένωση: πρόληψη και ψυχραιμία</span>
+
+</h1>
+<p>
+<span class="lang-el">
+              🎯 Στόχος: να γνωρίζουμε πώς να προλαμβάνουμε την εκδήλωση πυρκαγιάς,
+              πώς να αντιδρούμε με ασφάλεια και τι να κάνουμε σε περίπτωση συναγερμού ή εκκένωσης.
+            </span>
+
+</p>
+<p class="pill">
+<span class="lang-el">Η πρόληψη σώζει – η ψυχραιμία προστατεύει.</span>
+
+</p>
+</div>
+</div>
+</section>
+<!-- 7.1 Πρόληψη -->
+<section id="prevention">
+<h2>
+<span class="lang-el">7.1 Πρόληψη πυρκαγιάς στο γραφείο</span>
+
+</h2>
+<p>
+<span class="lang-el">Η πρόληψη είναι πάντα η καλύτερη “πυρόσβεση”.</span>
+
+</p>
+<p class="pill">
+<span class="lang-el">✅ Για να αποφύγουμε πυρκαγιά:</span>
+
+</p>
+<ul>
+<li>
+<span class="lang-el">Μην υπερφορτώνετε τις πρίζες και τα πολύπριζα.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην αφήνετε συσκευές (καφετιέρες, θερμαντικά, εκτυπωτές) ανοιχτές όταν φεύγετε.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην καλύπτετε ηλεκτρικές συσκευές ή εξαερισμούς.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην αποθηκεύετε χαρτιά κοντά σε θερμαντικά σώματα ή πρίζες.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην καπνίζετε εκτός των επιτρεπόμενων χώρων.</span>
+
+</li>
+<li>
+<span class="lang-el">Κρατάτε καθαρούς τους διαδρόμους και τις εξόδους κινδύνου.</span>
+
+</li>
+</ul>
+</section>
+<!-- 7.2 Εξοπλισμός -->
+<section id="equipment-info">
+<h2>
+<span class="lang-el">7.2 Γνωριμία με τον εξοπλισμό πυρασφάλειας</span>
+
+</h2>
+<p>
+<span class="lang-el">Κάθε εργαζόμενος πρέπει να γνωρίζει:</span>
+
+</p>
+<ul>
+<li>
+<span class="lang-el">Πού βρίσκονται οι πυροσβεστήρες και οι σταθμοί πυρόσβεσης.</span>
+
+</li>
+<li>
+<span class="lang-el">Πού είναι οι έξοδοι κινδύνου και οι οδεύσεις διαφυγής.</span>
+
+</li>
+<li>
+<span class="lang-el">Πού είναι το σημείο συγκέντρωσης εκτός του κτιρίου.</span>
+
+</li>
+</ul>
+</section>
+<!-- 7.3 Είδη πυροσβεστήρων -->
+<section id="extinguishers">
+<h2>
+<span class="lang-el">7.3 Είδη πυροσβεστήρων</span>
+
+</h2>
+<div class="card">
+<table style="width:100%; border-collapse:collapse; font-size:18px;">
+<thead>
+<tr style="border-bottom:1px solid #374151;">
+<th style="text-align:left; padding:6px 4px;">
+<span class="lang-el">Είδος</span>
+</th>
+<th style="text-align:left; padding:6px 4px;">
+<span class="lang-el">Κατάλληλος για</span>
+</th>
+<th style="text-align:left; padding:6px 4px;">
+<span class="lang-el">Προσοχή</span>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:6px 4px;">
+<span class="lang-el">CO₂ (Διοξειδίου του άνθρακα)</span>
+
+</td>
+<td style="padding:6px 4px;">
+<span class="lang-el">Φωτιές από ηλεκτρικές συσκευές</span>
+
+</td>
+<td style="padding:6px 4px;">
+<span class="lang-el">Δεν αφήνει υπολείμματα – προσοχή στα χέρια (πολύ χαμηλή θερμοκρασία).</span>
+
+</td>
+</tr>
+<tr>
+<td style="padding:6px 4px;">
+<span class="lang-el">Ξηράς κόνεως</span>
+
+</td>
+<td style="padding:6px 4px;">
+<span class="lang-el">Πολλαπλές χρήσεις (χαρτί, υφάσματα, υγρά, ηλεκτρικά).</span>
+
+</td>
+<td style="padding:6px 4px;">
+<span class="lang-el">Ισχυρή κατασβεστική δύναμη, αλλά αφήνει σκόνη.</span>
+
+</td>
+</tr>
+<tr>
+<td style="padding:6px 4px;">
+<span class="lang-el">Αφρού</span>
+
+</td>
+<td style="padding:6px 4px;">
+<span class="lang-el">Υγρά καύσιμα (π.χ. βενζίνη, λάδι).</span>
+
+</td>
+<td style="padding:6px 4px;">
+<span class="lang-el">Δεν χρησιμοποιείται σε ηλεκτρικές φωτιές.</span>
+
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- 7.4 P.A.S.S. -->
+<section id="pass">
+<h2>
+<span class="lang-el">7.4 Τρόπος χρήσης πυροσβεστήρα (κανόνας P.A.S.S.)</span>
+
+</h2>
+<ul>
+<li><strong>P – Pull</strong>:
+          <span class="lang-el">Τραβάμε την περόνη ασφαλείας.</span>
+
+</li>
+<li><strong>A – Aim</strong>:
+          <span class="lang-el">Στοχεύουμε στη βάση της φωτιάς.</span>
+
+</li>
+<li><strong>S – Squeeze</strong>:
+          <span class="lang-el">Πιέζουμε τη λαβή.</span>
+
+</li>
+<li><strong>S – Sweep</strong>:
+          <span class="lang-el">Σαρώνουμε οριζόντια με μικρές κινήσεις.</span>
+
+</li>
+</ul>
+<p class="pill">
+<span class="lang-el">Πάντα κρατάμε απόσταση 2–3 μέτρα και έχουμε την πλάτη προς την έξοδο.</span>
+
+</p>
+</section>
+<!-- ΠΑΙΧΝΙΔΙ ΚΑΤΑΣΒΕΣΗΣ -->
+<section id="extinguisher-game">
+<h2>
+<span class="lang-el">Παιχνίδι: Εφάρμοσε σωστά τον κανόνα P.A.S.S.</span>
+
+</h2>
+<p>
+<span class="lang-el">Επίλεξε τη σωστή ενέργεια σε κάθε βήμα. Αν τα κάνεις και τα 4 σωστά, η φωτιά θα σβήσει – Μπράβο, έσβησες τη φωτιά!</span>
+
+</p>
+<form class="firegame-form">
+<div class="firegame">
+<!-- Κρυφά radios για τα 4 βήματα -->
+<input id="step1-ok" name="step1" type="radio"/>
+<input id="step1-bad" name="step1" type="radio"/>
+<input id="step2-ok" name="step2" type="radio"/>
+<input id="step2-bad" name="step2" type="radio"/>
+<input id="step3-ok" name="step3" type="radio"/>
+<input id="step3-bad" name="step3" type="radio"/>
+<input id="step4-ok" name="step4" type="radio"/>
+<input id="step4-bad" name="step4" type="radio"/>
+<div class="firegame-title">
+<i aria-hidden="true" class="fa-solid fa-fire-extinguisher"></i>
+<span class="lang-el">Mini παιχνίδι: Σβήσε σωστά τη φωτιά (P.A.S.S.)</span>
+
+</div>
+<div class="fire-scene">
+<div class="fire-floor"></div>
+<div class="fire-ext"></div>
+<div class="fire-hose"></div>
+<div class="fire-label">P.A.S.S.</div>
+<div class="flame flame-big"></div>
+<div class="flame flame-mid"></div>
+<div class="flame flame-small"></div>
+<div class="flame flame-out">
+<span>✔</span>
+</div>
+<div class="smoke"></div>
+</div>
+<div class="firegame-steps">
+<!-- Βήμα 1 -->
+<div class="fg-stage fg-stage1">
+<h4>
+<span class="lang-el">Βήμα 1 – P (Pull)</span>
+
+</h4>
+<div class="fg-options">
+<label data-correct="false" for="step1-bad">
+<span class="lang-el">Πιέζω κατευθείαν τη λαβή όσο πιο δυνατά μπορώ.</span>
+
+</label>
+<label data-correct="true" for="step1-ok">
+<span class="lang-el">Τραβάω πρώτα την περόνη ασφαλείας του πυροσβεστήρα.</span>
+
+</label>
+</div>
+</div>
+<!-- Βήμα 2 -->
+<div class="fg-stage fg-stage2">
+<h4>
+<span class="lang-el">Βήμα 2 – A (Aim)</span>
+
+</h4>
+<div class="fg-options">
+<label data-correct="false" for="step2-bad">
+<span class="lang-el">Στοχεύω ψηλά στην κορυφή των φλογών.</span>
+
+</label>
+<label data-correct="true" for="step2-ok">
+<span class="lang-el">Στοχεύω χαμηλά, στη βάση της φωτιάς.</span>
+
+</label>
+</div>
+</div>
+<!-- Βήμα 3 -->
+<div class="fg-stage fg-stage3">
+<h4>
+<span class="lang-el">Βήμα 3 – S (Squeeze)</span>
+
+</h4>
+<div class="fg-options">
+<label data-correct="false" for="step3-bad">
+<span class="lang-el">Πιέζω τη λαβή με μικρά «πατήματα» και αφήνω γρήγορα.</span>
+
+</label>
+<label data-correct="true" for="step3-ok">
+<span class="lang-el">Πιέζω σταθερά τη λαβή για να βγει το κατασβεστικό υλικό.</span>
+
+</label>
+</div>
+</div>
+<!-- Βήμα 4 -->
+<div class="fg-stage fg-stage4">
+<h4>
+<span class="lang-el">Βήμα 4 – S (Sweep)</span>
+
+</h4>
+<div class="fg-options">
+<label data-correct="false" for="step4-bad">
+<span class="lang-el">Κρατάω το στόμιο ακίνητο σε ένα σημείο.</span>
+
+</label>
+<label data-correct="true" for="step4-ok">
+<span class="lang-el">Σαρώνω τη βάση της φωτιάς με οριζόντιες κινήσεις.</span>
+
+</label>
+</div>
+</div>
+<!-- Τελικό μήνυμα -->
+<div class="fg-done">
+<i aria-hidden="true" class="fa-solid fa-check-circle"></i>
+<span class="lang-el">Μπράβο – Έσβησες τη φωτιά! Ακολούθησες σωστά όλα τα βήματα P.A.S.S.</span>
+
+</div>
+</div>
+<!-- Reset παιχνιδιού -->
+<div class="fg-reset">
+<button class="btn secondary" type="reset">
+<i aria-hidden="true" class="fa-solid fa-rotate"></i>
+<span class="lang-el">Επανεκκίνηση παιχνιδιού</span>
+
+</button>
+</div>
+</div>
+</form>
+</section>
+<!-- 7.5 Ενέργειες σε περίπτωση πυρκαγιάς -->
+<section id="fire-actions">
+<h2>
+<span class="lang-el">7.5 Ενέργειες σε περίπτωση πυρκαγιάς</span>
+
+</h2>
+<ul>
+<li>
+<span class="lang-el">Μείνε ψύχραιμος — ο πανικός προκαλεί ατυχήματα.</span>
+
+</li>
+<li>
+<span class="lang-el">Ειδοποίησε αμέσως (φωνητικά ή μέσω συναγερμού).</span>
+
+</li>
+<li>
+<span class="lang-el">Κάλεσε το 112 ή ενημέρωσε το υπεύθυνο προσωπικό.</span>
+
+</li>
+<li>
+<span class="lang-el">Αν είναι ασφαλές, χρησιμοποίησε πυροσβεστήρα.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην προσπαθήσεις να σβήσεις μεγάλη φωτιά μόνος σου.</span>
+
+</li>
+<li>
+<span class="lang-el">Εκκένωσε το χώρο από την πλησιέστερη έξοδο κινδύνου.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην χρησιμοποιείς ανελκυστήρες.</span>
+
+</li>
+<li>
+<span class="lang-el">Κλείσε πίσω σου τις πόρτες για να περιορίσεις τη φωτιά.</span>
+
+</li>
+</ul>
+</section>
+<!-- 7.6 Εκκένωση -->
+<section id="evacuation">
+<h2>
+<span class="lang-el">7.6 Εκκένωση χώρου (Σχέδιο διαφυγής)</span>
+
+</h2>
+<ul>
+<li>
+<span class="lang-el">Μην τρέχεις, κινήσου γρήγορα αλλά ήρεμα.</span>
+
+</li>
+<li>
+<span class="lang-el">Άφησε όλα τα προσωπικά αντικείμενα.</span>
+
+</li>
+<li>
+<span class="lang-el">Αν φοράς ψηλοτάκουνα, βγάλ’ τα.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην σταματάς για ερωτήσεις ή φωτογραφίες.</span>
+
+</li>
+<li>
+<span class="lang-el">Οδήγησε επισκέπτες ή συναδέλφους προς την έξοδο.</span>
+
+</li>
+<li>
+<span class="lang-el">Μόλις βγεις, πήγαινε στο προκαθορισμένο σημείο συγκέντρωσης.</span>
+
+</li>
+<li>
+<span class="lang-el">Μην ξαναμπείς στο κτίριο μέχρι να δοθεί επίσημη άδεια.</span>
+
+</li>
+</ul>
+</section>
+<!-- 7.7 Μετά την εκκένωση -->
+<section id="after">
+<h2>
+<span class="lang-el">7.7 Μετά την εκκένωση</span>
+
+</h2>
+<ul>
+<li>
+<span class="lang-el">Συγκεντρώνομαι στο σημείο συνάντησης της ομάδας.</span>
+
+</li>
+<li>
+<span class="lang-el">Δηλώνω παρουσία όταν γίνει προσκλητήριο.</span>
+
+</li>
+<li>
+<span class="lang-el">Αναφέρω αν κάποιος λείπει ή χρειάζεται βοήθεια.</span>
+
+</li>
+<li>
+<span class="lang-el">Δεν μετακινούμαι από τον χώρο συγκέντρωσης χωρίς εντολή.</span>
+
+</li>
+</ul>
+<div class="card">
+<h3>
+<span class="lang-el">Παράδειγμα</span>
+
+</h3>
+<p>
+<span class="lang-el">
+            Στην εταιρεία «Άλφα», έγινε άσκηση εκκένωσης.
+            Οι εργαζόμενοι που γνώριζαν τις εξόδους κινδύνου χρειάστηκαν μόλις 2 λεπτά για να εκκενώσουν τον χώρο.
+            Όσοι δεν ήξεραν πού να πάνε, καθυστέρησαν και δημιούργησαν συμφόρηση.
+            Γι’ αυτό οι ασκήσεις και η γνώση του σχεδίου εκκένωσης είναι ζωτικής σημασίας.
+          </span>
+
+</p>
+</div>
+<p class="card">
+<strong>
+<span class="lang-el">🟢 «Η πρόληψη σώζει – η ψυχραιμία προστατεύει. Σε φωτιά ή έκτακτη ανάγκη, η ζωή έχει προτεραιότητα.»</span>
+
+</strong>
+</p>
+</section>
+<!-- MINI QUIZ -->
+<section id="quiz">
+<h2>
+<span class="lang-el">Mini Quiz — Πυρασφάλεια &amp; Εκκένωση</span>
+
+</h2>
+<p class="quiz-note">
+<span class="lang-el">Επίλεξε απάντηση σε κάθε ερώτηση. Το ✓ και ✗ εμφανίζονται άμεσα. Πάτησε «Επανεκκίνηση» για να καθαρίσεις τις επιλογές.</span>
+
+</p>
+<form class="quiz-form">
+<!-- Q1 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">1. Ποια από τις παρακάτω πρακτικές βοηθά στην πρόληψη πυρκαγιάς;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q1a" name="q1" type="radio"/>
+<label data-correct="false" for="q1a">
+<span class="lang-el">Να υπερφορτώνω ένα πολύπριζο με πολλές συσκευές.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q1b" name="q1" type="radio"/>
+<label data-correct="true" for="q1b">
+<span class="lang-el">Να κλείνω και να αποσυνδέω συσκευές όταν φεύγω από το γραφείο.</span>
+
+</label>
+</div>
+</div>
+</div>
+<!-- Q2 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">2. Ποιος πυροσβεστήρας είναι κατάλληλος για φωτιά σε ηλεκτρικό πίνακα;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q2a" name="q2" type="radio"/>
+<label data-correct="true" for="q2a">
+<span class="lang-el">CO₂ (διοξειδίου του άνθρακα).</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q2b" name="q2" type="radio"/>
+<label data-correct="false" for="q2b">
+<span class="lang-el">Αφρού.</span>
+
+</label>
+</div>
+</div>
+</div>
+<!-- Q3 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">3. Τι ΔΕΝ πρέπει να κάνεις κατά τη διάρκεια εκκένωσης;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q3a" name="q3" type="radio"/>
+<label data-correct="false" for="q3a">
+<span class="lang-el">Να κινηθείς γρήγορα αλλά ήρεμα προς την έξοδο κινδύνου.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q3b" name="q3" type="radio"/>
+<label data-correct="true" for="q3b">
+<span class="lang-el">Να χρησιμοποιήσεις τον ανελκυστήρα για να κατέβεις πιο γρήγορα.</span>
+
+</label>
+</div>
+</div>
+</div>
+<!-- Q4 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">4. Τι σημαίνει το S στο P.A.S.S.;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q4a" name="q4" type="radio"/>
+<label data-correct="false" for="q4a">
+<span class="lang-el">Stop – σταματώ μπροστά στη φωτιά.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q4b" name="q4" type="radio"/>
+<label data-correct="true" for="q4b">
+<span class="lang-el">Sweep – σαρώνω τη φωτιά με οριζόντιες κινήσεις.</span>
+
+</label>
+</div>
+</div>
+</div>
+<div class="quiz-reset-wrap">
+<button class="btn secondary" type="reset">
+<i aria-hidden="true" class="fa-solid fa-rotate"></i>
+<span class="lang-el">Επανεκκίνηση Quiz</span>
+
+</button>
+</div>
+</form>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+
+</footer>
+</body>
+</html>

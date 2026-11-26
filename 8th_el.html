@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ενότητα 8: Χειρωνακτική Διακίνηση Φορτίων</title>
+<!-- Icons μόνο για header / κουμπιά (όχι για γραφήματα τεχνικής) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020817;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#f9fafb;
+      --muted:#cbd5f5;
+      --border:#1e293b;
+      --primary:#22c55e;
+      --primary-soft:#4ade80;
+      --accent:#0ea5e9;
+      --shadow:0 18px 40px rgba(0,0,0,.7);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #22c55e30 0, transparent 55%),
+        radial-gradient(circle at bottom, #0ea5e930 0, #020617 60%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* ===== ΓΛΩΣΣΑ (CSS ONLY) ===== */
+    #langToggle{
+      position:absolute;
+      left:-9999px;
+    }
+    
+
+    #langToggle:checked ~ header .lang-el,
+    #langToggle:checked ~ main .lang-el,
+    #langToggle:checked ~ footer .lang-el{
+      display:none;
+    }
+    #langToggle:checked ~ header .lang-en,
+    #langToggle:checked ~ main .lang-en,
+    #langToggle:checked ~ footer .lang-en{
+      display:inline;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #0f172a;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 8px rgba(34,197,94,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#22c55e,#0ea5e9);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#e5e7eb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#22c55e,#0ea5e9);
+      color:#020617;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+      transition:transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#0f172a,#020617);
+      border-color:#334155;
+      color:#e5e7eb;
+      box-shadow:0 10px 20px rgba(15,23,42,.7);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #020617 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:fadeUp .7s ease forwards;
+      opacity:0;
+      transform:translateY(15px);
+    }
+    section:nth-of-type(1){ animation-delay:.05s; }
+    section:nth-of-type(2){ animation-delay:.12s; }
+    section:nth-of-type(3){ animation-delay:.18s; }
+    section:nth-of-type(4){ animation-delay:.24s; }
+    section:nth-of-type(5){ animation-delay:.30s; }
+    section:nth-of-type(6){ animation-delay:.36s; }
+    section:nth-of-type(7){ animation-delay:.42s; }
+
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top,#22c55e25 0,transparent 45%),
+        radial-gradient(circle at bottom right,#0ea5e925 0,transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    @keyframes fadeUp{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(34,197,94,.8);
+      background:linear-gradient(90deg,rgba(34,197,94,.25),rgba(14,165,233,.25));
+      font-size:16px;
+      color:#f9fafb;
+      box-shadow:0 0 20px rgba(34,197,94,.6);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{ color:#22c55e; }
+
+    @keyframes pulseBadge{
+      0%,100{ transform:scale(1); box-shadow:0 0 18px rgba(34,197,94,.4); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(34,197,94,.8); }
+    }
+
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:linear-gradient(90deg,rgba(15,23,42,.9),rgba(15,23,42,.8));
+      color:#bfdbfe;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1e293b;
+      padding:14px;
+      background:radial-gradient(circle at top left,#020617 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding:14px 16px 18px;
+      border-top:1px solid #0f172a;
+      max-width:var(--maxw);
+      margin:0 auto 10px;
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .hero-text{
+      flex:1 1 auto;
+      min-width:0;
+    }
+
+    /* ===== VIDEO BLOCK ===== */
+    .video-section-wrapper{
+      display:flex;
+      justify-content:center;
+    }
+    .video-card{
+      width:100%;
+      max-width:520px;
+      border-radius:16px;
+      padding:12px 12px 14px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      border:1px solid #22c55e;
+      box-shadow:0 16px 35px rgba(15,23,42,.9);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-size:14px;
+    }
+    .video-title{
+      font-size:15px;
+      font-weight:bold;
+      color:#e0f2fe;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .video-card video{
+      width:100%;
+      border-radius:12px;
+      border:1px solid #1e293b;
+      background:#000;
+      max-height:280px;
+      object-fit:cover;
+    }
+    .video-caption{
+      font-size:13px;
+      color:#e5e7eb;
+    }
+
+    /* ===== PLACEHOLDER ΓΙΑ ΕΙΚΟΝΕΣ ΤΕΧΝΙΚΗΣ ===== */
+    .lift-image-wrapper{
+      margin-bottom:10px;
+      border-radius:12px;
+      padding:10px;
+      background:radial-gradient(circle at top,#020617,#020617 70%);
+      border:1px solid #1e293b;
+      text-align:center;
+    }
+    .lift-image-wrapper img{
+      max-width:100%;
+      border-radius:8px;
+      display:block;
+      margin:0 auto 6px;
+    }
+    .lift-image-caption{
+      font-size:13px;
+      color:#e5e7eb;
+    }
+
+    /* ===== QUIZ (CSS ONLY) ===== */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#020617 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-option{
+      margin:6px 0;
+    }
+    .quiz-option input{
+      position:absolute;
+      left:-9999px;
+    }
+    .quiz-option label{
+      display:block;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #1e293b;
+      cursor:pointer;
+      color:var(--muted);
+      background:#020617;
+      position:relative;
+    }
+    .quiz-option label::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      font-weight:bold;
+      display:none;
+    }
+
+    .quiz-option input:checked + label{
+      border-color:#38bdf8;
+      box-shadow:0 0 0 1px #0ea5e9;
+    }
+    .quiz-option input:checked + label[data-correct="true"]{
+      border-color:#22c55e;
+      background:linear-gradient(90deg,#022c22,#064e3b);
+      color:#bbf7d0;
+    }
+    .quiz-option input:checked + label[data-correct="true"]::after{
+      display:inline;
+      content:"✓";
+      color:#4ade80;
+    }
+    .quiz-option input:checked + label[data-correct="false"]{
+      border-color:#f97373;
+      background:linear-gradient(90deg,#450a0a,#7f1d1d);
+      color:#fecaca;
+    }
+    .quiz-option input:checked + label[data-correct="false"]::after{
+      display:inline;
+      content:"✗";
+      color:#fecaca;
+    }
+
+    .quiz-note{
+      font-size:14px;
+      color:#9ca3af;
+      margin-bottom:8px;
+    }
+
+    .quiz-form{
+      margin-top:8px;
+    }
+    .quiz-reset-wrap{
+      margin-top:10px;
+      text-align:left;
+    }
+    .quiz-reset-wrap .btn{
+      font-size:14px;
+      padding:5px 11px;
+      box-shadow:none;
+    }
+
+    @media (max-width:768px){
+      .hero{ flex-direction:column; }
+      .video-section-wrapper{ justify-content:flex-start; }
+    }
+  </style>
+</head>
+<body>
+<!-- CSS-toggle για γλώσσα -->
+
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-dumbbell"></i>
+<span class="lang-el">Ενότητα 8 · Χειρωνακτική Διακίνηση Φορτίων</span>
+
+</div>
+<div class="grow"></div>
+
+<a aria-label="Πάνω" class="btn secondary" href="#top" title="Πάνω">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</a>
+</nav>
+</header>
+<main>
+<!-- Εισαγωγή -->
+<section id="intro">
+<div class="hero">
+<div class="hero-text">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-clipboard-check"></i>
+<span class="lang-el">🏋️‍♀️ ΕΝΟΤΗΤΑ 8: ΧΕΙΡΩΝΑΚΤΙΚΗ ΔΙΑΚΙΝΗΣΗ ΦΟΡΤΙΩΝ</span>
+
+</div>
+<h1>
+<span class="lang-el">Σήκωσε έξυπνα – προστάτεψε τη μέση σου</span>
+
+</h1>
+<p>
+<span class="lang-el">
+              🎯 Στόχος: Να μάθουμε πώς να σηκώνουμε, μεταφέρουμε και τοποθετούμε αντικείμενα
+              με τρόπο που να προστατεύει τη μέση, τα χέρια και τη στάση του σώματός μας.
+            </span>
+
+</p>
+<p class="pill">
+<span class="lang-el">Η δύναμη είναι χρήσιμη, αλλά η σωστή στάση είναι ανεκτίμητη.</span>
+
+</p>
+</div>
+</div>
+</section>
+<!-- 8.1 Τι είναι χειρωνακτική διακίνηση -->
+<section id="definition">
+<h2>
+<span class="lang-el">8.1 Τι θεωρείται “χειρωνακτική διακίνηση”</span>
+
+</h2>
+<p>
+<span class="lang-el">
+          Κάθε εργασία όπου σηκώνουμε, μεταφέρουμε, τραβάμε ή σπρώχνουμε ένα αντικείμενο με τη δύναμή μας,
+          χωρίς μηχανική βοήθεια.
+        </span>
+
+</p>
+<p class="pill">
+<span class="lang-el">Παραδείγματα από γραφείο:</span>
+
+</p>
+<ul>
+<li>
+<span class="lang-el">Σήκωμα χαρτοκιβωτίων ή φακέλων από το πάτωμα.</span>
+
+</li>
+<li>
+<span class="lang-el">Μεταφορά γραφικής ύλης ή νερού.</span>
+
+</li>
+<li>
+<span class="lang-el">Μετακίνηση καρεκλών, υπολογιστών ή εκτυπωτών.</span>
+
+</li>
+</ul>
+</section>
+<!-- 8.2 Κίνδυνοι & συνέπειες -->
+<section id="risks">
+<h2>
+<span class="lang-el">8.2 Κίνδυνοι &amp; συνέπειες</span>
+
+</h2>
+<p>
+<span class="lang-el">
+          Η κακή τεχνική ή η υπερβολική προσπάθεια μπορεί να προκαλέσει:
+        </span>
+
+</p>
+<ul>
+<li>
+<span class="lang-el">Πόνο στη μέση ή στον αυχένα.</span>
+
+</li>
+<li>
+<span class="lang-el">Τενοντίτιδα στους ώμους και στα χέρια.</span>
+
+</li>
+<li>
+<span class="lang-el">Μούδιασμα ή κράμπες στα άκρα.</span>
+
+</li>
+<li>
+<span class="lang-el">Μακροχρόνια μυοσκελετικά προβλήματα.</span>
+
+</li>
+</ul>
+<p class="pill">
+<span class="lang-el">Οι τραυματισμοί συχνά δεν φαίνονται άμεσα – εκδηλώνονται μετά από εβδομάδες ή μήνες.</span>
+
+</p>
+</section>
+<!-- 8.3 Πριν σηκώσετε -->
+<section id="before-lift">
+<h2>
+<span class="lang-el">8.3 Πριν σηκώσετε ένα αντικείμενο, σκεφτείτε:</span>
+
+</h2>
+<ul>
+<li>
+<span class="lang-el">Χρειάζεται να το σηκώσω μόνος μου; Αν είναι βαρύ, ζητώ βοήθεια.</span>
+
+</li>
+<li>
+<span class="lang-el">Υπάρχει διαθέσιμο καρότσι ή τρόλεϊ; Αν ναι, το χρησιμοποιώ.</span>
+
+</li>
+<li>
+<span class="lang-el">Πού θα το πάω; Διασφαλίζω ελεύθερη διαδρομή.</span>
+
+</li>
+<li>
+<span class="lang-el">Είναι το αντικείμενο σταθερό, στεγνό, χωρίς αιχμές;</span>
+
+</li>
+<li>
+<span class="lang-el">Πού θα το αφήσω; Προετοιμάζω τη θέση εκ των προτέρων.</span>
+
+</li>
+</ul>
+</section>
+<!-- 8.4 Σωστή στάση & τεχνική ανύψωσης (ΜΟΝΟ ΚΕΙΜΕΝΟ + ΕΙΚΟΝΕΣ) -->
+<section id="technique">
+<h2>
+<span class="lang-el">8.4 Σωστή στάση &amp; τεχνική ανύψωσης</span>
+
+</h2>
+
+<h3>
+<span class="lang-el">🧍‍♂️ Πριν την ανύψωση</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Σταθείτε κοντά στο αντικείμενο.</span>
+
+</li>
+<li>
+<span class="lang-el">Τοποθετήστε τα πόδια στο άνοιγμα των ώμων.</span>
+
+</li>
+<li>
+<span class="lang-el">Βεβαιωθείτε ότι έχετε σταθερό πάτημα.</span>
+
+</li>
+</ul>
+<h3>
+<span class="lang-el">🧎‍♂️ Κατά την ανύψωση</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Λυγίστε τα γόνατα, όχι τη μέση.</span>
+
+</li>
+<li>
+<span class="lang-el">Κρατήστε την πλάτη όσο γίνεται ευθεία.</span>
+
+</li>
+<li>
+<span class="lang-el">Κρατήστε το αντικείμενο κοντά στο σώμα.</span>
+
+</li>
+<li>
+<span class="lang-el">Αναπνεύστε κανονικά – μην κρατάτε την αναπνοή.</span>
+
+</li>
+<li>
+<span class="lang-el">Αποφύγετε απότομες ή συστρεφόμενες κινήσεις.</span>
+
+</li>
+<li>
+<span class="lang-el">Αν χρειάζεται να γυρίσετε, στρίψτε όλο το σώμα, όχι μόνο τη μέση.</span>
+
+</li>
+</ul>
+<h3>
+<span class="lang-el">🧍‍♀️ Κατά τη μεταφορά</span>
+
+</h3>
+<ul>
+<li>
+<span class="lang-el">Κρατήστε το βάρος ισορροπημένο και κοντά στο σώμα.</span>
+
+</li>
+<li>
+<span class="lang-el">Βλέπετε πάντα μπροστά σας – το πρόσωπο σας να μην είναι κρυμμένο πίσω από το φορτίο.</span>
+
+</li>
+<li>
+<span class="lang-el">Αν το αντικείμενο είναι μεγάλο, ζητήστε από άλλον να σας καθοδηγεί.</span>
+
+</li>
+</ul>
+</section>
+<!-- Βίντεο -->
+<section id="video-demo">
+<h2>
+<span class="lang-el">Βίντεο επίδειξης – Σωστή τεχνική ανύψωσης</span>
+
+</h2>
+<div class="video-section-wrapper">
+<div class="video-card">
+<div class="video-title">
+<i aria-hidden="true" class="fa-solid fa-film"></i>
+<span class="lang-el">Παρατήρησε τη στάση σώματος βήμα-βήμα</span>
+
+</div>
+<!-- Βάλε εδώ το δικό σου αρχείο βίντεο ή URL -->
+<video controls="" preload="metadata">
+<source src="https://panos5439.github.io/sotaoffice/lift.mp4" type="video/mp4"/>
+<p class="lang-el">Ο περιηγητής σου δεν υποστηρίζει βίντεο.</p>
+
+</video>
+<p class="video-caption">
+<span class="lang-el">
+              Δες πώς ο εργαζόμενος λυγίζει τα γόνατα, κρατά την πλάτη ίσια και κρατά το φορτίο κοντά στο σώμα
+              σε όλη τη διάρκεια της κίνησης.
+            </span>
+
+</p>
+</div>
+</div>
+</section>
+<!-- 8.5 Ανυψώνω με έξυπνο τρόπο -->
+<section id="smart">
+<h2>
+<span class="lang-el">8.5 Ανυψώνω με “έξυπνο τρόπο”, όχι με δύναμη</span>
+
+</h2>
+<ul>
+<li>
+<span class="lang-el">Τα αντικείμενα είναι ευκολότερο να σηκωθούν αν βρίσκονται ήδη πάνω από το έδαφος.</span>
+
+</li>
+<li>
+<span class="lang-el">Προτιμήστε να μεταφέρετε μικρότερα φορτία περισσότερες φορές.</span>
+
+</li>
+<li>
+<span class="lang-el">Φοράτε παπούτσια με αντιολισθητική σόλα.</span>
+
+</li>
+<li>
+<span class="lang-el">Αν χρειάζεται συχνά μεταφορά, χρησιμοποιήστε εργονομικό καρότσι.</span>
+
+</li>
+</ul>
+<div class="card">
+<h3>
+<span class="lang-el">Παράδειγμα</span>
+
+</h3>
+<p>
+<span class="lang-el">
+            Ο Πέτρος προσπάθησε να σηκώσει μόνος του ένα κουτί με χαρτί Α4 από το πάτωμα, σκύβοντας μόνο από τη μέση.
+            Ένιωσε “τράβηγμα” στη μέση που τον ταλαιπώρησε για εβδομάδες.
+            Την επόμενη φορά το έκανε σωστά — λύγισε τα γόνατα, κράτησε ίσια πλάτη και το σήκωσε χωρίς πρόβλημα.
+          </span>
+
+</p>
+</div>
+<p class="card">
+<strong>
+<span class="lang-el">🟢 «Η δύναμη είναι χρήσιμη, αλλά η σωστή στάση είναι ανεκτίμητη. Μάθε να σηκώνεις με τα πόδια, όχι με τη μέση».</span>
+
+</strong>
+</p>
+</section>
+<!-- MINI QUIZ -->
+<section id="quiz">
+<h2>
+<span class="lang-el">Mini Quiz — Χειρωνακτική διακίνηση φορτίων</span>
+
+</h2>
+<p class="quiz-note">
+<span class="lang-el">Επίλεξε απάντηση σε κάθε ερώτηση. Το ✓ και ✗ εμφανίζονται άμεσα. Πάτησε «Επανεκκίνηση Quiz» για να καθαρίσεις τις επιλογές.</span>
+
+</p>
+<form class="quiz-form">
+<!-- Q1 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">1. Ποια εργασία θεωρείται χειρωνακτική διακίνηση;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q1a" name="q1" type="radio"/>
+<label data-correct="false" for="q1a">
+<span class="lang-el">Μόνο όταν χρησιμοποιώ ανυψωτικό μηχάνημα.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q1b" name="q1" type="radio"/>
+<label data-correct="true" for="q1b">
+<span class="lang-el">Όταν σηκώνω, μεταφέρω ή σπρώχνω κάτι με τη δική μου δύναμη.</span>
+
+</label>
+</div>
+</div>
+</div>
+<!-- Q2 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">2. Ποια είναι η σωστή κίνηση κατά την ανύψωση;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q2a" name="q2" type="radio"/>
+<label data-correct="false" for="q2a">
+<span class="lang-el">Σκύβω από τη μέση με τεντωμένα πόδια.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q2b" name="q2" type="radio"/>
+<label data-correct="true" for="q2b">
+<span class="lang-el">Λυγίζω τα γόνατα και κρατώ την πλάτη όσο γίνεται ευθεία.</span>
+
+</label>
+</div>
+</div>
+</div>
+<!-- Q3 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">3. Τι είναι καλό να κάνω πριν σηκώσω ένα βαρύ αντικείμενο;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q3a" name="q3" type="radio"/>
+<label data-correct="true" for="q3a">
+<span class="lang-el">Να ελέγξω τη διαδρομή και να ζητήσω βοήθεια αν χρειάζεται.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q3b" name="q3" type="radio"/>
+<label data-correct="false" for="q3b">
+<span class="lang-el">Να το σηκώσω γρήγορα πριν “προλάβει” να με κουράσει.</span>
+
+</label>
+</div>
+</div>
+</div>
+<!-- Q4 -->
+<div class="quiz-question">
+<h3>
+<span class="lang-el">4. Ποια επιλογή είναι πιο ασφαλής;</span>
+
+</h3>
+<div class="quiz-options">
+<div class="quiz-option">
+<input id="q4a" name="q4" type="radio"/>
+<label data-correct="true" for="q4a">
+<span class="lang-el">Να μεταφέρω μικρότερα φορτία σε περισσότερες διαδρομές.</span>
+
+</label>
+</div>
+<div class="quiz-option">
+<input id="q4b" name="q4" type="radio"/>
+<label data-correct="false" for="q4b">
+<span class="lang-el">Να φορτώσω όσο περισσότερο μπορώ σε μία μόνο διαδρομή.</span>
+
+</label>
+</div>
+</div>
+</div>
+<div class="quiz-reset-wrap">
+<button class="btn secondary" type="reset">
+<i aria-hidden="true" class="fa-solid fa-rotate"></i>
+<span class="lang-el">Επανεκκίνηση Quiz</span>
+
+</button>
+</div>
+</form>
+</section>
+</main>
+<footer>
+    © <span>2026</span> ·
+    <span class="lang-el">Υγεία &amp; Ασφάλεια Εργασίας</span>
+
+</footer>
+</body>
+</html>

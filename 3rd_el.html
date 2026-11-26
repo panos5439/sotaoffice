@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ενότητα 3: Γενικοί Κανόνες Ασφάλειας</title>
+<!-- Icons από βιβλιοθήκη -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#020617;
+      --card:#020617;
+      --card-soft:#020617;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --border:#1f2937;
+      --primary:#22c55e;
+      --primary-soft:#14532d;
+      --accent:#06b6d4;
+      --shadow:0 18px 40px rgba(0,0,0,.6);
+      --radius:18px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:
+        radial-gradient(circle at top, #22c55e20 0, transparent 55%),
+        radial-gradient(circle at bottom, #0ea5e920 0, #020617 55%);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.96);
+      border-bottom:1px solid #111827;
+      z-index:20;
+      backdrop-filter:blur(10px);
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:bold;
+      font-size:20px;
+    }
+    .brand i{
+      color:var(--primary);
+      filter:drop-shadow(0 0 8px rgba(34,197,94,.9));
+    }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:linear-gradient(90deg,#22c55e,#06b6d4);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .nav a:hover{ color:#e5e7eb; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:radial-gradient(circle at top,#22c55e,#16a34a);
+      color:#fff;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(22,163,74,.5);
+      transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .btn.secondary{
+      background:radial-gradient(circle at top,#06b6d4,#0284c7);
+      border-color:#0ea5e9;
+      box-shadow:0 10px 20px rgba(6,182,212,.5);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 30px rgba(15,23,42,.9);
+    }
+    .btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:radial-gradient(circle at top left, #022c22 0, var(--card) 45%, var(--card-soft) 100%);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at top,#22c55e22 0,transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    section > *{ position:relative; z-index:1; }
+
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(45,212,191,.6);
+      background:linear-gradient(90deg,rgba(34,197,94,.15),rgba(6,182,212,.18));
+      font-size:16px;
+      color:#bbf7d0;
+      box-shadow:0 0 20px rgba(45,212,191,.45);
+      animation:pulseBadge 3s ease-in-out infinite;
+    }
+    .badge i{
+      color:#22c55e;
+    }
+
+    @keyframes pulseBadge{
+      0%,100%{ transform:scale(1); box-shadow:0 0 18px rgba(45,212,191,.35); }
+      50%{ transform:scale(1.03); box-shadow:0 0 30px rgba(45,212,191,.7); }
+    }
+
+    ul{ padding-left:22px; }
+    li{ color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(45,212,191,.6);
+      background:linear-gradient(90deg,rgba(34,197,94,.18),rgba(56,189,248,.18));
+      color:#bbf7d0;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:14px;
+      background:radial-gradient(circle at top left,#022c22 0,#020617 60%);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+    }
+
+    /* TABLE ΠΑΡΑΔΕΙΓΜΑΤΟΣ */
+    .examples-table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+      font-size:18px;
+    }
+    .examples-table th,
+    .examples-table td{
+      border:1px solid #1f2937;
+      padding:8px 10px;
+      vertical-align:top;
+    }
+    .examples-table th{
+      background:linear-gradient(90deg,#022c22,#022c3a);
+      color:#e5e7eb;
+      text-align:left;
+    }
+    .examples-table tr:nth-child(even) td,
+    .examples-table tr:nth-child(odd) td{
+      background:#020617;
+    }
+    .examples-table td:first-child{
+      font-weight:bold;
+      color:#e5e7eb;
+      width:30%;
+    }
+
+    /* QUIZ BASE */
+    .quiz-question{
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:12px;
+      margin-bottom:12px;
+      background:radial-gradient(circle at top,#022c22 0,#020617 70%);
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-options label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:5px 0;
+      cursor:pointer;
+      color:var(--muted);
+    }
+    .quiz-options input[type="radio"],
+    .quiz-options input[type="checkbox"]{
+      transform:scale(1.1);
+    }
+    .quiz-select-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:4px 0;
+      color:var(--muted);
+    }
+    .quiz-select-row span{
+      flex:1;
+    }
+    .quiz-select-row select{
+      padding:4px 6px;
+      font-size:16px;
+      background:#020617;
+      color:var(--text);
+      border-radius:8px;
+      border:1px solid #374151;
+    }
+
+    .quiz-feedback{
+      margin-top:6px;
+      min-height:22px;
+      font-size:18px;
+    }
+    .ok{ color:#4ade80; }
+    .no{ color:#f97373; }
+
+    .quiz-summary{
+      margin-top:10px;
+      font-weight:bold;
+      color:#e5e7eb;
+    }
+
+    /* ANIMATION SECTIONS – FALLBACK SAFE */
+    /* Default: τα sections είναι ΟΡΑΤΑ, ακόμη κι αν η JS δεν τρέξει */
+    .reveal{
+      opacity:1;
+      transform:none;
+      transition:opacity .6s ease, transform .6s ease;
+    }
+    /* Μόνο αν τρέξει JS και βάλουμε .js-enabled στο <html>,
+       τότε παίζει το “fade/slide in” animation */
+    .js-enabled .reveal{
+      opacity:0;
+      transform:translateY(16px) scale(.98);
+    }
+    .js-enabled .reveal.visible{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding-bottom:16px;
+    }
+
+    /* ===== HERO + SAFETY ORBIT ANIMATION ===== */
+    .hero{
+      display:flex;
+      gap:20px;
+      align-items:stretch;
+      flex-wrap:wrap;
+    }
+    .hero-text{
+      flex:1 1 260px;
+      min-width:0;
+    }
+    .hero-orbit-wrapper{
+      flex:0 0 260px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding-top:10px;
+    }
+
+    .safety-orbit{
+      position:relative;
+      width:230px;
+      aspect-ratio:1/1;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at center,#022c22 0,#020617 55%),
+        radial-gradient(circle at top,#22c55e40 0,transparent 55%);
+      box-shadow:0 0 25px rgba(34,197,94,.5);
+      overflow:hidden;
+    }
+
+    .orbit-ring{
+      position:absolute;
+      inset:18%;
+      border-radius:50%;
+      border:1px dashed rgba(148,163,184,.5);
+    }
+    .orbit-ring::before,
+    .orbit-ring::after{
+      content:"";
+      position:absolute;
+      inset:18%;
+      border-radius:50%;
+      border:1px dashed rgba(148,163,184,.35);
+    }
+    .orbit-ring::after{
+      inset:34%;
+    }
+
+    .orbit-center{
+      position:absolute;
+      inset:32%;
+      border-radius:50%;
+      background:radial-gradient(circle at center,#22c55e,#0f172a);
+      box-shadow:0 0 18px rgba(34,197,94,.9);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .orbit-center i{
+      color:#bbf7d0;
+      font-size:24px;
+    }
+
+    .orbit-item{
+      position:absolute;
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      background:radial-gradient(circle at top,#0ea5e9,#0f172a);
+      box-shadow:0 0 12px rgba(56,189,248,.8);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#e0f2fe;
+      font-size:17px;
+    }
+
+    /* Οι τροχιές κινούνται γύρω από το κέντρο */
+    .orbit-track{
+      position:absolute;
+      inset:18%;
+      border-radius:50%;
+      animation:spinOrbit 12s linear infinite;
+      transform-origin:50% 50%;
+    }
+    .orbit-track--slow{ animation-duration:16s; }
+    .orbit-track--fast{ animation-duration:9s; }
+
+    .orbit-track .orbit-item{
+      top:-6px;
+      left:50%;
+      transform:translateX(-50%);
+    }
+
+    .orbit-label{
+      position:absolute;
+      bottom:8px;
+      left:50%;
+      transform:translateX(-50%);
+      font-size:13px;
+      color:#a5f3fc;
+      text-align:center;
+      padding:0 6px;
+      text-shadow:0 0 8px #0ea5e9;
+    }
+
+    @keyframes spinOrbit{
+      from{ transform:rotate(0deg); }
+      to{ transform:rotate(360deg); }
+    }
+
+    @media (max-width: 768px){
+      .hero{
+        flex-direction:column;
+      }
+      .hero-orbit-wrapper{
+        justify-content:flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .js-enabled .reveal{ opacity:1; transform:none; transition:none; }
+      .badge{ animation:none; }
+      .orbit-track{ animation:none !important; }
+    }
+  </style>
+</head>
+<body>
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-shield-halved"></i>
+<span>Ενότητα 3 · Γενικοί Κανόνες Ασφάλειας</span>
+</div>
+<div class="grow"></div>
+
+<button aria-label="Πάνω" class="btn secondary" id="toTopBtn" title="Πάνω" type="button">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</button>
+</nav>
+</header>
+<main>
+<!-- ΕΝΟΤΗΤΑ: Εισαγωγή -->
+<section class="reveal" id="intro">
+<div class="hero">
+<div class="hero-text">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-compass"></i>
+<span>ΕΝΟΤΗΤΑ 3: ΓΕΝΙΚΟΙ ΚΑΝΟΝΕΣ ΑΣΦΑΛΕΙΑΣ</span>
+</div>
+<h1>Γενικοί Κανόνες Ασφάλειας</h1>
+<p>🎯 Στόχος: Να γνωρίζουμε και να εφαρμόζουμε τις βασικές αρχές ασφαλούς συμπεριφοράς από τη στιγμή που φτάνουμε στο γραφείο μέχρι τη στιγμή που φεύγουμε.</p>
+<p class="pill">Η ασφάλεια δεν είναι σύμπτωση. Είναι επιλογή και καθημερινή πρακτική.</p>
+</div>
+<!-- Κινούμενο animation: Safety Orbit -->
+<div aria-hidden="true" class="hero-orbit-wrapper">
+<div class="safety-orbit">
+<div class="orbit-ring"></div>
+<div class="orbit-center">
+<i class="fa-solid fa-shield-heart"></i>
+</div>
+<!-- Τροχιά: Νοοτροπία -->
+<div class="orbit-track orbit-track--slow">
+<div class="orbit-item">
+<i class="fa-solid fa-brain"></i>
+</div>
+</div>
+<!-- Τροχιά: Κανόνες -->
+<div class="orbit-track">
+<div class="orbit-item">
+<i class="fa-solid fa-list-check"></i>
+</div>
+</div>
+<!-- Τροχιά: Συμπεριφορά -->
+<div class="orbit-track orbit-track--fast">
+<div class="orbit-item">
+<i class="fa-solid fa-person-walking"></i>
+</div>
+</div>
+<div class="orbit-label">Νοοτροπία · Κανόνες · Συμπεριφορά</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3.1 Ασφαλής νοοτροπία -->
+<section class="reveal" id="mindset">
+<h2>3.1 Ασφαλής νοοτροπία</h2>
+<p>Η ασφάλεια είναι τρόπος σκέψης. Δεν είναι κάτι που το θυμόμαστε μόνο όταν γίνει ατύχημα, αλλά μια συνήθεια που εφαρμόζουμε καθημερινά.</p>
+<div class="row">
+<div class="card">
+<ul>
+<li>Έχω τα μάτια μου ανοιχτά για κινδύνους (π.χ. καλώδια, νερά, εμπόδια).</li>
+<li>Σκέφτομαι πριν ενεργήσω – «είναι ασφαλές αυτό που πάω να κάνω;»</li>
+<li>Αν μπορώ, διορθώνω κάτι επικίνδυνο. Αν όχι, ενημερώνω τον υπεύθυνο.</li>
+<li>Ελέγχω αν το πρόβλημα λύθηκε – δεν το αφήνω «για αργότερα».</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- 3.2 Τήρηση κανόνων & οδηγιών -->
+<section class="reveal" id="rules">
+<h2>3.2 Τήρηση κανόνων &amp; οδηγιών</h2>
+<ul>
+<li>Εφαρμόζω πάντα τους κανόνες ασφάλειας της εταιρείας.</li>
+<li>Διαβάζω και ακολουθώ τις οδηγίες που μου δίνονται για τη χρήση εξοπλισμού ή διαδικασιών.</li>
+<li>Αν δεν είμαι σίγουρος για κάτι, ρωτάω τον προϊστάμενο ή τον Τεχνικό Ασφάλειας — δεν υποθέτω.</li>
+<li>Δουλεύω με συγκέντρωση, χωρίς βιασύνη ή διάσπαση προσοχής (π.χ. κινητό, φαγητό, κουβέντα κατά τη διάρκεια χρήσης εξοπλισμού).</li>
+</ul>
+</section>
+<!-- 3.3 Αναφορά ανασφαλών καταστάσεων -->
+<section class="reveal" id="reporting">
+<h2>3.3 Αναφορά ανασφαλών καταστάσεων</h2>
+<p>Κανένας κίνδυνος δεν είναι «μικρός». Αν παρατηρήσω κάτι που μπορεί να προκαλέσει ατύχημα, οφείλω να το αναφέρω.</p>
+<table class="examples-table">
+<tbody>
+<tr>
+<td>Φθαρμένο καλώδιο</td>
+<td>Ενημερώνω το IT ή τη συντήρηση.</td>
+</tr>
+<tr>
+<td>Εμπόδιο σε έξοδο κινδύνου</td>
+<td>Ενημερώνω άμεσα για να απομακρυνθεί.</td>
+</tr>
+<tr>
+<td>Χαλαρή πρίζα ή θερμαντήρας χωρίς επίβλεψη</td>
+<td>Το επισημαίνω στον υπεύθυνο ή το τεχνικό τμήμα.</td>
+</tr>
+</tbody>
+</table>
+<p class="pill">Καλύτερα «ψευδής συναγερμός» παρά τραυματισμός.</p>
+</section>
+<!-- 3.4 Συμπεριφορά στο γραφείο -->
+<section class="reveal" id="behaviour">
+<h2>3.4 Συμπεριφορά στο γραφείο</h2>
+<div class="row">
+<div class="card">
+<ul>
+<li>Δεν σπρώχνω, δεν τρέχω, δεν παίζω στον χώρο εργασίας.</li>
+<li>Δεν ανεβαίνω σε καρέκλες ή γραφεία για να φτάσω κάτι — χρησιμοποιώ σκαλίτσα.</li>
+<li>Δεν φράζω περάσματα ή εξόδους κινδύνου με κουτιά ή καρέκλες.</li>
+</ul>
+</div>
+<div class="card">
+<ul>
+<li>Κρατάω τα συρτάρια κλειστά – αποτρέπουν σκοντάμματα.</li>
+<li>Χρησιμοποιώ χειρολαβή στις σκάλες.</li>
+<li>Αν δω διαρροή ή νερό, το καθαρίζω ή το αναφέρω αμέσως.</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- 3.5 Προσωπική συμπεριφορά & παράδειγμα -->
+<section class="reveal">
+<h2>3.5 Προσωπική συμπεριφορά</h2>
+<ul>
+<li>Σεβόμαστε τους συναδέλφους και τις οδηγίες τους.</li>
+<li>Δεν αδιαφορούμε για λάθη ή επικίνδυνες πράξεις τρίτων — ευγενικά ενημερώνουμε.</li>
+<li>Συμμετέχουμε ενεργά στις ασκήσεις εκκένωσης και τις εκπαιδεύσεις.</li>
+</ul>
+<div class="card">
+<h3>💬 Παράδειγμα — Η Μαρία στο διάδρομο</h3>
+<p>Η Μαρία παρατήρησε ότι ένα καλώδιο από εκτυπωτή περνά πάνω από το διάδρομο. Αντί να το αγνοήσει, ενημέρωσε το τεχνικό τμήμα και το πρόβλημα λύθηκε. Έτσι αποφεύχθηκε ένα πιθανό γλίστρημα ή πτώση.</p>
+</div>
+<p class="card">
+<strong>🟢 Η ασφάλεια δεν είναι σύμπτωση. Είναι επιλογή και καθημερινή πρακτική.</strong>
+</p>
+</section>
+<!-- MINI QUIZ 4 ΕΡΩΤΗΣΕΙΣ -->
+<section class="reveal" id="quiz">
+<h2>Mini Quiz — Ασφαλής καθημερινή συμπεριφορά</h2>
+<p>Απάντησε στις 4 μικρές ερωτήσεις για να δεις πόσο καλά έχεις υιοθετήσει τη νοοτροπία ασφάλειας.</p>
+<!-- Q1: Multiple choice -->
+<div class="quiz-question" data-question-id="q1">
+<h3>1. Η ασφάλεια στην εργασία είναι κυρίως:</h3>
+<div class="quiz-options">
+<label>
+<input name="q1" type="radio" value="a"/>
+<span>Κάτι που θυμάμαι μόνο όταν γίνει ατύχημα</span>
+</label>
+<label>
+<input name="q1" type="radio" value="b"/>
+<span>Καθημερινή συνήθεια και τρόπος σκέψης</span>
+</label>
+</div>
+<div class="quiz-feedback" id="feedback-q1"></div>
+<button class="btn secondary" data-check="q1" type="button">
+<span>Έλεγχος</span>
+</button>
+</div>
+<!-- Q2: Σωστό / Λάθος -->
+<div class="quiz-question" data-question-id="q2">
+<h3>2. Μικροί κίνδυνοι (π.χ. ένα λίγο φθαρμένο καλώδιο) δεν χρειάζεται να αναφέρονται.</h3>
+<div class="quiz-options">
+<label>
+<input name="q2" type="radio" value="true"/>
+<span>Σωστό</span>
+</label>
+<label>
+<input name="q2" type="radio" value="false"/>
+<span>Λάθος</span>
+</label>
+</div>
+<div class="quiz-feedback" id="feedback-q2"></div>
+<button class="btn secondary" data-check="q2" type="button">
+<span>Έλεγχος</span>
+</button>
+</div>
+<!-- Q3: Αντιστοίχιση (dropdown) -->
+<div class="quiz-question" data-question-id="q3">
+<h3>3. Αντιστοίχισε την κατάσταση με τη σωστή ενέργεια.</h3>
+<div class="quiz-options">
+<div class="quiz-select-row">
+<span>Φθαρμένο καλώδιο →</span>
+<select data-match="case1">
+<option value="">Επίλεξε</option>
+<option value="ignore">Το αγνοώ</option>
+<option value="report">Ενημερώνω IT ή συντήρηση</option>
+</select>
+</div>
+<div class="quiz-select-row">
+<span>Εμπόδιο σε έξοδο κινδύνου →</span>
+<select data-match="case2">
+<option value="">Επίλεξε</option>
+<option value="later">Το αφήνω για αργότερα</option>
+<option value="immediate">Ενημερώνω άμεσα</option>
+</select>
+</div>
+<div class="quiz-select-row">
+<span>Νερό στο πάτωμα →</span>
+<select data-match="case3">
+<option value="">Επίλεξε</option>
+<option value="clean">Το καθαρίζω ή το αναφέρω αμέσως</option>
+<option value="walkcarefully">Περπατάω απλώς πιο προσεκτικά</option>
+</select>
+</div>
+</div>
+<div class="quiz-feedback" id="feedback-q3"></div>
+<button class="btn secondary" data-check="q3" type="button">
+<span>Έλεγχος</span>
+</button>
+</div>
+<!-- Q4: Πολλαπλή επιλογή -->
+<div class="quiz-question" data-question-id="q4">
+<h3>4. Ποιες από τις παρακάτω είναι ΑΣΦΑΛΕΙΣ συμπεριφορές στο γραφείο;</h3>
+<div class="quiz-options">
+<label>
+<input name="q4" type="checkbox" value="ladder"/>
+<span>Χρησιμοποιώ σκαλίτσα αντί για καρέκλα</span>
+</label>
+<label>
+<input name="q4" type="checkbox" value="drawers"/>
+<span>Κρατάω τα συρτάρια κλειστά</span>
+</label>
+<label>
+<input name="q4" type="checkbox" value="run"/>
+<span>Τρέχω στους διαδρόμους για να προλάβω</span>
+</label>
+</div>
+<div class="quiz-feedback" id="feedback-q4"></div>
+<button class="btn secondary" data-check="q4" type="button">
+<span>Έλεγχος</span>
+</button>
+</div>
+<!-- Συνολικό σκορ + reset -->
+<div class="quiz-summary" id="quizTotal"></div>
+<button class="btn" id="resetQuizBtn" type="button">
+<i aria-hidden="true" class="fa-solid fa-rotate"></i>
+<span>Επανεκκίνηση Quiz</span>
+</button>
+</section>
+</main>
+<footer>
+    © <span id="year"></span>
+    ·
+    <span>Υγεία &amp; Ασφάλεια Εργασίας</span>
+</footer>
+<script>
+    (function(){
+      // Αν τρέξει η JS, ενεργοποιούμε το JS-enhanced animation (.reveal)
+      document.documentElement.classList.add("js-enabled");
+
+      const LANG_EL = "el";
+      const LANG_EN = "en";
+      const state = {
+        lang: LANG_EL,
+        scores: { q1:null, q2:null, q3:null, q4:null }
+      };
+
+      const texts = {
+        el: {
+          correct: "Σωστό!",
+          incorrect: "Όχι ακριβώς. Δοκίμασε ξανά.",
+          missing: "Επίλεξε μια απάντηση.",
+          matchingMissing: "Συμπλήρωσε όλες τις αντιστοιχίσεις.",
+          total: (score, total) => `Συνολικό σκορ: ${score} / ${total}`
+        },
+        en: {
+          correct: "Correct!",
+          incorrect: "Not quite. Try again.",
+          missing: "Please choose an option.",
+          matchingMissing: "Please complete all matches.",
+          total: (score, total) => `Total score: ${score} / ${total}`
+        }
+      };
+
+      const correctAnswers = {
+        q1: "b",
+        q2: "false",
+        q3: {
+          case1: "report",
+          case2: "immediate",
+          case3: "clean"
+        },
+        q4: {
+          mustHave: ["ladder", "drawers"],
+          mustNotHave: ["run"]
+        }
+      };
+
+      function $(sel, root=document){ return root.querySelector(sel); }
+      function $all(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
+
+      function applyLanguage() {
+        const lang = state.lang;
+        document.documentElement.lang = (lang === LANG_EN ? "en" : "el");
+        $all("[data-i18n]").forEach(el=>{
+          const txt = el.getAttribute(lang === LANG_EN ? "data-en" : "data-el");
+          if(txt != null) el.textContent = txt;
+        });
+        updateTotalScore();
+      }
+
+      function updateTotalScore() {
+        const lang = state.lang;
+        const values = Object.values(state.scores);
+        const correctCount = values.filter(v => v === true).length;
+        const total = Object.keys(state.scores).length;
+        const label = texts[lang].total(correctCount, total);
+        const box = $("#quizTotal");
+        if(box) box.textContent = label;
+      }
+
+      function evaluateQ1() {
+        const lang = state.lang;
+        const feedback = $("#feedback-q1");
+        const selected = document.querySelector('input[name="q1"]:checked');
+        if(!selected){
+          feedback.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q1 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect = (selected.value === correctAnswers.q1);
+        feedback.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q1 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ2() {
+        const lang = state.lang;
+        const feedback = $("#feedback-q2");
+        const selected = document.querySelector('input[name="q2"]:checked');
+        if(!selected){
+          feedback.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q2 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect = (selected.value === correctAnswers.q2);
+        feedback.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q2 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ3() {
+        const lang = state.lang;
+        const fb = $("#feedback-q3");
+        const expected = correctAnswers.q3;
+        const selects = {
+          case1: document.querySelector('select[data-match="case1"]'),
+          case2: document.querySelector('select[data-match="case2"]'),
+          case3: document.querySelector('select[data-match="case3"]')
+        };
+        if(!selects.case1 || !selects.case2 || !selects.case3){
+          state.scores.q3 = null;
+          updateTotalScore();
+          return;
+        }
+        if(!selects.case1.value || !selects.case2.value || !selects.case3.value){
+          fb.innerHTML = `<span class="no">${texts[lang].matchingMissing}</span>`;
+          state.scores.q3 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect =
+          selects.case1.value === expected.case1 &&
+          selects.case2.value === expected.case2 &&
+          selects.case3.value === expected.case3;
+
+        fb.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q3 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ4() {
+        const lang = state.lang;
+        const fb = $("#feedback-q4");
+        const checked = $all('input[name="q4"]:checked').map(i=>i.value);
+        if(checked.length === 0){
+          fb.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q4 = null;
+          updateTotalScore();
+          return;
+        }
+        const { mustHave, mustNotHave } = correctAnswers.q4;
+        const hasAllMust = mustHave.every(v=>checked.includes(v));
+        const hasForbidden = mustNotHave.some(v=>checked.includes(v));
+        const isCorrect = hasAllMust && !hasForbidden;
+        fb.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q4 = isCorrect;
+        updateTotalScore();
+      }
+
+      function resetQuiz() {
+        $all('input[type="radio"], input[type="checkbox"]').forEach(el=> el.checked = false);
+        $all('#quiz select').forEach(sel=> sel.value = "");
+        ["q1","q2","q3","q4"].forEach(id=>{
+          const fb = $("#feedback-" + id);
+          if(fb) fb.textContent = "";
+          state.scores[id] = null;
+        });
+        updateTotalScore();
+      }
+
+      function setupQuizButtons() {
+        $all("[data-check]").forEach(btn=>{
+          const id = btn.getAttribute("data-check");
+          btn.addEventListener("click", ()=>{
+            if(id === "q1") evaluateQ1();
+            if(id === "q2") evaluateQ2();
+            if(id === "q3") evaluateQ3();
+            if(id === "q4") evaluateQ4();
+          });
+        });
+        const resetBtn = $("#resetQuizBtn");
+        if(resetBtn) resetBtn.addEventListener("click", resetQuiz);
+      }
+
+      function setupLanguageButton() {
+        const btn = $("#langBtn");
+        if(!btn) return;
+        btn.addEventListener("click", ()=>{
+          state.lang = (state.lang === LANG_EL ? LANG_EN : LANG_EL);
+          applyLanguage();
+        });
+      }
+
+      function setupScrollTop() {
+        const btn = $("#toTopBtn");
+        if(!btn) return;
+        btn.addEventListener("click", ()=>{
+          window.scrollTo({ top:0, behavior:"smooth" });
+        });
+      }
+
+      function setupReveal() {
+        const elements = $all(".reveal");
+        if("IntersectionObserver" in window){
+          const io = new IntersectionObserver(entries=>{
+            entries.forEach(e=>{
+              if(e.isIntersecting){
+                e.target.classList.add("visible");
+                io.unobserve(e.target);
+              }
+            });
+          }, { threshold:0.15 });
+          elements.forEach(el=> io.observe(el));
+        }else{
+          elements.forEach(el=> el.classList.add("visible"));
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", ()=>{
+        if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+        window.scrollTo(0,0);
+        $("#year").textContent = new Date().getFullYear();
+
+        setupLanguageButton();
+        setupScrollTop();
+        setupQuizButtons();
+        setupReveal();
+
+        resetQuiz();      // μηδενισμός quiz
+        applyLanguage();  // αρχική γλώσσα: Ελληνικά
+      });
+    })();
+  </script>
+</body>
+</html>

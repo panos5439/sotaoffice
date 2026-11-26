@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ενότητα 1: Εισαγωγή στην ΥΑΕ</title>
+<!-- Icons από βιβλιοθήκη -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+<style>
+    :root{
+      --maxw: 1000px;
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#0b1220;
+      --muted:#4b5563;
+      --border:#e5e7eb;
+      --primary:#2563eb;
+      --primary-soft:#dbeafe;
+      --accent:#16a34a;
+      --shadow:0 10px 25px rgba(15,23,42,.1);
+      --radius:16px;
+    }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Times New Roman", Times, serif;
+      background:var(--bg);
+      color:var(--text);
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      background:#fff;
+      border-bottom:1px solid var(--border);
+      z-index:20;
+    }
+    .nav{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-weight:bold;
+    }
+    .brand i{ color:var(--accent); }
+    .nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      margin-left:6px;
+      position:relative;
+    }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:2px;
+      background:var(--primary);
+      transition:width .2s ease;
+    }
+    .nav a:hover::after{ width:100%; }
+    .grow{ flex:1; }
+
+    .btn{
+      border:1px solid var(--primary-soft);
+      background:var(--primary);
+      color:#fff;
+      padding:7px 11px;
+      border-radius:10px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+    }
+    .btn.secondary{
+      background:#111827;
+      border-color:#cbd5e1;
+    }
+    .btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
+    /* LAYOUT */
+    main{
+      max-width:var(--maxw);
+      margin:22px auto;
+      padding:0 16px 40px;
+    }
+    section{
+      background:var(--card);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      padding:18px;
+      margin-bottom:16px;
+      box-shadow:var(--shadow);
+    }
+    h1{ margin:0 0 10px; font-size:36px; }
+    h2{ margin:0 0 10px; font-size:27px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--primary-soft);
+      background:#eff6ff;
+      font-size:16px;
+    }
+    ul{ padding-left:22px; }
+    .pill{
+      display:inline-block;
+      margin:6px 8px 0 0;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid #bbf7d0;
+      background:#f0fdf4;
+      color:#166534;
+      font-size:18px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:14px;
+    }
+    .card{
+      border-radius:12px;
+      border:1px solid var(--border);
+      padding:12px;
+      background:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    /* QUIZ BASE */
+    .quiz-question{
+      border-radius:12px;
+      border:1px solid var(--border);
+      padding:12px;
+      margin-bottom:12px;
+      background:#f9fafb;
+    }
+    .quiz-question h3{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .quiz-options{ margin-top:6px; }
+
+    .quiz-options label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:5px 0;
+      cursor:pointer;
+    }
+    .quiz-options input[type="radio"],
+    .quiz-options input[type="checkbox"]{
+      transform:scale(1.1);
+    }
+    .quiz-select-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:4px 0;
+    }
+    .quiz-select-row span{
+      flex:1;
+    }
+    .quiz-select-row select{
+      padding:4px 6px;
+      font-size:16px;
+    }
+
+    .quiz-feedback{
+      margin-top:6px;
+      min-height:22px;
+      font-size:18px;
+    }
+    .ok{ color:#166534; }
+    .no{ color:#b91c1c; }
+
+    .quiz-summary{
+      margin-top:10px;
+      font-weight:bold;
+    }
+
+    /* ANIMATION */
+    .reveal{
+      opacity:0;
+      transform:translateY(10px);
+      transition:opacity .5s ease, transform .5s ease;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      padding-bottom:16px;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ opacity:1; transform:none; transition:none; }
+    }
+  </style>
+</head>
+<body>
+<a id="top"></a>
+<header>
+<nav aria-label="Κύρια πλοήγηση" class="nav">
+<div class="brand">
+<i aria-hidden="true" class="fa-solid fa-shield-heart"></i>
+<span>Occupational Health &amp; Safety</span>
+</div>
+<div class="grow"></div>
+
+<button aria-label="Πάνω" class="btn secondary" id="toTopBtn" title="Πάνω" type="button">
+<i aria-hidden="true" class="fa-solid fa-arrow-up"></i>
+</button>
+</nav>
+</header>
+<main>
+<!-- ΕΝΟΤΗΤΑ: Εισαγωγή -->
+<section class="reveal" id="intro">
+<div class="badge">
+<i aria-hidden="true" class="fa-solid fa-compass"></i>
+<span>UNIT 1: INTRODUCTION TO OCCUPATIONAL HEALTH &amp; SAFETY</span>
+</div>
+<h1>Introduction to OHS</h1>
+<p>🎯 Goal: Understand why OHS matters to everyone, including office workers.</p>
+<div class="card">
+<h2>What is OHS?</h2>
+<p>Occupational Health &amp; Safety includes rules, actions, and behaviors that aim to prevent accidents, protect health, and improve workers’ wellbeing.</p>
+</div>
+</section>
+<!-- ΕΝΟΤΗΤΑ: Γιατί μας αφορά -->
+<section class="reveal" id="why">
+<h2>Why does it matter?</h2>
+<p>Many people think offices are 'safe spaces', but there are hazards such as:</p>
+<ul>
+<li>Falls from chairs or ladders</li>
+<li>Musculoskeletal problems from poor posture</li>
+<li>Eye strain and headaches</li>
+<li>Electrical hazards (cables, sockets, equipment)</li>
+<li>Stress and workload pressure</li>
+</ul>
+<p class="pill">Accidents don’t only happen on construction sites — they also happen in offices.</p>
+</section>
+<!-- ΕΝΟΤΗΤΑ: Οφέλη -->
+<section class="reveal" id="benefits">
+<h2>What do we gain from prevention?</h2>
+<div class="row">
+<div class="pill">Better physical and mental health</div>
+<div class="pill">Fewer absences from work</div>
+<div class="pill">Higher productivity</div>
+<div class="pill">Pleasant and safe environment</div>
+<div class="pill">Positive work climate</div>
+</div>
+</section>
+<!-- ΕΝΟΤΗΤΑ: Παραδείγματα -->
+<section class="reveal" id="examples">
+<h2>Everyday examples</h2>
+<div class="row">
+<div class="card">
+<h3>Chair without lumbar support</h3>
+<p>Leads to lower back pain after weeks.</p>
+</div>
+<div class="card">
+<h3>Cable on the floor</h3>
+<p>Increases the chance of tripping.</p>
+</div>
+<div class="card">
+<h3>Poor lighting</h3>
+<p>Causes eye fatigue and more mistakes.</p>
+</div>
+</div>
+<p class="card">
+<strong>🟢 Safety starts with our attitude. Whatever we do, we do it carefully and responsibly.</strong>
+</p>
+</section>
+<!-- MINI QUIZ 4 ΕΡΩΤΗΣΕΙΣ -->
+<section class="reveal" id="quiz">
+<h2>Mini Quiz — Check your understanding</h2>
+<p>Answer the 4 short questions. You can repeat as many times as you like.</p>
+<!-- Q1: Multiple choice -->
+<div class="quiz-question" data-question-id="q1">
+<h3>1. OHS concerns:</h3>
+<div class="quiz-options">
+<label>
+<input name="q1" type="radio" value="a"/>
+<span>Only construction sites</span>
+</label>
+<label>
+<input name="q1" type="radio" value="b"/>
+<span>All workplaces, including offices</span>
+</label>
+</div>
+<div class="quiz-feedback" id="feedback-q1"></div>
+<button class="btn secondary" data-check="q1" type="button">
+<span>Check</span>
+</button>
+</div>
+<!-- Q2: Σωστό / Λάθος -->
+<div class="quiz-question" data-question-id="q2">
+<h3>2. Poor posture at the office can cause musculoskeletal problems.</h3>
+<div class="quiz-options">
+<label>
+<input name="q2" type="radio" value="true"/>
+<span>True</span>
+</label>
+<label>
+<input name="q2" type="radio" value="false"/>
+<span>False</span>
+</label>
+</div>
+<div class="quiz-feedback" id="feedback-q2"></div>
+<button class="btn secondary" data-check="q2" type="button">
+<span>Check</span>
+</button>
+</div>
+<!-- Q3: Αντιστοίχιση (dropdown) -->
+<div class="quiz-question" data-question-id="q3">
+<h3>3. Match each example with the correct hazard.</h3>
+<div class="quiz-options">
+<div class="quiz-select-row">
+<span>Cable on the floor →</span>
+<select data-match="cable">
+<option value="">Choose</option>
+<option value="fall">Fall hazard</option>
+<option value="stress">Stress</option>
+</select>
+</div>
+<div class="quiz-select-row">
+<span>Poor lighting →</span>
+<select data-match="light">
+<option value="">Choose</option>
+<option value="eye">Eye strain</option>
+<option value="electric">Electrical hazard</option>
+</select>
+</div>
+<div class="quiz-select-row">
+<span>Chair without lumbar support →</span>
+<select data-match="chair">
+<option value="">Choose</option>
+<option value="back">Lower back pain</option>
+<option value="burn">Burn hazard</option>
+</select>
+</div>
+</div>
+<div class="quiz-feedback" id="feedback-q3"></div>
+<button class="btn secondary" data-check="q3" type="button">
+<span>Check</span>
+</button>
+</div>
+<!-- Q4: Πολλαπλή επιλογή -->
+<div class="quiz-question" data-question-id="q4">
+<h3>4. Which of the following are BENEFITS of prevention?</h3>
+<div class="quiz-options">
+<label>
+<input name="q4" type="checkbox" value="benefit-health"/>
+<span>Better health</span>
+</label>
+<label>
+<input name="q4" type="checkbox" value="benefit-absences"/>
+<span>Fewer absences</span>
+</label>
+<label>
+<input name="q4" type="checkbox" value="harm-more-accidents"/>
+<span>More accidents</span>
+</label>
+</div>
+<div class="quiz-feedback" id="feedback-q4"></div>
+<button class="btn secondary" data-check="q4" type="button">
+<span>Check</span>
+</button>
+</div>
+<!-- Συνολικό σκορ + reset -->
+<div class="quiz-summary" id="quizTotal"></div>
+<button class="btn" id="resetQuizBtn" type="button">
+<i aria-hidden="true" class="fa-solid fa-rotate"></i>
+<span>Restart Quiz</span>
+</button>
+</section>
+</main>
+<footer>
+    © <span id="year"></span>
+    ·
+    <span>Occupational Health &amp; Safety</span>
+</footer>
+<script>
+    (function(){
+      const LANG_EL = "el";
+      const LANG_EN = "en";
+      const state = {
+        lang: LANG_EN,
+        scores: { q1:null, q2:null, q3:null, q4:null }
+      };
+
+      const texts = {
+        el: {
+          correct: "Σωστό!",
+          incorrect: "Όχι ακριβώς. Δοκίμασε ξανά.",
+          missing: "Επίλεξε μια απάντηση.",
+          matchingMissing: "Συμπλήρωσε όλες τις αντιστοιχίσεις.",
+          total: (score, total) => `Συνολικό σκορ: ${score} / ${total}`
+        },
+        en: {
+          correct: "Correct!",
+          incorrect: "Not quite. Try again.",
+          missing: "Please choose an option.",
+          matchingMissing: "Please complete all matches.",
+          total: (score, total) => `Total score: ${score} / ${total}`
+        }
+      };
+
+      const correctAnswers = {
+        q1: "b",
+        q2: "true",
+        q3: {
+          cable: "fall",
+          light: "eye",
+          chair: "back"
+        },
+        q4: {
+          mustHave: ["benefit-health", "benefit-absences"],
+          mustNotHave: ["harm-more-accidents"]
+        }
+      };
+
+      function $(sel, root=document){ return root.querySelector(sel); }
+      function $all(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
+
+      function applyLanguage() {
+        const lang = state.lang;
+        document.documentElement.lang = (lang === LANG_EN ? "en" : "el");
+        $all("[data-i18n]").forEach(el=>{
+          const txt = el.getAttribute(lang === LANG_EN ? "data-en" : "data-el");
+          if(txt != null) el.textContent = txt;
+        });
+        updateTotalScore();
+      }
+
+      function updateTotalScore() {
+        const lang = state.lang;
+        const values = Object.values(state.scores);
+        const correctCount = values.filter(v => v === true).length;
+        const total = Object.keys(state.scores).length;
+        const label = texts[lang].total(correctCount, total);
+        const box = $("#quizTotal");
+        if(box) box.textContent = label;
+      }
+
+      function evaluateQ1() {
+        const lang = state.lang;
+        const feedback = $("#feedback-q1");
+        const selected = document.querySelector('input[name="q1"]:checked');
+        if(!selected){
+          feedback.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q1 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect = (selected.value === correctAnswers.q1);
+        feedback.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q1 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ2() {
+        const lang = state.lang;
+        const feedback = $("#feedback-q2");
+        const selected = document.querySelector('input[name="q2"]:checked');
+        if(!selected){
+          feedback.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q2 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect = (selected.value === correctAnswers.q2);
+        feedback.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q2 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ3() {
+        const lang = state.lang;
+        const fb = $("#feedback-q3");
+        const expected = correctAnswers.q3;
+        const selects = {
+          cable: document.querySelector('select[data-match="cable"]'),
+          light: document.querySelector('select[data-match="light"]'),
+          chair: document.querySelector('select[data-match="chair"]')
+        };
+        if(!selects.cable || !selects.light || !selects.chair){
+          state.scores.q3 = null;
+          updateTotalScore();
+          return;
+        }
+        if(!selects.cable.value || !selects.light.value || !selects.chair.value){
+          fb.innerHTML = `<span class="no">${texts[lang].matchingMissing}</span>`;
+          state.scores.q3 = null;
+          updateTotalScore();
+          return;
+        }
+        const isCorrect =
+          selects.cable.value === expected.cable &&
+          selects.light.value === expected.light &&
+          selects.chair.value === expected.chair;
+
+        fb.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q3 = isCorrect;
+        updateTotalScore();
+      }
+
+      function evaluateQ4() {
+        const lang = state.lang;
+        const fb = $("#feedback-q4");
+        const checked = $all('input[name="q4"]:checked').map(i=>i.value);
+        if(checked.length === 0){
+          fb.innerHTML = `<span class="no">${texts[lang].missing}</span>`;
+          state.scores.q4 = null;
+          updateTotalScore();
+          return;
+        }
+        const { mustHave, mustNotHave } = correctAnswers.q4;
+        const hasAllMust = mustHave.every(v=>checked.includes(v));
+        const hasForbidden = mustNotHave.some(v=>checked.includes(v));
+        const isCorrect = hasAllMust && !hasForbidden;
+        fb.innerHTML = isCorrect
+          ? `<span class="ok">${texts[lang].correct}</span>`
+          : `<span class="no">${texts[lang].incorrect}</span>`;
+        state.scores.q4 = isCorrect;
+        updateTotalScore();
+      }
+
+      function resetQuiz() {
+        // reset all inputs
+        $all('input[type="radio"], input[type="checkbox"]').forEach(el=> el.checked = false);
+        $all('#quiz select').forEach(sel=> sel.value = "");
+        // clear feedback
+        ["q1","q2","q3","q4"].forEach(id=>{
+          const fb = $("#feedback-" + id);
+          if(fb) fb.textContent = "";
+          state.scores[id] = null;
+        });
+        updateTotalScore();
+      }
+
+      function setupQuizButtons() {
+        $all("[data-check]").forEach(btn=>{
+          const id = btn.getAttribute("data-check");
+          btn.addEventListener("click", ()=>{
+            if(id === "q1") evaluateQ1();
+            if(id === "q2") evaluateQ2();
+            if(id === "q3") evaluateQ3();
+            if(id === "q4") evaluateQ4();
+          });
+        });
+        const resetBtn = $("#resetQuizBtn");
+        if(resetBtn) resetBtn.addEventListener("click", resetQuiz);
+      }
+
+      function setupLanguageButton() {
+        const btn = $("#langBtn");
+        if(!btn) return;
+        btn.addEventListener("click", ()=>{
+          state.lang = (state.lang === LANG_EL ? LANG_EN : LANG_EL);
+          applyLanguage();
+        });
+      }
+
+      function setupScrollTop() {
+        const btn = $("#toTopBtn");
+        if(!btn) return;
+        btn.addEventListener("click", ()=>{
+          window.scrollTo({ top:0, behavior:"smooth" });
+        });
+      }
+
+      function setupReveal() {
+        const elements = $all(".reveal");
+        if("IntersectionObserver" in window){
+          const io = new IntersectionObserver(entries=>{
+            entries.forEach(e=>{
+              if(e.isIntersecting){
+                e.target.classList.add("visible");
+                io.unobserve(e.target);
+              }
+            });
+          }, { threshold:0.15 });
+          elements.forEach(el=> io.observe(el));
+        }else{
+          elements.forEach(el=> el.classList.add("visible"));
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", ()=>{
+        // κάθε φορά που ανοίγει το popup -> από την αρχή και μηδενισμένα
+        if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+        window.scrollTo(0,0);
+        $("#year").textContent = new Date().getFullYear();
+
+        setupLanguageButton();
+        setupScrollTop();
+        setupQuizButtons();
+        setupReveal();
+
+        resetQuiz();      // μηδενισμός quiz
+        applyLanguage();  // αρχική γλώσσα: Ελληνικά
+      });
+    })();
+  </script>
+</body>
+</html>
