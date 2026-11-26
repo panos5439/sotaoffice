@@ -775,5 +775,26 @@
     
 <span class="lang-en">Occupational Health &amp; Safety</span>
 </footer>
+<script>(function(){
+"use strict";
+if(window.__sotaBottomNotifier)return;window.__sotaBottomNotifier=true;
+var fired=false;
+function checkBottom(){
+if(fired)return;
+var doc=document.documentElement;
+var atBottom=(window.innerHeight+window.scrollY)>=(doc.scrollHeight-40);
+if(atBottom){
+fired=true;
+try{window.parent.postMessage({sotaScrolledToBottom:true},"*");}catch(e){}
+}
+}
+window.addEventListener("scroll",checkBottom,{passive:true});
+window.addEventListener("resize",checkBottom);
+if(document.readyState==="loading"){
+document.addEventListener("DOMContentLoaded",function(){setTimeout(checkBottom,300);});
+}else{
+setTimeout(checkBottom,300);
+}
+})();</script>
 </body>
 </html>
