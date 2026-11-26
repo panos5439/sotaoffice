@@ -313,94 +313,68 @@
 
     .fire-ext{
       position:absolute;
-      right:55px;
-      bottom:16px;
-      width:50px;
-      height:82px;
+      right:70px;
+      bottom:14px;
+      width:78px;
+      height:96px;
       filter:drop-shadow(0 6px 6px rgba(0,0,0,.65));
     }
-    .fire-ext i{
-      position:absolute;
-      left:50%;
-      bottom:0;
-      transform:translateX(-50%) scaleX(-1) rotate(-12deg);
-      font-size:66px;
-      color:#dc2626;
-      -webkit-text-stroke:1.5px #450a0a;
+    .ext-svg{
+      width:100%;
+      height:100%;
+      overflow:visible;
     }
-
-    /* Περόνη ασφαλείας - φεύγει στο Βήμα 1 (Pull) */
-    .pin{
-      position:absolute;
-      top:6px;
-      left:16px;
-      width:10px;
-      height:10px;
-      border:2px solid #fde047;
-      border-radius:50%;
-      box-shadow:0 0 4px rgba(253,224,71,.9);
+    .ext-tank{ fill:#dc2626; }
+    .ext-neck{ fill:#991b1b; }
+    .ext-handle{ fill:none; stroke:#111827; stroke-width:7; stroke-linecap:round; }
+    .ext-lever-group{
+      transform-box:view-box;
+      transform-origin:56px 40px;
+      transition:transform .25s ease;
+    }
+    .ext-lever{ fill:#1f2937; }
+    .ext-pin-group{
+      transform-box:view-box;
       transition:opacity .25s ease, transform .25s ease;
     }
-    .pin::after{
-      content:"";
-      position:absolute;
-      top:3px;
-      left:8px;
-      width:14px;
-      height:2px;
-      background:#fde047;
-      border-radius:2px;
-    }
-    #step1-ok:checked ~ .fire-scene .pin{
-      opacity:0;
-      transform:translate(22px,-16px) rotate(40deg);
-    }
+    .ext-pin-ring{ fill:none; stroke:#fde047; stroke-width:3; }
+    .ext-pin-rod{ stroke:#fde047; stroke-width:3; stroke-linecap:round; }
+    .ext-gauge-face{ fill:#e5e7eb; stroke:#111827; stroke-width:2; }
+    .ext-gauge-needle{ stroke:#dc2626; stroke-width:2; stroke-linecap:round; }
+    .ext-label{ fill:#111827; }
+    .ext-hose{ fill:none; stroke:#111827; stroke-width:7; stroke-linecap:round; }
+    .ext-nozzle{ fill:#111827; }
 
-    /* Βελάκι πίεσης στο μοχλό - διακριτικό, Βήμα 3 (Squeeze) */
-    .squeeze-arrow{
-      position:absolute;
-      top:8px;
-      left:18px;
+    /* Βήμα 1 (Pull) - η περόνη φεύγει από τον μοχλό */
+    #step1-ok:checked ~ .fire-scene .ext-pin-group{
       opacity:0;
-      transition:opacity .25s ease;
+      transform:translate(26px,-14px) rotate(35deg);
     }
-    .squeeze-arrow i{
-      display:block;
-      position:static;
-      font-size:10px;
-      color:rgba(255,255,255,.85);
-      -webkit-text-stroke:0;
-      transform:none;
-      animation:squeezeBounce 1s ease-in-out infinite;
-    }
-    @keyframes squeezeBounce{
-      0%,100%{ transform:translateY(0); opacity:.7; }
-      50%{ transform:translateY(2px); opacity:1; }
-    }
-    #step3-ok:checked ~ .fire-scene .squeeze-arrow{
-      opacity:1;
+    /* Βήμα 3 (Squeeze) - ο μοχλός πιέζεται προς τα κάτω */
+    #step3-ok:checked ~ .fire-scene .ext-lever-group{
+      transform:rotate(20deg);
     }
 
     .spray{
       position:absolute;
-      right:97px;
-      bottom:56px;
+      right:132px;
+      bottom:66px;
       width:0;
       height:0;
       background:linear-gradient(100deg,rgba(255,255,255,.95) 0%,rgba(226,232,240,.55) 55%,rgba(255,255,255,0) 100%);
       border-radius:50%;
       filter:blur(2.5px);
       opacity:0;
-      transform:translate(0,0) rotate(10deg);
+      transform:translate(0,0) rotate(6deg);
       transition:opacity .2s ease, width .2s ease, height .2s ease, transform .2s ease;
     }
     #step2-ok:checked ~ .fire-scene .spray,
     #step3-ok:checked ~ .fire-scene .spray,
     #step4-ok:checked ~ .fire-scene .spray{
       opacity:.9;
-      width:50px;
+      width:60px;
       height:14px;
-      transform:translate(-54px,4px) rotate(8deg);
+      transform:translate(-62px,2px) rotate(4deg);
     }
 
     .fire-label{
@@ -973,7 +947,7 @@
 <div class="fire-scene">
 <div class="fire-floor"></div>
 <div class="fire-glow"></div>
-<div class="fire-ext"><i aria-hidden="true" class="fa-solid fa-fire-extinguisher"></i><span class="pin"></span><span class="squeeze-arrow"><i aria-hidden="true" class="fa-solid fa-angles-down"></i></span></div>
+<div class="fire-ext"><svg class="ext-svg" viewbox="-20 0 120 170" xmlns="http://www.w3.org/2000/svg"><path class="ext-hose" d="M28,72 C6,78 0,98 8,112 C12,120 22,122 29,113"></path><path class="ext-nozzle" d="M9,108 L-16,122 L-16,100 Z"></path><rect class="ext-tank" height="100" rx="16" width="52" x="30" y="55"></rect><rect class="ext-neck" height="18" rx="4" width="28" x="42" y="40"></rect><path class="ext-handle" d="M40,40 C40,16 72,16 72,40"></path><g class="ext-lever-group"><rect class="ext-lever" height="10" rx="4" width="38" x="37" y="35"></rect></g><g class="ext-pin-group"><circle class="ext-pin-ring" cx="56" cy="40" r="7"></circle><line class="ext-pin-rod" x1="56" x2="88" y1="40" y2="40"></line></g><circle class="ext-gauge-face" cx="56" cy="82" r="10"></circle><line class="ext-gauge-needle" x1="56" x2="61" y1="82" y2="75"></line><rect class="ext-label" height="14" width="44" x="34" y="108"></rect></svg></div>
 <div class="spray"></div>
 <div class="fire-label">P.A.S.S.</div>
 <div class="flame flame-big"><i aria-hidden="true" class="fa-solid fa-fire fire-outer"></i><i aria-hidden="true" class="fa-solid fa-fire fire-inner"></i></div>
