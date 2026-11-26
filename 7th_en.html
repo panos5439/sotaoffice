@@ -313,7 +313,7 @@
 
     .fire-ext{
       position:absolute;
-      right:22px;
+      right:55px;
       bottom:16px;
       width:50px;
       height:82px;
@@ -332,8 +332,8 @@
     /* Safety pin - flies off on Step 1 (Pull) */
     .pin{
       position:absolute;
-      top:24px;
-      left:8px;
+      top:6px;
+      left:16px;
       width:10px;
       height:10px;
       border:2px solid #fde047;
@@ -359,8 +359,8 @@
     /* Βελάκι πίεσης στο μοχλό - διακριτικό, Βήμα 3 (Squeeze) */
     .squeeze-arrow{
       position:absolute;
-      top:18px;
-      left:6px;
+      top:8px;
+      left:18px;
       opacity:0;
       transition:opacity .25s ease;
     }
@@ -383,7 +383,7 @@
 
     .spray{
       position:absolute;
-      right:64px;
+      right:97px;
       bottom:56px;
       width:0;
       height:0;
@@ -623,6 +623,11 @@
     #step2-ok:checked ~ .firegame-steps .fg-stage3{ display:block; }
     #step3-ok:checked ~ .firegame-steps .fg-stage4{ display:block; }
     #step4-ok:checked ~ .firegame-steps .fg-done{ display:flex; }
+
+    /* Κάθε βήμα κρύβει το προηγούμενο - σταθερό ύψος, δεν κατεβαίνει η σελίδα */
+    #step1-ok:checked ~ .firegame-steps .fg-stage1{ display:none; }
+    #step2-ok:checked ~ .firegame-steps .fg-stage2{ display:none; }
+    #step3-ok:checked ~ .firegame-steps .fg-stage3{ display:none; }
 
     .fg-done{
       border-radius:10px;
